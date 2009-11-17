@@ -95,6 +95,8 @@
     <Compile Include="ShipGirl\CrushCircle.cs" />
     <Compile Include="ShipGirl\Ship.cs" />
     <Compile Include="ShipGirl\ShipCircle.cs" />
+    <Compile Include="ShipGirl\ShipEnemy.cs" />
+    <Compile Include="ShipGirl\ShipEnemyBatch.cs" />
     <Compile Include="ShipGirl\ShipGame.cs" />
     <Compile Include="ShipGirl\SkimCircle.cs" />
   </ItemGroup>

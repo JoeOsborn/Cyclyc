@@ -87,13 +87,17 @@ namespace Cyclyc.Framework
         {
             return Color.Gray;
         }
+        protected virtual void DrawInnards(GameTime gt)
+        {
+            GraphicsDevice.Clear(ClearColor());
+        }
         public virtual void Draw(GameTime gameTime)
         {
             Viewport defaultVP = GraphicsDevice.Viewport;
             GraphicsDevice.Viewport = view;
-            GraphicsDevice.Clear(ClearColor());
             ((Game1)Game).SpriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
             SetupFilters();
+            DrawInnards(gameTime);
             foreach (CycSprite sprite in sprites)
             {
                 sprite.Draw(gameTime);

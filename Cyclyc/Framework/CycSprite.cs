@@ -19,6 +19,19 @@ namespace Cyclyc.Framework
     /// </summary>
     public class CycSprite : Object
     {
+        protected bool alive;
+        public bool Alive
+        {
+            get { return alive; }
+            set { alive = value; }
+        }
+        protected bool visible;
+        public bool Visible
+        {
+            get { return visible; }
+            set { visible = value; }
+        }
+
         protected Viewport view;
         public virtual Viewport View
         {
@@ -127,6 +140,8 @@ namespace Cyclyc.Framework
         public CycSprite(Game1 game)
         {
             Game = game;
+            alive = true;
+            visible = true;
             bounds = new Rectangle(0, 0, 8, 8);
             position = new Vector2(0, 0);
             velocity = new Vector2(0, 0);
@@ -159,6 +174,14 @@ namespace Cyclyc.Framework
         {
             position.Y += velocity.Y;
         }
+        protected virtual bool IsOnRightEdge(GameTime gt)
+        {
+            return (RightEdge + velocity.X) > RightX;
+        }
+        protected virtual bool IsPastRightEdge(GameTime gt)
+        {
+            return (LeftEdge + velocity.X) > RightX;
+        }
         protected virtual bool StopAtRightEdge(GameTime gt)
         {
             return true;
@@ -170,6 +193,14 @@ namespace Cyclyc.Framework
         protected virtual void OffRightEdge(GameTime gt)
         {
             //destroy self
+        }
+        protected virtual bool IsOnLeftEdge(GameTime gt)
+        {
+            return (LeftEdge + velocity.X) < LeftX;
+        }
+        protected virtual bool IsPastLeftEdge(GameTime gt)
+        {
+            return (RightEdge + velocity.X) < LeftX;
         }
         protected virtual bool StopAtLeftEdge(GameTime gt)
         {
@@ -183,7 +214,14 @@ namespace Cyclyc.Framework
         {
             //destroy self
         }
-
+        protected virtual bool IsOnBottomEdge(GameTime gt)
+        {
+            return (BottomEdge + velocity.Y) > FloorY;
+        }
+        protected virtual bool IsPastBottomEdge(GameTime gt)
+        {
+            return (TopEdge + velocity.Y) > FloorY;
+        }
         protected virtual bool StopAtBottomEdge(GameTime gt)
         {
             return true;
@@ -196,7 +234,14 @@ namespace Cyclyc.Framework
         {
             //destroy self
         }
-
+        protected virtual bool IsOnTopEdge(GameTime gt)
+        {
+            return (TopEdge + velocity.Y) < CeilY;
+        }
+        protected virtual bool IsPastTopEdge(GameTime gt)
+        {
+            return (BottomEdge + velocity.Y) < CeilY;
+        }
         protected virtual bool StopAtTopEdge(GameTime gt)
         {
             return true;
@@ -211,33 +256,38 @@ namespace Cyclyc.Framework
         }
         public virtual void Update(GameTime gameTime)
         {
+            if (!Alive) { return; }
             currentAnimation.Tick();
+            bool onLeft = IsOnLeftEdge(gameTime);
+            bool onRight = IsOnRightEdge(gameTime);
+            bool onTop = IsOnTopEdge(gameTime);
+            bool onBottom = IsOnBottomEdge(gameTime);
             if (velocity.X != 0)
             {
-                if ((RightEdge + velocity.X) < RightX && (LeftEdge + velocity.X) > LeftX)
+                if (!onLeft && !onRight)
                 {
                     MoveInX(gameTime);
                 }
-                else if ((RightEdge + velocity.X) > RightX)
+                else if (onRight)
                 {
                     if (!StopAtRightEdge(gameTime))
                     {
                         MoveInX(gameTime);
                     }
                     HitRightEdge(gameTime);
-                    if (LeftEdge > RightX)
+                    if (IsPastRightEdge(gameTime))
                     {
                         OffRightEdge(gameTime);
                     }
                 }
-                else if ((LeftEdge + velocity.X) < LeftX)
+                else if (onLeft)
                 {
                     if (!StopAtLeftEdge(gameTime))
                     {
                         MoveInX(gameTime);
                     }
                     HitLeftEdge(gameTime);
-                    if (RightEdge < LeftX)
+                    if (IsPastLeftEdge(gameTime))
                     {
                         OffLeftEdge(gameTime);
                     }
@@ -245,30 +295,30 @@ namespace Cyclyc.Framework
             }
             if (velocity.Y != 0)
             {
-                if ((TopEdge + velocity.Y) > CeilY && (BottomEdge + velocity.Y) < FloorY)
+                if (!onBottom && !onTop)
                 {
                     MoveInY(gameTime);
                 }
-                else if ((BottomEdge + velocity.Y) > FloorY)
+                else if (onBottom)
                 {
                     if (!StopAtBottomEdge(gameTime))
                     {
                         MoveInY(gameTime);
                     }
                     HitBottomEdge(gameTime);
-                    if (TopEdge > FloorY)
+                    if (IsPastBottomEdge(gameTime))
                     {
                         OffBottomEdge(gameTime);
                     }
                 }
-                else if ((TopEdge + velocity.Y) < CeilY)
+                else if (onTop)
                 {
                     if (!StopAtTopEdge(gameTime))
                     {
                         MoveInY(gameTime);
                     }
                     HitTopEdge(gameTime);
-                    if (BottomEdge < CeilY)
+                    if (IsPastTopEdge(gameTime))
                     {
                         OffTopEdge(gameTime);
                     }
@@ -278,6 +328,7 @@ namespace Cyclyc.Framework
 
         public virtual void Draw(GameTime gameTime)
         {
+            if (!Visible) { return; }
             Rectangle srcRect = new Rectangle(XForSprite(currentAnimation.CurrentFrame), 0, SpriteWidth, spriteSheet.Height);
             //modify srcRect.X for animation frame
             Rectangle dstRect = new Rectangle();

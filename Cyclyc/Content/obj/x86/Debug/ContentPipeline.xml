@@ -37,6 +37,24 @@
       <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\skateRing.xnb</Output>
       <Time>2009-11-17T08:45:38.106-08:00</Time>
     </Item>
+    <Item>
+      <Source>wave-X.xml</Source>
+      <Name>wave-X</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\wave-X.xnb</Output>
+      <Time>2009-11-17T15:10:26.766-08:00</Time>
+    </Item>
+    <Item>
+      <Source>wave-Y.xml</Source>
+      <Name>wave-Y</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\wave-Y.xnb</Output>
+      <Time>2009-11-17T15:10:24.553-08:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

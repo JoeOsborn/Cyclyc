@@ -2,22 +2,22 @@
 <XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
   <Asset Type="Pipeline:BuildItemCollection">
     <Item>
-      <Source>jetpack_standin.png</Source>
-      <Name>jetpack_standin</Name>
+      <Source>rockGirl.PNG</Source>
+      <Name>rockGirl</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\jetpack_standin.xnb</Output>
-      <Time>2009-11-16T11:52:54.4366392-08:00</Time>
+      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\rockGirl.xnb</Output>
+      <Time>2009-11-16T22:21:36.2774-08:00</Time>
     </Item>
     <Item>
-      <Source>ship_standin.png</Source>
-      <Name>ship_standin</Name>
+      <Source>wrench.PNG</Source>
+      <Name>wrench</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\ship_standin.xnb</Output>
-      <Time>2009-11-16T11:53:04.0338276-08:00</Time>
+      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\wrench.xnb</Output>
+      <Time>2009-11-16T22:22:36.6338-08:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

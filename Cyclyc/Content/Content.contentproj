@@ -38,15 +38,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="jetpack_standin.png">
-      <Name>jetpack_standin</Name>
+    <Compile Include="rockGirl.PNG">
+      <Name>rockGirl</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ship_standin.png">
-      <Name>ship_standin</Name>
+    <Compile Include="wrench.PNG">
+      <Name>wrench</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

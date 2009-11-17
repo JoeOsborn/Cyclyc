@@ -26,7 +26,7 @@ namespace Cyclyc.ShipGirl
         {
             get
             {
-                return "ship_standin";
+                return "wrench";
 //                return "skim_circle";
             }
         }
@@ -38,7 +38,7 @@ namespace Cyclyc.ShipGirl
         public override void Initialize()
         {
             // TODO: Add your initialization code here
-            radius = 32;
+            radius = 128;
             base.Initialize();
         }
 

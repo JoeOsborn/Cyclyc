@@ -85,7 +85,9 @@ namespace Cyclyc.Framework
         public Rectangle bounds;
         public Vector2 position;
         public Vector2 velocity;
-        
+
+        public Animation currentAnimation;
+        public Dictionary<string, Animation> animations;
 
         public virtual string AssetName
         {
@@ -96,6 +98,28 @@ namespace Cyclyc.Framework
         {
             get { return Game.SpriteBatch; }
         }
+
+        protected virtual int SpriteWidth
+        {
+            get { return 8; }
+        }
+        protected virtual int XForSprite(int i)
+        {
+            return SpriteWidth * i;
+        }
+        public void Play(string anim) { Play(anim, true); }
+        public void Play(string anim, bool retrigger)
+        {
+            if (animations.ContainsKey(anim))
+            {
+                if (currentAnimation == animations[anim] && !retrigger)
+                {
+                    return;
+                }
+                currentAnimation = animations[anim];
+                currentAnimation.Play();
+            }
+        }
         
         public CycSprite(Game1 game)
         {
@@ -103,6 +127,10 @@ namespace Cyclyc.Framework
             bounds = new Rectangle(0, 0, 8, 8);
             position = new Vector2(0, 0);
             velocity = new Vector2(0, 0);
+            currentAnimation = null;
+            animations = new Dictionary<string, Animation>();
+            animations["default"] = new Animation(new int[]{0}, new int[]{0}, false);
+            Play("default");
             // TODO: Construct any child components here
         }
 
@@ -180,6 +208,7 @@ namespace Cyclyc.Framework
         }
         public virtual void Update(GameTime gameTime)
         {
+            currentAnimation.Tick();
             if ((RightEdge + velocity.X) < RightX && (LeftEdge + velocity.X) > LeftX)
             {
                 MoveInX(gameTime);
@@ -241,13 +270,15 @@ namespace Cyclyc.Framework
         public virtual void Draw(GameTime gameTime)
         {
             Rectangle srcRect = bounds;
+            srcRect.X = XForSprite(currentAnimation.CurrentFrame);
+            srcRect.Y = 0;
             //modify srcRect.X for animation frame
-            Rectangle dstRect = bounds;
+            Rectangle dstRect = new Rectangle();
             //modify dstRect.X, .Y for position, viewport
             dstRect.X = (int)(position.X*ScaleFactor);
             dstRect.Y = (int)(position.Y*ScaleFactor);
-            dstRect.Width = (int)(dstRect.Width*ScaleFactor);
-            dstRect.Height = (int)(dstRect.Height*ScaleFactor);
+            dstRect.Width = (int)(srcRect.Width*ScaleFactor);
+            dstRect.Height = (int)(srcRect.Height*ScaleFactor);
             SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White);
         }
     }

@@ -21,7 +21,12 @@ namespace Cyclyc.ShipGirl
     {
         public override string AssetName
         {
-            get { return "ship_standin"; }
+            get { return "wrench"; }
+        }
+
+        protected override int SpriteWidth
+        {
+            get { return 14; }
         }
 
         protected KeyboardState kb;

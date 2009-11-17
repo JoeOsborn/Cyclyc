@@ -27,6 +27,11 @@ namespace Cyclyc.JetpackGirl
         protected float jpFuel;
         protected bool jumpReleased;
 
+        protected override float ScaleFactor
+        {
+            get { return 2.0f; }
+        }
+
         public JetpackGirl(Game1 game)
             : base(game)
         {
@@ -47,7 +52,7 @@ namespace Cyclyc.JetpackGirl
             base.Initialize();
         }
 
-        protected override void LoadContent()
+        public override void LoadContent()
         {
             base.LoadContent();
         }
@@ -154,11 +159,6 @@ namespace Cyclyc.JetpackGirl
                 }
             }
             base.Update(gameTime);
-        }
-
-        protected override int ScaleFactor
-        {
-            get { return 2; }
         }
 
         public override void Draw(GameTime gameTime)

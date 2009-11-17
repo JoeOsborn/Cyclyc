@@ -17,7 +17,7 @@ namespace Cyclyc.Framework
     /// <summary>
     /// This is a game component that implements IUpdateable/Drawable.
     /// </summary>
-    public class CycSprite : Microsoft.Xna.Framework.DrawableGameComponent
+    public class CycSprite : Object
     {
         protected Viewport view;
         public virtual Viewport View
@@ -25,11 +25,18 @@ namespace Cyclyc.Framework
             get { return view; }
             set 
             { 
-                view.X = value.X / ScaleFactor;
-                view.Y = value.Y / ScaleFactor;
-                view.Width = value.Width / ScaleFactor;
-                view.Height = value.Height / ScaleFactor;
+                view.X = (int)(value.X / ScaleFactor);
+                view.Y = (int)(value.Y / ScaleFactor);
+                view.Width = (int)(value.Width / ScaleFactor);
+                view.Height = (int)(value.Height / ScaleFactor);
             }
+        }
+
+        protected Game1 Game;
+
+        protected GraphicsDevice GraphicsDevice
+        {
+            get { return Game.GraphicsDevice; }
         }
 
         protected float FloorY
@@ -69,9 +76,9 @@ namespace Cyclyc.Framework
             set { position.X = (value - bounds.X - bounds.Width); }
         }
 
-        protected virtual int ScaleFactor
+        protected virtual float ScaleFactor
         {
-            get { return 1; }
+            get { return 1.0f; }
         }
 
         protected Texture2D spriteSheet;
@@ -87,12 +94,12 @@ namespace Cyclyc.Framework
 
         protected SpriteBatch SpriteBatch
         {
-            get { return ((Game1)Game).SpriteBatch; }
+            get { return Game.SpriteBatch; }
         }
         
-        public CycSprite(Game game)
-            : base(game)
+        public CycSprite(Game1 game)
         {
+            Game = game;
             bounds = new Rectangle(0, 0, 8, 8);
             position = new Vector2(0, 0);
             velocity = new Vector2(0, 0);
@@ -103,17 +110,14 @@ namespace Cyclyc.Framework
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
-        public override void Initialize()
+        public virtual void Initialize()
         {
-            // TODO: Add your initialization code here
 
-            base.Initialize();
         }
 
-        protected override void LoadContent()
+        public virtual void LoadContent()
         {
             spriteSheet = Game.Content.Load<Texture2D>(AssetName);
-            base.LoadContent();
         }
 
         protected virtual void MoveInX(GameTime gt)
@@ -174,7 +178,7 @@ namespace Cyclyc.Framework
         {
             //destroy self
         }
-        public override void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             if ((RightEdge + velocity.X) < RightX && (LeftEdge + velocity.X) > LeftX)
             {
@@ -232,18 +236,16 @@ namespace Cyclyc.Framework
                     OffTopEdge(gameTime);
                 }
             }
-
-            base.Update(gameTime);
         }
 
-        public override void Draw(GameTime gameTime)
+        public virtual void Draw(GameTime gameTime)
         {
             Viewport defaultView = GraphicsDevice.Viewport;
             Viewport newView = new Viewport();
-            newView.X = view.X * ScaleFactor;
-            newView.Y = view.Y * ScaleFactor;
-            newView.Width = view.Width * ScaleFactor;
-            newView.Height = view.Height * ScaleFactor;
+            newView.X = (int)(view.X * ScaleFactor);
+            newView.Y = (int)(view.Y * ScaleFactor);
+            newView.Width = (int)(view.Width * ScaleFactor);
+            newView.Height = (int)(view.Height * ScaleFactor);
             GraphicsDevice.Viewport = newView;
             Rectangle srcRect = bounds;
             //modify srcRect.X for animation frame
@@ -251,10 +253,9 @@ namespace Cyclyc.Framework
             //modify dstRect.X, .Y for position, viewport
             dstRect.X = (int)(position.X*ScaleFactor) + newView.X;
             dstRect.Y = (int)(position.Y*ScaleFactor) + newView.Y;
-            dstRect.Width *= ScaleFactor;
-            dstRect.Height *= ScaleFactor;
+            dstRect.Width = (int)(dstRect.Width*ScaleFactor);
+            dstRect.Height = (int)(dstRect.Height*ScaleFactor);
             SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White);
-            base.Draw(gameTime);
             GraphicsDevice.Viewport = defaultView;
         }
     }

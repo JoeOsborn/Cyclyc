@@ -109,9 +109,7 @@ namespace Cyclyc
         {
             Viewport defaultVP = GraphicsDevice.Viewport;
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
             base.Draw(gameTime);
-            spriteBatch.End();
             GraphicsDevice.Viewport = defaultVP;
         }
     }

@@ -44,7 +44,7 @@ namespace Cyclyc.ShipGirl
             base.Initialize();
         }
 
-        protected override void LoadContent()
+        public override void LoadContent()
         {
             base.LoadContent();
         }

@@ -43,30 +43,49 @@ namespace Cyclyc.Framework
         {
             sprites.Add(cs);
             cs.View = view;
-            Game.Components.Add(cs);
         }
 
         public override void Initialize()
         {
-
+            foreach (CycSprite sprite in sprites)
+            {
+                sprite.Initialize();
+            }
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            
+            foreach (CycSprite sprite in sprites)
+            {
+                sprite.LoadContent();
+            }   
             base.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
+            foreach (CycSprite sprite in sprites)
+            {
+                sprite.Update(gameTime);
+            }
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
+//            Matrix Projection = Matrix.CreateScale(2.0f) * Matrix.CreateTranslation(view.X-20, view.Y, 0);
+            //((Game1)Game).SpriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None, Projection);
+            ((Game1)Game).SpriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
+            GraphicsDevice.SamplerStates[0].MagFilter = TextureFilter.None;
+            GraphicsDevice.SamplerStates[0].MinFilter = TextureFilter.None;
+            GraphicsDevice.SamplerStates[0].MipFilter = TextureFilter.None;
+            foreach (CycSprite sprite in sprites)
+            {
+                sprite.Draw(gameTime);
+            }
             base.Draw(gameTime);
+            ((Game1)Game).SpriteBatch.End();
         }
     }
 }

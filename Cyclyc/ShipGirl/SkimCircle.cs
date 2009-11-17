@@ -20,7 +20,7 @@ namespace Cyclyc.ShipGirl
         public SkimCircle(Game1 game, Ship sh)
             : base(game, sh)
         {
-            bounds = new Rectangle(0, 0, 292, 292);
+            bounds = new Rectangle(0, 0, 256, 256);
         }
 
         public override string AssetName
@@ -31,13 +31,8 @@ namespace Cyclyc.ShipGirl
             }
         }
 
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
             radius = 128;
             base.Initialize();
         }
@@ -47,10 +42,6 @@ namespace Cyclyc.ShipGirl
             base.LoadContent();
         }
 
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);

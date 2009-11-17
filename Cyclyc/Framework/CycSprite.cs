@@ -88,7 +88,10 @@ namespace Cyclyc.Framework
 
         public Animation currentAnimation;
         public Dictionary<string, Animation> animations;
-
+        public Vector2 Center
+        {
+            get { return new Vector2(position.X + SpriteWidth/2.0f, position.Y + spriteSheet.Height/2.0f); }
+        }
         public virtual string AssetName
         {
             get { return "placeholder"; }
@@ -275,9 +278,7 @@ namespace Cyclyc.Framework
 
         public virtual void Draw(GameTime gameTime)
         {
-            Rectangle srcRect = bounds;
-            srcRect.X = XForSprite(currentAnimation.CurrentFrame);
-            srcRect.Y = 0;
+            Rectangle srcRect = new Rectangle(XForSprite(currentAnimation.CurrentFrame), 0, SpriteWidth, spriteSheet.Height);
             //modify srcRect.X for animation frame
             Rectangle dstRect = new Rectangle();
             //modify dstRect.X, .Y for position, viewport

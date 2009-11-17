@@ -21,6 +21,11 @@ namespace Cyclyc.ShipGirl
         //for these, position is the center
         protected float radius;
 
+        protected override int SpriteWidth
+        {
+            get { return 292; }
+        }
+
         public ShipCircle(Game1 game, Ship sh)
             : base(game)
         {
@@ -50,16 +55,15 @@ namespace Cyclyc.ShipGirl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            position.X = (int)(ship.position.X + ship.bounds.Center.X);
-            position.Y = (int)(ship.position.Y + ship.bounds.Center.Y);
+            position = ship.Center;
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            Rectangle srcRect = bounds;
+            Rectangle srcRect = new Rectangle(XForSprite(currentAnimation.CurrentFrame), 0, SpriteWidth, spriteSheet.Height);
             //modify srcRect.X for animation frame
-            Rectangle dstRect = bounds;
+            Rectangle dstRect = srcRect;
             //modify dstRect.X, .Y for position, viewport
             dstRect.X = (int)((position.X*ScaleFactor) - radius);
             dstRect.Y = (int)((position.Y*ScaleFactor) - radius);

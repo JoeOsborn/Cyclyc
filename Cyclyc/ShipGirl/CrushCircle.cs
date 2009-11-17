@@ -20,7 +20,7 @@ namespace Cyclyc.ShipGirl
         public CrushCircle(Game1 game, Ship sh)
             : base(game, sh)
         {
-            bounds = new Rectangle(0, 0, 292, 292);
+            bounds = new Rectangle(0, 0, 128, 128);
         }
 
         public override string AssetName

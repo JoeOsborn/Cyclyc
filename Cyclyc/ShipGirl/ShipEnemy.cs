@@ -98,6 +98,16 @@ namespace Cyclyc.ShipGirl
                 tick += gameTime.ElapsedGameTime.TotalSeconds*timeScale;
                 position.X = startPosition.X + (leftToRight ? xCurve.Evaluate((float)tick) : -xCurve.Evaluate((float)tick));
                 position.Y = startPosition.Y + yCurve.Evaluate((float)tick);
+                if (leftToRight && IsPastRightEdge(gameTime))
+                {
+                    alive = false;
+                    visible = false;
+                }
+                if (!leftToRight && IsPastLeftEdge(gameTime))
+                {
+                    alive = false;
+                    visible = false;
+                }
                 //if (IsPastRightEdge(gameTime))
                 //{
                 //    alive = false;

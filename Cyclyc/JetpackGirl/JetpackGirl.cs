@@ -76,6 +76,10 @@ namespace Cyclyc.JetpackGirl
         {
             get { return 0.1f; }
         }
+        protected bool JetWipesVelocity
+        {
+            get { return true; }
+        }
         protected float JetThrust
         {
             get { return 0.15f; }
@@ -139,7 +143,14 @@ namespace Cyclyc.JetpackGirl
                 if (!oldKB.IsKeyDown(Keys.W) && kb.IsKeyDown(Keys.W))
                 {
                     jumpReleased = false;
-                    velocity.Y = JumpThrust;
+                    if (JetWipesVelocity)
+                    {
+                        velocity.Y = JumpThrust;
+                    }
+                    else
+                    {
+                        velocity.Y += JumpThrust;
+                    }
                 }
             }
             base.Update(gameTime);

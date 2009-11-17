@@ -20,6 +20,7 @@ namespace Cyclyc.ShipGirl
         public ShipGame(Game1 game)
             : base(game)
         {
+
         }
 
         public override void Initialize()

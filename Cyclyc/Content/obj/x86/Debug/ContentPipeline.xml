@@ -19,6 +19,24 @@
       <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\wrench.xnb</Output>
       <Time>2009-11-16T22:22:36.6338-08:00</Time>
     </Item>
+    <Item>
+      <Source>crushRing.png</Source>
+      <Name>crushRing</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\crushRing.xnb</Output>
+      <Time>2009-11-17T09:05:11.944-08:00</Time>
+    </Item>
+    <Item>
+      <Source>skateRing.png</Source>
+      <Name>skateRing</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\skateRing.xnb</Output>
+      <Time>2009-11-17T08:45:38.106-08:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

@@ -209,60 +209,66 @@ namespace Cyclyc.Framework
         public virtual void Update(GameTime gameTime)
         {
             currentAnimation.Tick();
-            if ((RightEdge + velocity.X) < RightX && (LeftEdge + velocity.X) > LeftX)
+            if (velocity.X != 0)
             {
-                MoveInX(gameTime);
-            }
-            else if ((RightEdge + velocity.X) > RightX)
-            {
-                if (!StopAtRightEdge(gameTime))
+                if ((RightEdge + velocity.X) < RightX && (LeftEdge + velocity.X) > LeftX)
                 {
                     MoveInX(gameTime);
                 }
-                HitRightEdge(gameTime);
-                if (LeftEdge > RightX)
+                else if ((RightEdge + velocity.X) > RightX)
                 {
-                    OffRightEdge(gameTime);
+                    if (!StopAtRightEdge(gameTime))
+                    {
+                        MoveInX(gameTime);
+                    }
+                    HitRightEdge(gameTime);
+                    if (LeftEdge > RightX)
+                    {
+                        OffRightEdge(gameTime);
+                    }
+                }
+                else if ((LeftEdge + velocity.X) < LeftX)
+                {
+                    if (!StopAtLeftEdge(gameTime))
+                    {
+                        MoveInX(gameTime);
+                    }
+                    HitLeftEdge(gameTime);
+                    if (RightEdge < LeftX)
+                    {
+                        OffLeftEdge(gameTime);
+                    }
                 }
             }
-            else if ((LeftEdge + velocity.X) < LeftX)
+            if (velocity.Y != 0)
             {
-                if (!StopAtLeftEdge(gameTime))
-                {
-                    MoveInX(gameTime);
-                }
-                HitLeftEdge(gameTime);
-                if (RightEdge < LeftX)
-                {
-                    OffLeftEdge(gameTime);
-                }
-            }
-            if ((TopEdge + velocity.Y) > CeilY && (BottomEdge + velocity.Y) < FloorY)
-            {
-                MoveInY(gameTime);
-            }
-            else if ((BottomEdge + velocity.Y) > FloorY)
-            {
-                if (!StopAtBottomEdge(gameTime))
+                if ((TopEdge + velocity.Y) > CeilY && (BottomEdge + velocity.Y) < FloorY)
                 {
                     MoveInY(gameTime);
                 }
-                HitBottomEdge(gameTime);
-                if (TopEdge > FloorY)
+                else if ((BottomEdge + velocity.Y) > FloorY)
                 {
-                    OffBottomEdge(gameTime);
+                    if (!StopAtBottomEdge(gameTime))
+                    {
+                        MoveInY(gameTime);
+                    }
+                    HitBottomEdge(gameTime);
+                    if (TopEdge > FloorY)
+                    {
+                        OffBottomEdge(gameTime);
+                    }
                 }
-            }
-            else if ((TopEdge + velocity.Y) < CeilY)
-            {
-                if (!StopAtTopEdge(gameTime))
+                else if ((TopEdge + velocity.Y) < CeilY)
                 {
-                    MoveInY(gameTime);
-                }
-                HitTopEdge(gameTime);
-                if (BottomEdge < CeilY)
-                {
-                    OffTopEdge(gameTime);
+                    if (!StopAtTopEdge(gameTime))
+                    {
+                        MoveInY(gameTime);
+                    }
+                    HitTopEdge(gameTime);
+                    if (BottomEdge < CeilY)
+                    {
+                        OffTopEdge(gameTime);
+                    }
                 }
             }
         }

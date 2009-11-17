@@ -17,6 +17,8 @@ namespace Cyclyc.ShipGirl
     public class ShipGame : Cyclyc.Framework.CycGame
     {
         Ship ship;
+        CrushCircle crush;
+        SkimCircle skim;
         public ShipGame(Game1 game)
             : base(game)
         {
@@ -25,12 +27,16 @@ namespace Cyclyc.ShipGirl
 
         public override void Initialize()
         {
-            ship = new Ship((Game1)Game);
+            ship = new Ship(Game);
             AddSprite(ship);
+            crush = new CrushCircle((Game1)Game, ship);
+            AddSprite(crush);
+            skim = new SkimCircle((Game1)Game, ship);
+            AddSprite(skim);
             base.Initialize();
         }
 
-        protected override void LoadContent()
+        public override void LoadContent()
         {
             base.LoadContent();
         }
@@ -39,6 +45,13 @@ namespace Cyclyc.ShipGirl
         {
             // TODO: Add your update code here
             base.Update(gameTime);
+        }
+
+        protected override void SetupFilters()
+        {
+            GraphicsDevice.SamplerStates[0].MagFilter = TextureFilter.GaussianQuad;
+            GraphicsDevice.SamplerStates[0].MinFilter = TextureFilter.GaussianQuad;
+            GraphicsDevice.SamplerStates[0].MipFilter = TextureFilter.GaussianQuad;
         }
 
         public override void Draw(GameTime gameTime)

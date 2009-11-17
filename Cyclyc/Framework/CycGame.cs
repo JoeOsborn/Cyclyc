@@ -16,10 +16,18 @@ using Cyclyc.ShipGirl;
 
 namespace Cyclyc.Framework
 {
-    public class CycGame : Microsoft.Xna.Framework.DrawableGameComponent
+    public class CycGame : Object
     {
         List<CycSprite> sprites;
-
+        Game1 game;
+        public Game1 Game
+        {
+            get { return game; }
+        }
+        public GraphicsDevice GraphicsDevice
+        {
+            get { return Game.GraphicsDevice; }
+        }
         Viewport view;
         public Viewport View
         {
@@ -34,8 +42,9 @@ namespace Cyclyc.Framework
             }
         }
 
-        public CycGame(Game1 game) : base(game)
+        public CycGame(Game1 g)
         {
+            game = g;
             sprites = new List<CycSprite>();
         }
 
@@ -45,47 +54,52 @@ namespace Cyclyc.Framework
             cs.View = view;
         }
 
-        public override void Initialize()
+        public virtual void Initialize()
         {
             foreach (CycSprite sprite in sprites)
             {
                 sprite.Initialize();
             }
-            base.Initialize();
         }
 
-        protected override void LoadContent()
+        public virtual void LoadContent()
         {
             foreach (CycSprite sprite in sprites)
             {
                 sprite.LoadContent();
-            }   
-            base.LoadContent();
+            }
         }
 
-        public override void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             foreach (CycSprite sprite in sprites)
             {
                 sprite.Update(gameTime);
             }
-            base.Update(gameTime);
         }
-
-        public override void Draw(GameTime gameTime)
+        protected virtual void SetupFilters()
         {
-//            Matrix Projection = Matrix.CreateScale(2.0f) * Matrix.CreateTranslation(view.X-20, view.Y, 0);
-            //((Game1)Game).SpriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None, Projection);
-            ((Game1)Game).SpriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
             GraphicsDevice.SamplerStates[0].MagFilter = TextureFilter.None;
             GraphicsDevice.SamplerStates[0].MinFilter = TextureFilter.None;
             GraphicsDevice.SamplerStates[0].MipFilter = TextureFilter.None;
+        }
+        protected virtual Color ClearColor()
+        {
+            return Color.Gray;
+        }
+        public virtual void Draw(GameTime gameTime)
+        {
+            Viewport defaultVP = GraphicsDevice.Viewport;
+            GraphicsDevice.Viewport = view;
+            GraphicsDevice.Clear(ClearColor());
+            ((Game1)Game).SpriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
+            SetupFilters();
             foreach (CycSprite sprite in sprites)
             {
                 sprite.Draw(gameTime);
             }
-            base.Draw(gameTime);
             ((Game1)Game).SpriteBatch.End();
+            GraphicsDevice.Viewport = defaultVP;
         }
     }
 }

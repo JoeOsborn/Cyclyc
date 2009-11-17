@@ -37,9 +37,7 @@ namespace Cyclyc
             Content.RootDirectory = "Content";
 
             shipGame = new ShipGame(this);
-            Components.Add(shipGame);
             jetGame = new JetGame(this);
-            Components.Add(jetGame);
         }
 
         /// <summary>
@@ -51,7 +49,8 @@ namespace Cyclyc
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            shipGame.Initialize();
+            jetGame.Initialize();
             base.Initialize();
         }
 
@@ -62,6 +61,9 @@ namespace Cyclyc
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            shipGame.LoadContent();
+            jetGame.LoadContent();
 
             Viewport upperView = GraphicsDevice.Viewport;
             upperView.Height /= 2;
@@ -97,6 +99,8 @@ namespace Cyclyc
                 this.Exit();
             }
 
+            shipGame.Update(gameTime);
+            jetGame.Update(gameTime);
             // TODO: Add your update logic here
             base.Update(gameTime);
         }
@@ -109,6 +113,8 @@ namespace Cyclyc
         {
             Viewport defaultVP = GraphicsDevice.Viewport;
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            shipGame.Draw(gameTime);
+            jetGame.Draw(gameTime);
             base.Draw(gameTime);
             GraphicsDevice.Viewport = defaultVP;
         }

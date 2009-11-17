@@ -82,7 +82,7 @@ namespace Cyclyc.Framework
         }
 
         protected Texture2D spriteSheet;
-        protected Rectangle bounds;
+        public Rectangle bounds;
         public Vector2 position;
         public Vector2 velocity;
         
@@ -240,23 +240,15 @@ namespace Cyclyc.Framework
 
         public virtual void Draw(GameTime gameTime)
         {
-            Viewport defaultView = GraphicsDevice.Viewport;
-            Viewport newView = new Viewport();
-            newView.X = (int)(view.X * ScaleFactor);
-            newView.Y = (int)(view.Y * ScaleFactor);
-            newView.Width = (int)(view.Width * ScaleFactor);
-            newView.Height = (int)(view.Height * ScaleFactor);
-            GraphicsDevice.Viewport = newView;
             Rectangle srcRect = bounds;
             //modify srcRect.X for animation frame
             Rectangle dstRect = bounds;
             //modify dstRect.X, .Y for position, viewport
-            dstRect.X = (int)(position.X*ScaleFactor) + newView.X;
-            dstRect.Y = (int)(position.Y*ScaleFactor) + newView.Y;
+            dstRect.X = (int)(position.X*ScaleFactor);
+            dstRect.Y = (int)(position.Y*ScaleFactor);
             dstRect.Width = (int)(dstRect.Width*ScaleFactor);
             dstRect.Height = (int)(dstRect.Height*ScaleFactor);
             SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White);
-            GraphicsDevice.Viewport = defaultView;
         }
     }
 }

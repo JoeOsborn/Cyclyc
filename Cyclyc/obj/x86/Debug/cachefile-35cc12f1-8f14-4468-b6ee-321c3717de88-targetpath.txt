@@ -1,0 +1,2 @@
+Content\jetpack_standin.xnb
+Content\ship_standin.xnb

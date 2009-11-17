@@ -1,8 +1,0 @@
-C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Cyclyc.exe
-C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Cyclyc.pdb
-C:\Users\joe\Desktop\Cyclyc\Cyclyc\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\joe\Desktop\Cyclyc\Cyclyc\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
-C:\Users\joe\Desktop\Cyclyc\Cyclyc\obj\x86\Debug\Cyclyc.exe
-C:\Users\joe\Desktop\Cyclyc\Cyclyc\obj\x86\Debug\Cyclyc.pdb
-C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\jetpack_standin.xnb
-C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\ship_standin.xnb

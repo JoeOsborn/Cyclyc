@@ -17,6 +17,7 @@ namespace Cyclyc.JetpackGirl
 {
     public class JetGame : Cyclyc.Framework.CycGame
     {
+        CycBackground background;
         JetpackGirl jg;
         public JetGame(Game1 game)
             : base(game)
@@ -25,8 +26,12 @@ namespace Cyclyc.JetpackGirl
 
         public override void Initialize()
         {
+            background = new CycBackground(Game, "jetBackground");
+            AddSprite(background); 
+
             jg = new JetpackGirl((Game1)Game);
             AddSprite(jg);
+
             base.Initialize();
         }
 
@@ -39,7 +44,7 @@ namespace Cyclyc.JetpackGirl
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-
+            
             base.Update(gameTime);
         }
 

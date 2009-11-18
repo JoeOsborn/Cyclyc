@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Framework\Animation.cs" />
+    <Compile Include="Framework\CycBackground.cs" />
     <Compile Include="Framework\CycGame.cs" />
     <Compile Include="Framework\CycSprite.cs" />
     <Compile Include="JetpackGirl\JetGame.cs" />

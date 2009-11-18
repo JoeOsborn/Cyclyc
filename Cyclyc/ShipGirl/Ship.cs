@@ -29,6 +29,11 @@ namespace Cyclyc.ShipGirl
             get { return 14; }
         }
 
+        public int Radius
+        {
+            get { return SpriteWidth; }
+        }
+
         protected KeyboardState kb;
 
         public Ship(Game1 game)

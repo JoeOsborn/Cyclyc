@@ -92,13 +92,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="ShipGirl\CrushCircle.cs" />
     <Compile Include="ShipGirl\Ship.cs" />
     <Compile Include="ShipGirl\ShipCircle.cs" />
     <Compile Include="ShipGirl\ShipEnemy.cs" />
     <Compile Include="ShipGirl\ShipEnemyBatch.cs" />
     <Compile Include="ShipGirl\ShipGame.cs" />
-    <Compile Include="ShipGirl\SkimCircle.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

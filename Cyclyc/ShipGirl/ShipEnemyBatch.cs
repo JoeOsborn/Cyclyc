@@ -63,6 +63,20 @@ namespace Cyclyc.ShipGirl
             enemy.Reset(img, curveSet, left, y, w, h, timeScale);
             return enemy;
         }
+        public List<ShipEnemy> CollideCircle(Vector2 pos, float rad)
+        {
+            List<ShipEnemy> collided = new List<ShipEnemy>();
+            foreach (ShipEnemy e in enemies)
+            {
+                if (!e.Alive) { continue; }
+                float delta = (pos - e.position).Length();
+                if (delta < rad || delta < e.Radius)
+                {
+                    collided.Add(e);
+                }
+            }
+            return collided;
+        }
         public void EnemyOffScreen(ShipEnemy e)
         {
             cycGame.ChallengeIgnored(e);

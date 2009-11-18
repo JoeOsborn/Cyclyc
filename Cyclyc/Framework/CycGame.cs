@@ -57,6 +57,7 @@ namespace Cyclyc.Framework
         {
             sprites.Add(cs);
             cs.View = view;
+            //sprites added after LoadContent is called won't get their content loaded.  sucks!
         }
 
         public virtual void Initialize()

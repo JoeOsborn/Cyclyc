@@ -32,6 +32,11 @@ namespace Cyclyc.ShipGirl
             get { return spriteWidth; }
         }
 
+        public float Radius
+        {
+            get { return spriteWidth; }
+        }
+
         protected string curveSet;
 
         protected Curve xCurve;

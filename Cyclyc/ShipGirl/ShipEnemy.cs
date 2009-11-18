@@ -48,9 +48,12 @@ namespace Cyclyc.ShipGirl
 
         protected Vector2 startPosition;
 
-        public ShipEnemy(Game1 game)
+        protected ShipEnemyBatch batch;
+
+        public ShipEnemy(Game1 game, ShipEnemyBatch b)
             : base(game)
         {
+            batch = b;
             animations["default"] = new Animation(new int[] { 0, 1 }, new int[] { 10, 10 }, true);
             timeScale = 1.0;
         }
@@ -102,11 +105,13 @@ namespace Cyclyc.ShipGirl
                 {
                     alive = false;
                     visible = false;
+                    batch.EnemyOffScreen(this);
                 }
                 if (!leftToRight && IsPastLeftEdge(gameTime))
                 {
                     alive = false;
                     visible = false;
+                    batch.EnemyOffScreen(this);
                 }
                 //if (IsPastRightEdge(gameTime))
                 //{

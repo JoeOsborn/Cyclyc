@@ -16,7 +16,7 @@ using Cyclyc.Framework;
 
 namespace Cyclyc.ShipGirl
 {
-    class ShipEnemyBatch
+    public class ShipEnemyBatch
     {
         CycGame cycGame;
         public CycGame CycGame
@@ -57,11 +57,15 @@ namespace Cyclyc.ShipGirl
             ShipEnemy enemy = FindFreeEnemy();
             if (enemy == null)
             {
-                enemy = new ShipEnemy(CycGame.Game);
+                enemy = new ShipEnemy(CycGame.Game, this);
                 enemies.Add(enemy);
             }
             enemy.Reset(img, curveSet, left, y, w, h, timeScale);
             return enemy;
+        }
+        public void EnemyOffScreen(ShipEnemy e)
+        {
+            cycGame.ChallengeIgnored(e);
         }
         public void Update(GameTime gameTime)
         {

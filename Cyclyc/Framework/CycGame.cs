@@ -48,6 +48,11 @@ namespace Cyclyc.Framework
             sprites = new List<CycSprite>();
         }
 
+        public virtual void ChallengeIgnored(object challenge)
+        {
+            Console.WriteLine("challenge skipped: " + challenge);
+        }
+
         public void AddSprite(CycSprite cs)
         {
             sprites.Add(cs);

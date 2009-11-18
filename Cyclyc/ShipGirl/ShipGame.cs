@@ -19,12 +19,12 @@ namespace Cyclyc.ShipGirl
         Ship ship;
         ShipCircle crush;
         ShipCircle skim;
-        ShipEnemyBatch enemyBatch;
+        ShipEnemyPool enemyBatch;
         protected float crushRecovery;
         public ShipGame(Game1 game)
             : base(game)
         {
-            enemyBatch = new ShipEnemyBatch(this);
+            enemyBatch = new ShipEnemyPool(this);
         }
 
         public override void Initialize()
@@ -110,14 +110,14 @@ namespace Cyclyc.ShipGirl
             base.Update(gameTime);
             //check circle overlapping, ship collision
             //we'll just treat them all as circles
-            List<ShipEnemy> shipCollided = enemyBatch.CollideCircle(ship.position, ship.Radius);
+            List<CycEnemy> shipCollided = enemyBatch.CollideCircle(ship.position, ship.Radius);
             if (shipCollided.Count() != 0)
             {
                 KillShip();
             }
             if (crushRecovery <= 0)
             {
-                List<ShipEnemy> skimCollided = enemyBatch.CollideCircle(skim.position, skim.Radius);
+                List<CycEnemy> skimCollided = enemyBatch.CollideCircle(skim.position, skim.Radius);
                 if (skimCollided.Count() != 0)
                 {
                     Skim();

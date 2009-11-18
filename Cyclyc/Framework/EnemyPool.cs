@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,9 +13,9 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using Cyclyc.Framework;
 
-namespace Cyclyc.ShipGirl
+namespace Cyclyc.Framework
 {
-    public class ShipEnemyBatch
+    public class EnemyPool
     {
         CycGame cycGame;
         public CycGame CycGame
@@ -24,26 +23,16 @@ namespace Cyclyc.ShipGirl
             get { return cycGame; }
         }
 
-        protected List<ShipEnemy> enemies;
-        public double TimeScale
-        {
-            set
-            {
-                foreach (ShipEnemy e in enemies)
-                {
-                    e.TimeScale = value;
-                }
-            }
-        }
+        protected List<CycEnemy> enemies;
 
-        public ShipEnemyBatch(CycGame g)
+        public EnemyPool(CycGame g)
         {
             cycGame = g;
-            enemies = new List<ShipEnemy>();
+            enemies = new List<CycEnemy>();
         }
-        protected ShipEnemy FindFreeEnemy()
+        protected CycEnemy FindFreeEnemy()
         {
-            foreach (ShipEnemy e in enemies)
+            foreach (CycEnemy e in enemies)
             {
                 if (!e.Alive && !e.Visible)
                 {
@@ -52,21 +41,10 @@ namespace Cyclyc.ShipGirl
             }
             return null;
         }
-        public ShipEnemy Create(string img, string curveSet, bool left, int y, int w, int h, double timeScale)
+        public List<CycEnemy> CollideCircle(Vector2 pos, float rad)
         {
-            ShipEnemy enemy = FindFreeEnemy();
-            if (enemy == null)
-            {
-                enemy = new ShipEnemy(CycGame.Game, this);
-                enemies.Add(enemy);
-            }
-            enemy.Reset(img, curveSet, left, y, w, h, timeScale);
-            return enemy;
-        }
-        public List<ShipEnemy> CollideCircle(Vector2 pos, float rad)
-        {
-            List<ShipEnemy> collided = new List<ShipEnemy>();
-            foreach (ShipEnemy e in enemies)
+            List<CycEnemy> collided = new List<CycEnemy>();
+            foreach (CycEnemy e in enemies)
             {
                 if (!e.Alive) { continue; }
                 float delta = (pos - e.position).Length();
@@ -77,7 +55,7 @@ namespace Cyclyc.ShipGirl
             }
             return collided;
         }
-        public void EnemyOffScreen(ShipEnemy e)
+        public void EnemyOffScreen(CycEnemy e)
         {
             cycGame.ChallengeIgnored(e);
         }

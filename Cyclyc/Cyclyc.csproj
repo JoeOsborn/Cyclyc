@@ -86,8 +86,10 @@
   <ItemGroup>
     <Compile Include="Framework\Animation.cs" />
     <Compile Include="Framework\CycBackground.cs" />
+    <Compile Include="Framework\CycEnemy.cs" />
     <Compile Include="Framework\CycGame.cs" />
     <Compile Include="Framework\CycSprite.cs" />
+    <Compile Include="Framework\EnemyPool.cs" />
     <Compile Include="JetpackGirl\JetGame.cs" />
     <Compile Include="JetpackGirl\JetpackGirl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -96,7 +98,7 @@
     <Compile Include="ShipGirl\Ship.cs" />
     <Compile Include="ShipGirl\ShipCircle.cs" />
     <Compile Include="ShipGirl\ShipEnemy.cs" />
-    <Compile Include="ShipGirl\ShipEnemyBatch.cs" />
+    <Compile Include="ShipGirl\ShipEnemyPool.cs" />
     <Compile Include="ShipGirl\ShipGame.cs" />
   </ItemGroup>
   <ItemGroup>

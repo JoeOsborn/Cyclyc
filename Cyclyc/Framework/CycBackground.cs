@@ -58,8 +58,6 @@ namespace Cyclyc.Framework
         public override void LoadContent()
         {
             base.LoadContent();
-            visualWidth = 800;
-            visualHeight = 200;
         }
 
         public override void Update(GameTime gameTime)

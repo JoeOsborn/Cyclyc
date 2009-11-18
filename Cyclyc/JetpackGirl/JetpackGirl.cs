@@ -71,7 +71,7 @@ namespace Cyclyc.JetpackGirl
         }
         protected float DefaultSpeedX
         {
-            get { return 0; }
+            get { return -0.25f; }
         }
         protected float MaxSpeedFallY
         {

@@ -55,6 +55,24 @@
       <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\wave-Y.xnb</Output>
       <Time>2009-11-17T15:31:46.615-08:00</Time>
     </Item>
+    <Item>
+      <Source>jetBackground.png</Source>
+      <Name>jetBackground</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\jetBackground.xnb</Output>
+      <Time>2009-11-18T07:52:22-08:00</Time>
+    </Item>
+    <Item>
+      <Source>shipGirl.png</Source>
+      <Name>shipGirl</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\shipGirl.xnb</Output>
+      <Time>2009-11-18T08:43:36.3938-08:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

@@ -103,7 +103,7 @@ namespace Cyclyc.Framework
         public Dictionary<string, Animation> animations;
         public Vector2 Center
         {
-            get { return new Vector2(position.X + SpriteWidth/2.0f, position.Y + spriteSheet.Height/2.0f); }
+            get { return new Vector2(position.X + bounds.X + bounds.Width/2.0f, position.Y + bounds.Y + bounds.Height/2.0f); }
         }
         public virtual string AssetName
         {
@@ -123,6 +123,17 @@ namespace Cyclyc.Framework
         {
             return SpriteWidth * i;
         }
+        protected int visualWidth;
+        public virtual int VisualWidth
+        {
+            get { return visualWidth; }
+        }
+        protected int visualHeight;
+        public virtual int VisualHeight
+        {
+            get { return visualHeight; }
+        }
+
         public void Play(string anim) { Play(anim, true); }
         public void Play(string anim, bool retrigger)
         {
@@ -164,6 +175,8 @@ namespace Cyclyc.Framework
         public virtual void LoadContent()
         {
             spriteSheet = Game.Content.Load<Texture2D>(AssetName);
+            visualWidth = SpriteWidth;
+            visualHeight = spriteSheet.Height;
         }
 
         protected virtual void MoveInX(GameTime gt)
@@ -335,8 +348,8 @@ namespace Cyclyc.Framework
             //modify dstRect.X, .Y for position, viewport
             dstRect.X = (int)(position.X*ScaleFactor);
             dstRect.Y = (int)(position.Y*ScaleFactor);
-            dstRect.Width = (int)(srcRect.Width*ScaleFactor);
-            dstRect.Height = (int)(srcRect.Height*ScaleFactor);
+            dstRect.Width = (int)(VisualWidth*ScaleFactor);
+            dstRect.Height = (int)(VisualHeight*ScaleFactor);
             SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White);
         }
     }

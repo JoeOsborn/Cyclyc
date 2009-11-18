@@ -33,7 +33,7 @@ namespace Cyclyc.ShipGirl
             AddSprite(ship);
             crush = new ShipCircle(Game, ship, "crushRing");
             AddSprite(crush);
-            skim = new ShipCircle(Game, ship, "skateRing");
+            skim = new ShipCircle(Game, ship, "crushRing");
             AddSprite(skim);
             crushRecovery = 0;
             skim.ResizeTo(DefaultSkimRadius, 0);

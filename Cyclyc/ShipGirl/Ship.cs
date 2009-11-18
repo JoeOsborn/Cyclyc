@@ -21,12 +21,12 @@ namespace Cyclyc.ShipGirl
     {
         public override string AssetName
         {
-            get { return "wrench"; }
+            get { return "shipGirl"; }
         }
 
         protected override int SpriteWidth
         {
-            get { return 14; }
+            get { return 157; }
         }
 
         public int Radius
@@ -39,7 +39,6 @@ namespace Cyclyc.ShipGirl
         public Ship(Game1 game)
             : base(game)
         {           
-            bounds = new Rectangle(0, 0, 8, 8);
             // TODO: Construct any child components here
         }
 
@@ -57,6 +56,9 @@ namespace Cyclyc.ShipGirl
         public override void LoadContent()
         {
             base.LoadContent();
+            visualWidth = 157 / 2;
+            visualHeight = 74 / 2;
+            bounds = new Rectangle(0, 0, visualWidth, visualHeight);
         }
 
         protected float MaxSpeedX

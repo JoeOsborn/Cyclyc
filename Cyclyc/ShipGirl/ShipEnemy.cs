@@ -69,6 +69,7 @@ namespace Cyclyc.ShipGirl
             yCurve = Game.Content.Load<Curve>(curveSet + "-Y");
             base.LoadContent();
             spriteWidth = spriteSheet.Width / FrameCount;
+            visualWidth = spriteWidth;
         }
 
         public void Reset(string img, string curves, bool left, int y, int w, int h, double ts)

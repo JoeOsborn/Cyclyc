@@ -58,14 +58,16 @@ namespace Cyclyc.Framework
         public override void LoadContent()
         {
             base.LoadContent();
+            visualWidth = 800;
+            visualHeight = 200;
         }
 
         public override void Update(GameTime gameTime)
         {
             position.X -= scrollSpeed;
-            if(position.X < -SpriteWidth)
+            if(position.X < -VisualWidth)
             {
-                position.X += SpriteWidth;
+                position.X += VisualWidth;
             }
             //base.Update(gameTime);
         }
@@ -81,7 +83,7 @@ namespace Cyclyc.Framework
             dstRect.Width = (int)(VisualWidth * ScaleFactor);
             dstRect.Height = (int)(VisualHeight * ScaleFactor);
             SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White);
-            dstRect.X += SpriteWidth;
+            dstRect.X = (int)(dstRect.X + dstRect.Width);
             SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White);
         }
     }

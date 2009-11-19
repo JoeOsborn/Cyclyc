@@ -43,6 +43,8 @@ namespace Cyclyc
 
             shipGame = new ShipGame(this);
             jetGame = new JetGame(this);
+            shipGame.NextGame = jetGame;
+            jetGame.NextGame = shipGame;
         }
 
         public int Tempo

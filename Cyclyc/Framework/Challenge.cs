@@ -65,8 +65,10 @@ namespace Cyclyc.Framework
             get { return enemyCount; }
         }
 
-        public Challenge(int m)
+        public Challenge(CycGame cg, Game1 g, int m)
         {
+            cycGame = cg;
+            game = g;
             state = ChallengeState.NotYet;
             measure = m;
             beats = new List<ChallengeBeat>();
@@ -104,13 +106,10 @@ namespace Cyclyc.Framework
                 }
                 else
                 {
-                    if (changeState) 
-                    { 
-                        state = ChallengeState.Active; 
-                    }
+                    state = ChallengeState.Active; 
                 }
             }
-            else if (state == ChallengeState.Active)
+            if (state == ChallengeState.Active)
             {
                 bool anyUnsent = false;
                 foreach (ChallengeBeat beat in beats)

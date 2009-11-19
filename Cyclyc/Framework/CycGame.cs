@@ -47,6 +47,8 @@ namespace Cyclyc.Framework
             }
         }
 
+        public CycGame NextGame { get; set; }
+
         List<CycSprite> sprites;
 
         protected float grade;
@@ -105,7 +107,7 @@ namespace Cyclyc.Framework
             int beatInMeasure = nextBeat - (measure * 4);
             if (nextBeat % 4 == 0 || otherPlayerChallenges.Count == 0)
             {
-                c = new Challenge(measure);
+                c = new Challenge(this, game, measure);
                 if (otherPlayerChallenges.Count > 0)
                 {
                     //TODO: not sure this is right

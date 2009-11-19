@@ -61,7 +61,7 @@ namespace Cyclyc.ShipGirl
 
         protected override void SetupChallenges()
         {
-            Challenge testChallenge = new Challenge(4);
+            Challenge testChallenge = new Challenge(this, Game, 4);
             testChallenge.AddBeat(new ChallengeBeat(0, new EnemyMaker[] { MakeRandomEnemy(true, 0), MakeRandomEnemy(true, 0) }));
             testChallenge.AddBeat(new ChallengeBeat(2, new EnemyMaker[] { MakeRandomEnemy(true, 0), MakeRandomEnemy(true, 0) }));
             TriggerChallenge(0, testChallenge);
@@ -113,8 +113,8 @@ namespace Cyclyc.ShipGirl
         public void Skim()
         {
             Console.WriteLine("skimmed");
-            skim.ResizeTo(Math.Max(skim.Radius - SkimShrinkRate, MinSkimRadius), SkimResizeDuration);
-            crush.ResizeTo(Math.Min(crush.Radius + CrushGrowRate, MaxCrushRadius), SkimResizeDuration);
+            skim.ResizeTo(Math.Max(skim.DestRadius - SkimShrinkRate, MinSkimRadius), SkimResizeDuration);
+            crush.ResizeTo(Math.Min(crush.DestRadius + CrushGrowRate, MaxCrushRadius), SkimResizeDuration);
         }
         public void Crush()
         {
@@ -128,11 +128,13 @@ namespace Cyclyc.ShipGirl
         {
             if (crushRecovery > 0)
             {
+                List<CycEnemy> crushCollided = enemyBatch.Collide(crush);
+                foreach (CycEnemy crushed in crushCollided)
+                {
+                    crushed.Die();
+                    NextGame.DeliverRandomEnemy(true, 0);
+                }
                 crushRecovery -= (float)(gameTime.ElapsedGameTime.TotalSeconds);
-                //ask batch to check collision
-                //kill all dead things
-                //kill stuff
-                //--hemispherical crushing
             }
             enemyBatch.Update(gameTime);
             base.Update(gameTime);

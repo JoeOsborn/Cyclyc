@@ -18,7 +18,11 @@ namespace Cyclyc.ShipGirl
     class ShipCircle : CycSprite
     {
         protected Ship ship;
-        protected float oldRadius;
+        protected float oldRadius, destRadius;
+        public float DestRadius
+        {
+            get { return destRadius; }
+        }
         protected double resizeTime;
         protected double resizeDuration;
 
@@ -30,6 +34,7 @@ namespace Cyclyc.ShipGirl
             collisionStyle = CollisionStyle.Circle;
             Radius = 1.0f;
             oldRadius = Radius;
+            destRadius = Radius;
             VisualRadius = Radius;
             ship = sh;
             resizeDuration = 0.0;
@@ -56,7 +61,7 @@ namespace Cyclyc.ShipGirl
         {
             //interpolate visualRadius to radius
             oldRadius = Radius;
-            Radius = newRadius;
+            destRadius = newRadius;
             resizeTime = 0;
             resizeDuration = duration;
         }
@@ -70,10 +75,12 @@ namespace Cyclyc.ShipGirl
             if (resizeTime < resizeDuration)
             {
                 resizeTime += gameTime.ElapsedGameTime.TotalSeconds;
-                VisualRadius = MathHelper.Lerp(oldRadius, Radius, (float)(resizeTime/resizeDuration));
+                Radius = MathHelper.Lerp(oldRadius, destRadius, (float)(resizeTime / resizeDuration));
+                VisualRadius = Radius;
             }
             else
             {
+                Radius = destRadius;
                 VisualRadius = Radius;
             }
             position = ship.Center;

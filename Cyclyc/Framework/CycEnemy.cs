@@ -90,6 +90,12 @@ namespace Cyclyc.Framework
             alive = true;
             visible = true;
         }
+        public void Die()
+        {
+            alive = false;
+            visible = false;
+            Challenge.EnemyKilled(this);
+        }
         protected virtual void UpdatePosition(GameTime gameTime)
         {
 

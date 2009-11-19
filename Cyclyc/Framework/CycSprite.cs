@@ -296,6 +296,7 @@ namespace Cyclyc.Framework
 
         public bool Collide(CycSprite other)
         {
+            if (!Alive) { return false; }
             Vector2 myBoxPos = new Vector2(bounds.X+position.X, bounds.Y+position.Y);
             Vector2 myBoxSz = new Vector2(bounds.Width, bounds.Height);
             Vector2 otherBoxPos = new Vector2(other.bounds.X + other.position.X, other.bounds.Y + other.position.Y);

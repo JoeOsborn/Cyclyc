@@ -58,7 +58,7 @@ namespace Cyclyc.JetpackGirl
 
         protected override void SetupChallenges()
         {
-            Challenge testChallenge = new Challenge(4);
+            Challenge testChallenge = new Challenge(this, Game, 4);
             testChallenge.AddBeat(new ChallengeBeat(0, new EnemyMaker[] { MakeRandomEnemy(false, 0), MakeRandomEnemy(false, 0) }));
             testChallenge.AddBeat(new ChallengeBeat(2, new EnemyMaker[] { MakeRandomEnemy(true, 0), MakeRandomEnemy(true, 0) }));
             TriggerChallenge(0, testChallenge);

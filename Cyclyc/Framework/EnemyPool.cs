@@ -30,6 +30,22 @@ namespace Cyclyc.Framework
             cycGame = g;
             enemies = new List<CycEnemy>();
         }
+
+        public virtual CycEnemy MakeEnemy()
+        {
+            return new CycEnemy(CycGame.Game, this);
+        }
+
+        public CycEnemy FindOrMakeEnemy()
+        {
+            CycEnemy enemy = FindFreeEnemy();
+            if (enemy == null)
+            {
+                enemy = MakeEnemy();
+                enemies.Add(enemy);
+            }
+            return enemy;
+        }
         protected CycEnemy FindFreeEnemy()
         {
             foreach (CycEnemy e in enemies)

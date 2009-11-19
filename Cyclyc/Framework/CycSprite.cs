@@ -177,6 +177,24 @@ namespace Cyclyc.Framework
         {
             return SpriteWidth * i;
         }
+        protected int[] FrameSequence(int start, int length)
+        {
+            int[] ret = new int[length];
+            for (int i = start; i < start + length; i++)
+            {
+                ret[i-start] = i;
+            }
+            return ret;
+        }
+        protected int[] TimingSequence(int fc, int length)
+        {
+            int[] ret = new int[length];
+            for (int i = 0; i < length; i++)
+            {
+                ret[i] = fc;
+            }
+            return ret;
+        }
         #endregion
         #region purely visual scaling
         protected float visualWidth;

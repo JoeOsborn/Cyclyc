@@ -23,11 +23,9 @@ namespace Cyclyc.ShipGirl
         ShipEnemyPool enemyBatch;
         protected float crushRecovery;
 
-        protected Random rgen;
         public ShipGame(Game1 game)
             : base(game)
         {
-            rgen = new Random();
             enemyBatch = new ShipEnemyPool(this);
         }
 

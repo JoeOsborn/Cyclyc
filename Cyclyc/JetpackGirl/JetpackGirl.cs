@@ -18,7 +18,6 @@ namespace Cyclyc.JetpackGirl
     {
         KeyboardState kb, oldKB;
         protected bool jumpReleased;
-        protected bool jetting;
         protected bool attacking;
         protected Jetpack jetpack;
         protected override float ScaleFactor
@@ -44,23 +43,41 @@ namespace Cyclyc.JetpackGirl
 
         public override void LoadContent()
         {
-            animations["default"] = new Animation(new int[] { 0, 1 }, new int[] { 5, 5 }, true);
-            animations["run"] = new Animation(new int[] { 0, 1 }, new int[] { 5, 5 }, true);
-            animations["run-attacking"] = new Animation(new int[] { 4, 5 }, new int[] { 5, 5 }, true);
-            animations["jet"] = new Animation(new int[] { 2, 3 }, new int[] { 5, 5 }, true);
-            animations["jet-attacking"] = new Animation(new int[] { 6, 7 }, new int[] { 5, 5 }, true);
-            animations["begin-jet"] = new Animation(new int[] { 2, 3 }, new int[] { 5, 5 }, true);
-            animations["begin-jet-attacking"] = new Animation(new int[] { 6, 7 }, new int[] { 5, 5 }, true);
-            animations["stop-jet"] = new Animation(new int[] { 2, 3 }, new int[] { 5, 5 }, true);
-            animations["stop-jet-attacking"] = new Animation(new int[] { 6, 7 }, new int[] { 5, 5 }, true);
-            animations["jump"] = new Animation(new int[] { 0, 1 }, new int[] { 5, 5 }, true);
-            animations["jump-attacking"] = new Animation(new int[] { 4, 5 }, new int[] { 5, 5 }, true);
-            animations["fall"] = new Animation(new int[] { 0, 1 }, new int[] { 5, 5 }, true);
-            animations["fall-attacking"] = new Animation(new int[] { 4, 5 }, new int[] { 5, 5 }, true);
-            animations["land"] = new Animation(new int[] { 0, 1 }, new int[] { 5, 5 }, true);
-            animations["land-attacking"] = new Animation(new int[] { 4, 5 }, new int[] { 5, 5 }, true);
-            animations["run"] = new Animation(new int[] { 0, 1 }, new int[] { 5, 5 }, true);
-            animations["run-attacking"] = new Animation(new int[] { 4, 5 }, new int[] { 5, 5 }, true);
+            int[] timings = TimingSequence(5, 2);
+            animations["default"] = 
+                new Animation(FrameSequence(0, 2), timings, true);
+            animations["run"] = 
+                new Animation(FrameSequence(0, 2), timings, true);
+            animations["run-attacking"] = 
+                new Animation(FrameSequence(4, 2), timings, true);
+            animations["jet"] = 
+                new Animation(FrameSequence(2, 2), timings, true);
+            animations["jet-attacking"] = 
+                new Animation(FrameSequence(6, 2), timings, true);
+            animations["begin-jet"] = 
+                new Animation(FrameSequence(2, 2), timings, true);
+            animations["begin-jet-attacking"] = 
+                new Animation(FrameSequence(6, 2), timings, true);
+            animations["stop-jet"] = 
+                new Animation(FrameSequence(2, 2), timings, true);
+            animations["stop-jet-attacking"] = 
+                new Animation(FrameSequence(6, 2), timings, true);
+            animations["jump"] = 
+                new Animation(FrameSequence(0, 2), timings, true);
+            animations["jump-attacking"] = 
+                new Animation(FrameSequence(4, 2), timings, true);
+            animations["fall"] = 
+                new Animation(FrameSequence(0, 2), timings, true);
+            animations["fall-attacking"] = 
+                new Animation(FrameSequence(4, 2), timings, true);
+            animations["land"] = 
+                new Animation(FrameSequence(0, 2), timings, true);
+            animations["land-attacking"] = 
+                new Animation(FrameSequence(4, 2), timings, true);
+            animations["run"] = 
+                new Animation(FrameSequence(0, 2), timings, true);
+            animations["run-attacking"] = 
+                new Animation(FrameSequence(4, 2), timings, true);
             Play("default");
             base.LoadContent();
         }
@@ -102,7 +119,6 @@ namespace Cyclyc.JetpackGirl
         }
         public void StopJet()
         {
-            jetting = false;
             if (attacking)
             {
                 Play("stop-jet-attacking", true);

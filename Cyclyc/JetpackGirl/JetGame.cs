@@ -18,9 +18,15 @@ namespace Cyclyc.JetpackGirl
     public class JetGame : Cyclyc.Framework.CycGame
     {
         JetpackGirl jg;
+
+        RobotEnemyPool robots;
+        SpiderEnemyPool spiders;
+
         public JetGame(Game1 game)
             : base(game)
         {
+            robots = new RobotEnemyPool(this);
+            spiders = new SpiderEnemyPool(this);
         }
 
         public override void Initialize()
@@ -35,6 +41,29 @@ namespace Cyclyc.JetpackGirl
             base.Initialize();
         }
 
+        public override EnemyMaker MakeRandomEnemy(bool leftToRight, int difficulty)
+        {
+            return (c) =>
+                {
+                    if (rgen.NextDouble() < 0.5)
+                    {
+                        return robots.Create(c, "robot", 2, CollisionStyle.Box, leftToRight, 0, 16, 21);
+                    }
+                    else
+                    {
+                        return spiders.Create(c, "spider", 3, CollisionStyle.Box, leftToRight, View.Height/2 - 34, 102 / 3, 17);
+                    }
+                };
+        }
+
+        protected override void SetupChallenges()
+        {
+            Challenge testChallenge = new Challenge(4);
+            testChallenge.AddBeat(new ChallengeBeat(0, new EnemyMaker[] { MakeRandomEnemy(false, 0), MakeRandomEnemy(false, 0) }));
+            testChallenge.AddBeat(new ChallengeBeat(2, new EnemyMaker[] { MakeRandomEnemy(true, 0), MakeRandomEnemy(true, 0) }));
+            TriggerChallenge(0, testChallenge);
+        }
+
         public override void LoadContent()
         {
             base.LoadContent();
@@ -42,16 +71,17 @@ namespace Cyclyc.JetpackGirl
         
         public override void Update(GameTime gameTime)
         {
+            robots.Update(gameTime);
+            spiders.Update(gameTime);
             base.Update(gameTime);
+            //robots.Collide(jetpackGirl), spiders.Collide(jetpackGirl)
         }
 
-        protected override Color ClearColor()
+        protected override void DrawInnards(GameTime gt)
         {
-            return Color.LawnGreen;
-        }
-        public override void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime);
+            base.DrawInnards(gt);
+            robots.Draw(gt);
+            spiders.Draw(gt);
         }
     }
 }

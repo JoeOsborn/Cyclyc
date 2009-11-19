@@ -32,7 +32,6 @@ namespace Cyclyc.ShipGirl
             : base(game, p)
         {
             timeScale = 1.0;
-            collisionStyle = CollisionStyle.Circle;
         }
 
         public override void LoadContent()
@@ -55,6 +54,38 @@ namespace Cyclyc.ShipGirl
             base.Draw(gameTime);
         }
 
+        protected override bool StopAtRightEdge(GameTime gt)
+        {
+            return false;
+        }
+        protected override bool StopAtLeftEdge(GameTime gt)
+        {
+            return false;
+        }
+        protected override bool StopAtTopEdge(GameTime gt)
+        {
+            return false;
+        }
+        protected override bool StopAtBottomEdge(GameTime gt)
+        {
+            return false;
+        }
+        protected override void HitLeftEdge(GameTime gt)
+        {
+            LeftEdge = LeftX;
+        }
+        protected override void HitRightEdge(GameTime gt)
+        {
+            RightEdge = RightX;
+        }
+        protected override void HitBottomEdge(GameTime gt)
+        {
+            BottomEdge = FloorY;
+        }
+        protected override void HitTopEdge(GameTime gt)
+        {
+            TopEdge = CeilY;
+        }
 
         protected override void UpdatePosition(GameTime gameTime)
         {

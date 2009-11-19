@@ -93,10 +93,16 @@
     <Compile Include="Framework\CycGame.cs" />
     <Compile Include="Framework\CycSprite.cs" />
     <Compile Include="Framework\EnemyPool.cs" />
+    <Compile Include="JetpackGirl\JetpackEnemy.cs" />
+    <Compile Include="JetpackGirl\JetpackEnemyPool.cs" />
     <Compile Include="JetpackGirl\JetpackOwner.cs" />
     <Compile Include="JetpackGirl\Jetpack.cs" />
     <Compile Include="JetpackGirl\JetGame.cs" />
     <Compile Include="JetpackGirl\JetpackGirl.cs" />
+    <Compile Include="JetpackGirl\RobotEnemy.cs" />
+    <Compile Include="JetpackGirl\RobotEnemyPool.cs" />
+    <Compile Include="JetpackGirl\SpiderEnemy.cs" />
+    <Compile Include="JetpackGirl\SpiderEnemyPool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />

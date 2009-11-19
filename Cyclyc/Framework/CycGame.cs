@@ -59,8 +59,11 @@ namespace Cyclyc.Framework
         List<Challenge>[] challenges;
         List<Challenge> otherPlayerChallenges;
 
+        protected Random rgen;
+
         public CycGame(Game1 g)
         {
+            rgen = new Random();
             game = g;
             backgrounds = new List<CycBackground>();
             grade = 0.0f;

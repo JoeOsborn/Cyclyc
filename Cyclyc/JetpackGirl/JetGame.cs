@@ -37,14 +37,11 @@ namespace Cyclyc.JetpackGirl
 
         public override void LoadContent()
         {
-
             base.LoadContent();
         }
         
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
-            
             base.Update(gameTime);
         }
 

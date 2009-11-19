@@ -32,7 +32,7 @@ namespace Cyclyc.Framework
         }
         #endregion
         #region boundary conveniences
-        protected float TopEdge
+        public float TopEdge
         {
             get 
             { 
@@ -44,12 +44,12 @@ namespace Cyclyc.Framework
                 else { position.Y = value; }
             }
         }
-        protected float BottomEdge
+        public float BottomEdge
         {
             get { return TopEdge + bounds.Y + bounds.Height; }
             set { TopEdge = (value - bounds.Y - bounds.Height); }
         }
-        protected float LeftEdge
+        public float LeftEdge
         {
             get
             {
@@ -61,7 +61,7 @@ namespace Cyclyc.Framework
                 else { position.X = value; }
             }
         }
-        protected float RightEdge
+        public float RightEdge
         {
             get { return LeftEdge + bounds.X + bounds.Width; }
             set { LeftEdge = (value - bounds.X - bounds.Width); }
@@ -105,19 +105,19 @@ namespace Cyclyc.Framework
             }
         }
 
-        protected float FloorY
+        public float FloorY
         {
             get { return view.Height; }
         }
-        protected float CeilY
+        public float CeilY
         {
             get { return 0; }
         }
-        protected float LeftX
+        public float LeftX
         {
             get { return 0; }
         }
-        protected float RightX
+        public float RightX
         {
             get { return view.Width; }
         }

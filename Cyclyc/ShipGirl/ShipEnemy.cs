@@ -32,6 +32,7 @@ namespace Cyclyc.ShipGirl
             : base(game, p)
         {
             timeScale = 1.0;
+            collisionStyle = CollisionStyle.Circle;
         }
 
         public override void LoadContent()

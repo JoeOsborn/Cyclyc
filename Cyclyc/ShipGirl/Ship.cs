@@ -21,21 +21,12 @@ namespace Cyclyc.ShipGirl
             get { return "shipGirl"; }
         }
 
-        protected override int SpriteWidth
-        {
-            get { return 157; }
-        }
-
-        public int Radius
-        {
-            get { return SpriteWidth; }
-        }
-
         protected KeyboardState kb;
 
         public Ship(Game1 game)
             : base(game)
-        {           
+        {
+            collisionStyle = CollisionStyle.Circle;
             // TODO: Construct any child components here
         }
 
@@ -47,9 +38,10 @@ namespace Cyclyc.ShipGirl
         public override void LoadContent()
         {
             base.LoadContent();
-            visualWidth = 157 / 2;
-            visualHeight = 74 / 2;
-            bounds = new Rectangle(0, 0, visualWidth, visualHeight);
+            spriteWidth = 157;
+            VisualWidth = 157 / 2;
+            VisualHeight = 74 / 2;
+            Radius = 15;
         }
 
         protected float MaxSpeedX

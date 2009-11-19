@@ -27,16 +27,6 @@ namespace Cyclyc.Framework
         {
             get { return assetName; }
         }
-        protected int spriteWidth;
-        protected override int SpriteWidth
-        {
-            get { return spriteWidth; }
-        }
-
-        public float Radius
-        {
-            get { return spriteWidth; }
-        }
 
         protected bool leftToRight;
 
@@ -62,6 +52,8 @@ namespace Cyclyc.Framework
         {
             base.LoadContent();
             spriteWidth = spriteSheet.Width / FrameCount;
+            bounds.Width = spriteWidth;
+            bounds.Height = spriteSheet.Height;
             visualWidth = spriteWidth;
         }
 

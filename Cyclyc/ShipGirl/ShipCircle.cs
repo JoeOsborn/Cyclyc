@@ -26,17 +26,9 @@ namespace Cyclyc.ShipGirl
             }
         }
         protected Ship ship;
-        //for these circles, position is the center
         protected float oldRadius;
-        protected float radius;
-        protected float visualRadius;
         protected double resizeTime;
         protected double resizeDuration;
-
-        public float Radius
-        {
-            get { return radius; }
-        }
 
         protected override int SpriteWidth
         {
@@ -47,9 +39,10 @@ namespace Cyclyc.ShipGirl
             : base(game)
         {
             assetName = img;
-            radius = 1.0f;
-            oldRadius = radius;
-            visualRadius = radius;
+            collisionStyle = CollisionStyle.Circle;
+            Radius = 1.0f;
+            oldRadius = Radius;
+            VisualRadius = Radius;
             ship = sh;
             resizeDuration = 0.0;
             resizeTime = 0.0;
@@ -74,8 +67,8 @@ namespace Cyclyc.ShipGirl
         public void ResizeTo(float newRadius, double duration)
         {
             //interpolate visualRadius to radius
-            oldRadius = radius;
-            radius = newRadius;
+            oldRadius = Radius;
+            Radius = newRadius;
             resizeTime = 0;
             resizeDuration = duration;
         }
@@ -89,28 +82,14 @@ namespace Cyclyc.ShipGirl
             if (resizeTime < resizeDuration)
             {
                 resizeTime += gameTime.ElapsedGameTime.TotalSeconds;
-                visualRadius = MathHelper.Lerp(oldRadius, radius, (float)(resizeTime/resizeDuration));
+                VisualRadius = MathHelper.Lerp(oldRadius, Radius, (float)(resizeTime/resizeDuration));
             }
             else
             {
-                visualRadius = radius;
+                VisualRadius = Radius;
             }
             position = ship.Center;
             base.Update(gameTime);
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            Rectangle srcRect = new Rectangle(XForSprite(currentAnimation.CurrentFrame), 0, SpriteWidth, spriteSheet.Height);
-            //modify srcRect.X for animation frame
-            Rectangle dstRect = srcRect;
-            //modify dstRect.X, .Y for position, viewport
-            dstRect.X = (int)((position.X*ScaleFactor) - visualRadius);
-            dstRect.Y = (int)((position.Y*ScaleFactor) - visualRadius);
-            dstRect.Width = (int)(visualRadius * ScaleFactor * 2);
-            dstRect.Height = (int)(visualRadius * ScaleFactor * 2);
-
-            SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White);
         }
     }
 }

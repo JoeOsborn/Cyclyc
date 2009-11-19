@@ -70,23 +70,37 @@ namespace Cyclyc.Framework
         }
         protected float TopEdge
         {
-            get { return position.Y; }
-            set { position.Y = value; }
+            get 
+            { 
+                return collisionStyle == CollisionStyle.Circle ? position.Y - radius : position.Y; 
+            }
+            set
+            {
+                if (collisionStyle == CollisionStyle.Circle) { position.Y = value + radius; }
+                else { position.Y = value; }
+            }
         }
         protected float BottomEdge
         {
-            get { return position.Y + bounds.Y + bounds.Height; }
-            set { position.Y = (value - bounds.Y - bounds.Height); }
+            get { return TopEdge + bounds.Y + bounds.Height; }
+            set { TopEdge = (value - bounds.Y - bounds.Height); }
         }
         protected float LeftEdge
         {
-            get { return position.X; }
-            set { position.X = value; }
+            get
+            {
+                return collisionStyle == CollisionStyle.Circle ? position.X - radius : position.X;
+            }
+            set
+            {
+                if (collisionStyle == CollisionStyle.Circle) { position.X = value + radius; }
+                else { position.X = value; }
+            }
         }
         protected float RightEdge
         {
-            get { return position.X + bounds.X + bounds.Width; }
-            set { position.X = (value - bounds.X - bounds.Width); }
+            get { return LeftEdge + bounds.X + bounds.Width; }
+            set { LeftEdge = (value - bounds.X - bounds.Width); }
         }
 
         protected virtual float ScaleFactor
@@ -96,14 +110,29 @@ namespace Cyclyc.Framework
 
         protected Texture2D spriteSheet;
         public Rectangle bounds;
+        protected float radius;
+        public float Radius
+        {
+            get { return radius; }
+            set { radius = value; bounds.Width = (int)value*2; bounds.Height = (int)value*2; }
+        }
         public Vector2 position;
         public Vector2 velocity;
+        public enum CollisionStyle
+        {
+            Circle,
+            Box
+        };
+        public CollisionStyle collisionStyle;
 
         public Animation currentAnimation;
         public Dictionary<string, Animation> animations;
         public Vector2 Center
         {
-            get { return new Vector2(position.X + bounds.X + bounds.Width/2.0f, position.Y + bounds.Y + bounds.Height/2.0f); }
+            get 
+            { 
+                return collisionStyle == CollisionStyle.Circle ? position : 
+                    new Vector2(position.X + bounds.X + bounds.Width/2.0f, position.Y + bounds.Y + bounds.Height/2.0f); }
         }
         public virtual string AssetName
         {
@@ -114,24 +143,48 @@ namespace Cyclyc.Framework
         {
             get { return Game.SpriteBatch; }
         }
-
+        protected int spriteWidth;
         protected virtual int SpriteWidth
         {
-            get { return 8; }
+            get { return spriteWidth; }
         }
         protected virtual int XForSprite(int i)
         {
             return SpriteWidth * i;
         }
-        protected int visualWidth;
-        public virtual int VisualWidth
+        protected float visualWidth;
+        public virtual float VisualWidth
         {
             get { return visualWidth; }
+            set { visualWidth = value; }
         }
-        protected int visualHeight;
-        public virtual int VisualHeight
+        protected float visualHeight;
+        public virtual float VisualHeight
         {
             get { return visualHeight; }
+            set { visualHeight = value; }
+        }
+        public virtual float VisualRadius
+        {
+            get { return visualWidth/2; }
+            set { visualWidth = value*2; visualHeight = value*2; }
+        }
+        
+        public CycSprite(Game1 game)
+        {
+            Game = game;
+            spriteWidth = 8;
+            collisionStyle = CollisionStyle.Box;
+            alive = true;
+            visible = true;
+            bounds = new Rectangle(0, 0, 8, 8);
+            position = new Vector2(0, 0);
+            velocity = new Vector2(0, 0);
+            currentAnimation = null;
+            animations = new Dictionary<string, Animation>();
+            animations["default"] = new Animation(new int[]{0}, new int[]{0}, false);
+            Play("default");
+            // TODO: Construct any child components here
         }
 
         public void Play(string anim) { Play(anim, true); }
@@ -146,21 +199,6 @@ namespace Cyclyc.Framework
                 currentAnimation = animations[anim];
                 currentAnimation.Play();
             }
-        }
-        
-        public CycSprite(Game1 game)
-        {
-            Game = game;
-            alive = true;
-            visible = true;
-            bounds = new Rectangle(0, 0, 8, 8);
-            position = new Vector2(0, 0);
-            velocity = new Vector2(0, 0);
-            currentAnimation = null;
-            animations = new Dictionary<string, Animation>();
-            animations["default"] = new Animation(new int[]{0}, new int[]{0}, false);
-            Play("default");
-            // TODO: Construct any child components here
         }
 
         /// <summary>
@@ -177,6 +215,68 @@ namespace Cyclyc.Framework
             spriteSheet = Game.Content.Load<Texture2D>(AssetName);
             visualWidth = SpriteWidth;
             visualHeight = spriteSheet.Height;
+        }
+
+        protected float CircleLineDistance(Vector2 p3, Vector2 p1, Vector2 p2)
+        {
+            if (p1 == p2) { return float.NaN; } //infinitely small line
+            float u = ((p3.X - p1.X) * (p2.X - p1.X) + (p3.Y - p1.Y) * (p2.Y - p1.Y)) / (p2 - p1).LengthSquared();
+            Vector2 intersection = new Vector2(p1.X + u * (p2.X - p1.X), p1.Y + u * (p2.Y - p1.Y));
+            return (intersection - p3).Length();
+        }
+
+        protected bool CollideCircleBox(Vector2 cp, float rad, Vector2 bp, Vector2 bsz)
+        {
+            float left = bp.X;
+            float right = bp.X + bsz.X;
+            float top = bp.Y;
+            float bottom = bp.Y + bsz.Y;
+
+            //have to do this four times!
+            float upperDist = CircleLineDistance(cp, new Vector2(left, top), new Vector2(right, top));
+            if (Math.Abs(upperDist) < rad) { return true; }
+            float rightDist = CircleLineDistance(cp, new Vector2(right, top), new Vector2(right, bottom));
+            if (Math.Abs(rightDist) < rad) { return true; }
+            float lowerDist = CircleLineDistance(cp, new Vector2(left, bottom), new Vector2(right, bottom));
+            if (Math.Abs(lowerDist) < rad) { return true; }
+            float leftDist = CircleLineDistance(cp, new Vector2(left, top), new Vector2(left, bottom));
+            if(Math.Abs(leftDist) < rad) { return true; }
+            return upperDist < 0 && rightDist < 0 && lowerDist < 0 && leftDist < 0;
+        }
+
+        public bool Collide(CycSprite other)
+        {
+            Vector2 myBoxPos = new Vector2(bounds.X+position.X, bounds.Y+position.Y);
+            Vector2 myBoxSz = new Vector2(bounds.Width, bounds.Height);
+            Vector2 otherBoxPos = new Vector2(other.bounds.X + other.position.X, other.bounds.Y + other.position.Y);
+            Vector2 otherBoxSz = new Vector2(other.bounds.Width, other.bounds.Height);
+
+            if (collisionStyle == CollisionStyle.Circle && other.collisionStyle == CollisionStyle.Circle)
+            {
+                float delta = (other.position - position).Length();
+                if (delta < other.Radius || delta < this.Radius)
+                {
+                    return true;
+                }
+            }
+            else if (collisionStyle == CollisionStyle.Box && other.collisionStyle == CollisionStyle.Box)
+            {
+              //box-box
+                if (myBoxPos.X > (otherBoxPos.X+otherBoxSz.X)) { return false; }
+                if ((myBoxPos.X+myBoxSz.X) < otherBoxPos.X) { return false; }
+                if ((myBoxPos.Y+myBoxSz.Y) < otherBoxPos.Y) { return false; }
+                if (myBoxPos.Y > (otherBoxPos.Y + otherBoxSz.Y)) { return false; }
+                return true;
+            }
+            else if (collisionStyle == CollisionStyle.Box)
+            {
+                return CollideCircleBox(other.position, other.Radius, myBoxPos, myBoxSz);
+            }
+            else
+            {
+                return CollideCircleBox(position, Radius, otherBoxPos, otherBoxSz);
+            }
+            return false;
         }
 
         protected virtual void MoveInX(GameTime gt)
@@ -346,10 +446,20 @@ namespace Cyclyc.Framework
             //modify srcRect.X for animation frame
             Rectangle dstRect = new Rectangle();
             //modify dstRect.X, .Y for position, viewport
-            dstRect.X = (int)(position.X*ScaleFactor);
-            dstRect.Y = (int)(position.Y*ScaleFactor);
-            dstRect.Width = (int)(VisualWidth*ScaleFactor);
-            dstRect.Height = (int)(VisualHeight*ScaleFactor);
+            if (collisionStyle == CollisionStyle.Box)
+            {
+                dstRect.X = (int)(position.X * ScaleFactor);
+                dstRect.Y = (int)(position.Y * ScaleFactor);
+                dstRect.Width = (int)(VisualWidth * ScaleFactor);
+                dstRect.Height = (int)(VisualHeight * ScaleFactor);
+            }
+            else
+            {
+                dstRect.X = (int)((position.X * ScaleFactor) - VisualWidth/2);
+                dstRect.Y = (int)((position.Y * ScaleFactor) - VisualHeight/2);
+                dstRect.Width = (int)(VisualWidth * ScaleFactor);
+                dstRect.Height = (int)(VisualHeight * ScaleFactor);
+            }
             SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White);
         }
     }

@@ -19,6 +19,7 @@ namespace Cyclyc.ShipGirl
         Ship ship;
         ShipCircle crush;
         ShipCircle skim;
+        ShipCircle debugRadius;
         ShipEnemyPool enemyBatch;
         protected float crushRecovery;
         public ShipGame(Game1 game)
@@ -30,7 +31,10 @@ namespace Cyclyc.ShipGirl
         public override void Initialize()
         {
             ship = new Ship(Game);
+            ship.position = new Vector2(30, 30);
             AddSprite(ship);
+            debugRadius = new ShipCircle(Game, ship, "crushRing");
+            AddSprite(debugRadius);
             crush = new ShipCircle(Game, ship, "crushRing");
             AddSprite(crush);
             skim = new ShipCircle(Game, ship, "crushRing");
@@ -45,6 +49,7 @@ namespace Cyclyc.ShipGirl
         {
             enemyBatch.Create("wrench", "wave", false, 150, 14, 14, 1.0);
             base.LoadContent();
+            debugRadius.ResizeTo(ship.Radius, 0);
         }
         public float SkimShrinkRate
         {
@@ -110,14 +115,14 @@ namespace Cyclyc.ShipGirl
             base.Update(gameTime);
             //check circle overlapping, ship collision
             //we'll just treat them all as circles
-            List<CycEnemy> shipCollided = enemyBatch.CollideCircle(ship.position, ship.Radius);
+            List<CycEnemy> shipCollided = enemyBatch.Collide(ship);
             if (shipCollided.Count() != 0)
             {
                 KillShip();
             }
             if (crushRecovery <= 0)
             {
-                List<CycEnemy> skimCollided = enemyBatch.CollideCircle(skim.position, skim.Radius);
+                List<CycEnemy> skimCollided = enemyBatch.Collide(skim);
                 if (skimCollided.Count() != 0)
                 {
                     Skim();

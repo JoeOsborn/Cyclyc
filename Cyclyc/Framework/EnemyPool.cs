@@ -41,14 +41,13 @@ namespace Cyclyc.Framework
             }
             return null;
         }
-        public List<CycEnemy> CollideCircle(Vector2 pos, float rad)
+        public List<CycEnemy> Collide(CycSprite sprite)
         {
             List<CycEnemy> collided = new List<CycEnemy>();
             foreach (CycEnemy e in enemies)
             {
                 if (!e.Alive) { continue; }
-                float delta = (pos - e.position).Length();
-                if (delta < rad || delta < e.Radius)
+                if (e.Collide(sprite))
                 {
                     collided.Add(e);
                 }

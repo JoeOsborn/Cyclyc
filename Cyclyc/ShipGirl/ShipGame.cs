@@ -132,7 +132,8 @@ namespace Cyclyc.ShipGirl
                 foreach (CycEnemy crushed in crushCollided)
                 {
                     crushed.Die();
-                    NextGame.DeliverRandomEnemy(true, 0);
+                    bool leftOfCenter = (ship.Position.X >= crushed.Position.X);
+                    NextGame.DeliverRandomEnemy(leftOfCenter, 0);
                 }
                 crushRecovery -= (float)(gameTime.ElapsedGameTime.TotalSeconds);
             }

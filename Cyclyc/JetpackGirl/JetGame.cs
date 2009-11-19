@@ -17,7 +17,6 @@ namespace Cyclyc.JetpackGirl
 {
     public class JetGame : Cyclyc.Framework.CycGame
     {
-        CycBackground background;
         JetpackGirl jg;
         public JetGame(Game1 game)
             : base(game)
@@ -26,9 +25,10 @@ namespace Cyclyc.JetpackGirl
 
         public override void Initialize()
         {
-            background = new CycBackground(Game, "jetBackground");
-            AddSprite(background); 
-
+            AddBackground("pixel city sky", 0.1f);
+            AddBackground("pixel city skyline", 0.3f);
+            AddBackground("pixel city foreground", 0.5f);
+            
             jg = new JetpackGirl((Game1)Game);
             AddSprite(jg);
 

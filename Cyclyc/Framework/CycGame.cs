@@ -36,6 +36,10 @@ namespace Cyclyc.Framework
             set 
             { 
                 view = value;
+                foreach (CycBackground bg in backgrounds)
+                {
+                    bg.View = View;
+                }
                 foreach (CycSprite sprite in sprites)
                 {
                     sprite.View = view;
@@ -51,12 +55,14 @@ namespace Cyclyc.Framework
             get { return grade; }
         }
 
+        List<CycBackground> backgrounds;
         List<Challenge>[] challenges;
         List<Challenge> otherPlayerChallenges;
 
         public CycGame(Game1 g)
         {
             game = g;
+            backgrounds = new List<CycBackground>();
             grade = 0.0f;
             sprites = new List<CycSprite>();
             challenges = new List<Challenge>[3] { 
@@ -67,19 +73,27 @@ namespace Cyclyc.Framework
             otherPlayerChallenges = new List<Challenge>();
         }
 
+        protected void AddBackground(string bgName, float bgSpeed)
+        {
+            CycBackground bg = new CycBackground(Game, bgName);
+            bg.ScrollSpeed = bgSpeed;
+            bg.View = View;
+            backgrounds.Add(bg);
+        }
+
         public void TriggerChallenge(int gradeLevel, Challenge c)
         {
             challenges[gradeLevel].Add(c);
             c.CycGame = this;
             c.Game = Game;
         }
-        public virtual EnemyMaker MakeRandomEnemy(bool leftToRight)
+        public virtual EnemyMaker MakeRandomEnemy(bool leftToRight, int difficulty)
         {
             return null;
         }
-        public void DeliverRandomEnemy(bool leftSide)
+        public void DeliverRandomEnemy(bool leftSide, int difficulty)
         {
-            EnemyMaker enemy = MakeRandomEnemy(leftSide);
+            EnemyMaker enemy = MakeRandomEnemy(leftSide, difficulty);
             //is the next beat in a new measure?
             Challenge c=null;
             int nextBeat = (int)(Math.Floor(Game.CurrentBeat) + 1);
@@ -112,6 +126,10 @@ namespace Cyclyc.Framework
 
         public virtual void Initialize()
         {
+            foreach (CycBackground bg in backgrounds)
+            {
+                bg.Initialize();
+            }
             foreach (CycSprite sprite in sprites)
             {
                 sprite.Initialize();
@@ -125,6 +143,10 @@ namespace Cyclyc.Framework
 
         public virtual void LoadContent()
         {
+            foreach (CycBackground bg in backgrounds)
+            {
+                bg.LoadContent();
+            }
             foreach (CycSprite sprite in sprites)
             {
                 sprite.LoadContent();
@@ -150,6 +172,10 @@ namespace Cyclyc.Framework
             {
                 c.Process(Grade, Grade, false);
             }
+            foreach (CycBackground bg in backgrounds)
+            {
+                bg.Update(gameTime);
+            }
             foreach (CycSprite sprite in sprites)
             {
                 sprite.Update(gameTime);
@@ -167,7 +193,7 @@ namespace Cyclyc.Framework
         }
         protected virtual void DrawInnards(GameTime gt)
         {
-            GraphicsDevice.Clear(ClearColor());
+//            GraphicsDevice.Clear(ClearColor());
         }
         public virtual void Draw(GameTime gameTime)
         {
@@ -175,6 +201,10 @@ namespace Cyclyc.Framework
             GraphicsDevice.Viewport = view;
             ((Game1)Game).SpriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
             SetupFilters();
+            foreach (CycBackground bg in backgrounds)
+            {
+                bg.Draw(gameTime);
+            }
             DrawInnards(gameTime);
             foreach (CycSprite sprite in sprites)
             {

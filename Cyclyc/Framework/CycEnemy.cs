@@ -17,11 +17,6 @@ namespace Cyclyc.Framework
 {
     public class CycEnemy : CycSprite
     {
-        protected int FrameCount
-        {
-            get { return 2; }
-        }
-
         protected Challenge challenge;
         public Challenge Challenge
         {
@@ -34,32 +29,46 @@ namespace Cyclyc.Framework
 
         protected EnemyPool pool;
 
+        protected override bool FlipImage
+        {
+            get { return leftToRight; }
+        }
+
+        protected int frameCount;
+        public int FrameCount
+        {
+            get { return frameCount; }
+            set { frameCount = value; }
+        }
+
         public CycEnemy(Game1 game, EnemyPool p)
             : base(game)
         {
             pool = p;
-            int[] frames = new int[FrameCount];
-            int[] timings = new int[FrameCount];
-            for(int i = 0; i < frames.Length; i++)
-            {
-                frames[i] = i;
-                timings[i] = 10;
-            }
-            animations["default"] = new Animation(frames, timings, true);
         }
 
         public override void LoadContent()
         {
             base.LoadContent();
+            int[] frames = new int[FrameCount];
+            int[] timings = new int[FrameCount];
+            for (int i = 0; i < frames.Length; i++)
+            {
+                frames[i] = i;
+                timings[i] = 10;
+            }
+            animations["default"] = new Animation(frames, timings, true);
             spriteWidth = spriteSheet.Width / FrameCount;
             bounds.Width = spriteWidth;
             bounds.Height = spriteSheet.Height;
             visualWidth = spriteWidth;
         }
 
-        public virtual void Reset(Challenge c, string img, bool left, int xp, int yp, int w, int h)
+        public virtual void Reset(Challenge c, string img, int fc, CollisionStyle col, bool left, int xp, int yp, int w, int h)
         {
             challenge = c;
+            collisionStyle = col;
+            frameCount = fc;
             assetName = img;
             LoadContent();
             Play("default");

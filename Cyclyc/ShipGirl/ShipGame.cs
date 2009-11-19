@@ -33,6 +33,11 @@ namespace Cyclyc.ShipGirl
 
         public override void Initialize()
         {
+            AddBackground("space background", 0.05f);
+            AddBackground("stars", 0.06f);
+            AddBackground("zodiac", 0.07f);
+            AddBackground("nebula", 0.075f);
+            AddBackground("galaxy", 0.08f);
             ship = new Ship(Game);
             ship.Position = new Vector2(30, 30);
             AddSprite(ship);
@@ -48,10 +53,10 @@ namespace Cyclyc.ShipGirl
             base.Initialize();
         }
 
-        public override EnemyMaker MakeRandomEnemy(bool leftToRight)
+        public override EnemyMaker MakeRandomEnemy(bool leftToRight, int difficulty)
         {
             return (c) => 
-                enemyBatch.Create(c, "wrench", "wave", 
+                enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "wave", 
                     leftToRight, (int)(rgen.NextDouble()*(View.Height)), 14, 14, 
                     1.0);
         }
@@ -59,8 +64,8 @@ namespace Cyclyc.ShipGirl
         protected override void SetupChallenges()
         {
             Challenge testChallenge = new Challenge(4);
-            testChallenge.AddBeat(new ChallengeBeat(0, new EnemyMaker[] { MakeRandomEnemy(true), MakeRandomEnemy(true) }));
-            testChallenge.AddBeat(new ChallengeBeat(2, new EnemyMaker[] { MakeRandomEnemy(true), MakeRandomEnemy(true) }));
+            testChallenge.AddBeat(new ChallengeBeat(0, new EnemyMaker[] { MakeRandomEnemy(true, 0), MakeRandomEnemy(true, 0) }));
+            testChallenge.AddBeat(new ChallengeBeat(2, new EnemyMaker[] { MakeRandomEnemy(true, 0), MakeRandomEnemy(true, 0) }));
             TriggerChallenge(0, testChallenge);
         }
 

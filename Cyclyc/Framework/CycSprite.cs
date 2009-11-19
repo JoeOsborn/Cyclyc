@@ -196,6 +196,10 @@ namespace Cyclyc.Framework
             get { return visualWidth/2; }
             set { visualWidth = value*2; visualHeight = value*2; }
         }
+        protected virtual bool FlipImage
+        {
+            get { return false; }
+        }
         #endregion
 
         public CycSprite(Game1 game)
@@ -493,7 +497,7 @@ namespace Cyclyc.Framework
                 dstRect.Width = (int)(VisualWidth * ScaleFactor);
                 dstRect.Height = (int)(VisualHeight * ScaleFactor);
             }
-            SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White);
+            SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White, 0, Vector2.Zero, FlipImage ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
         }
     }
 }

@@ -34,9 +34,9 @@ namespace Cyclyc.ShipGirl
         public override void LoadContent()
         {
             base.LoadContent();
-            spriteWidth = 157;
-            VisualWidth = 157 / 2;
-            VisualHeight = 74 / 2;
+            spriteWidth = spriteSheet.Width;
+            VisualWidth = spriteWidth/2;
+            VisualHeight = spriteSheet.Height/2;
             Radius = 15;
         }
 

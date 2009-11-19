@@ -76,13 +76,64 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="jetBackground.png">
-      <Name>jetBackground</Name>
+    <Compile Include="shipGirl.png">
+      <Name>shipGirl</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="shipGirl.png">
-      <Name>shipGirl</Name>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="pixel city foreground.png">
+      <Name>pixel city foreground</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="pixel city sky.png">
+      <Name>pixel city sky</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="pixel city skyline.png">
+      <Name>pixel city skyline</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="galaxy.png">
+      <Name>galaxy</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="nebula.png">
+      <Name>nebula</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="space background.png">
+      <Name>space background</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="stars.png">
+      <Name>stars</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="zodiac.png">
+      <Name>zodiac</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="robot.png">
+      <Name>robot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="spider.png">
+      <Name>spider</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

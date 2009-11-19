@@ -31,7 +31,7 @@ namespace Cyclyc.ShipGirl
         public override void Initialize()
         {
             ship = new Ship(Game);
-            ship.position = new Vector2(30, 30);
+            ship.Position = new Vector2(30, 30);
             AddSprite(ship);
             debugRadius = new ShipCircle(Game, ship, "crushRing");
             AddSprite(debugRadius);

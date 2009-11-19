@@ -19,55 +19,19 @@ namespace Cyclyc.Framework
     /// </summary>
     public class CycSprite : Object
     {
-        protected bool alive;
-        public bool Alive
-        {
-            get { return alive; }
-            set { alive = value; }
-        }
-        protected bool visible;
-        public bool Visible
-        {
-            get { return visible; }
-            set { visible = value; }
-        }
-
-        protected Viewport view;
-        public virtual Viewport View
-        {
-            get { return view; }
-            set 
-            { 
-                view.X = (int)(value.X / ScaleFactor);
-                view.Y = (int)(value.Y / ScaleFactor);
-                view.Width = (int)(value.Width / ScaleFactor);
-                view.Height = (int)(value.Height / ScaleFactor);
-            }
-        }
-
         protected Game1 Game;
 
+        #region internal drawing requirements
         protected GraphicsDevice GraphicsDevice
         {
             get { return Game.GraphicsDevice; }
         }
-
-        protected float FloorY
+        protected SpriteBatch SpriteBatch
         {
-            get { return view.Height; }
+            get { return Game.SpriteBatch; }
         }
-        protected float CeilY
-        {
-            get { return 0; }
-        }
-        protected float LeftX
-        {
-            get { return 0; }
-        }
-        protected float RightX
-        {
-            get { return view.Width; }
-        }
+        #endregion
+        #region boundary conveniences
         protected float TopEdge
         {
             get 
@@ -102,46 +66,107 @@ namespace Cyclyc.Framework
             get { return LeftEdge + bounds.X + bounds.Width; }
             set { LeftEdge = (value - bounds.X - bounds.Width); }
         }
+        public Vector2 Center
+        {
+            get
+            {
+                return collisionStyle == CollisionStyle.Circle ? position :
+                    new Vector2(position.X + bounds.X + bounds.Width / 2.0f, position.Y + bounds.Y + bounds.Height / 2.0f);
+            }
+        }
+        #endregion
 
+        //set the ones in these groups as needed
+        #region liveness
+        protected bool alive;
+        public bool Alive
+        {
+            get { return alive; }
+            set { alive = value; }
+        }
+        protected bool visible;
+        public bool Visible
+        {
+            get { return visible; }
+            set { visible = value; }
+        }
+        #endregion
+        #region viewport voodoo
+        protected Viewport view;
+        public virtual Viewport View
+        {
+            get { return view; }
+            set
+            {
+                view.X = (int)(value.X / ScaleFactor);
+                view.Y = (int)(value.Y / ScaleFactor);
+                view.Width = (int)(value.Width / ScaleFactor);
+                view.Height = (int)(value.Height / ScaleFactor);
+            }
+        }
+
+        protected float FloorY
+        {
+            get { return view.Height; }
+        }
+        protected float CeilY
+        {
+            get { return 0; }
+        }
+        protected float LeftX
+        {
+            get { return 0; }
+        }
+        protected float RightX
+        {
+            get { return view.Width; }
+        }
+        #endregion
+        //scaleFactor is not just for visuals; it also scales the logical coordinate system of this sprite.
+        #region logical placement & sizing
         protected virtual float ScaleFactor
         {
             get { return 1.0f; }
         }
 
-        protected Texture2D spriteSheet;
-        public Rectangle bounds;
+        protected Rectangle bounds;
+        public Rectangle Bounds
+        {
+            get { return bounds; }
+        }
         protected float radius;
         public float Radius
         {
             get { return radius; }
-            set { radius = value; bounds.Width = (int)value*2; bounds.Height = (int)value*2; }
+            set { radius = value; bounds.Width = (int)value * 2; bounds.Height = (int)value * 2; }
         }
-        public Vector2 position;
-        public Vector2 velocity;
-        public enum CollisionStyle
+        protected Vector2 position;
+        public Vector2 Position
         {
-            Circle,
-            Box
-        };
-        public CollisionStyle collisionStyle;
-
-        public Animation currentAnimation;
-        public Dictionary<string, Animation> animations;
-        public Vector2 Center
-        {
-            get 
-            { 
-                return collisionStyle == CollisionStyle.Circle ? position : 
-                    new Vector2(position.X + bounds.X + bounds.Width/2.0f, position.Y + bounds.Y + bounds.Height/2.0f); }
+            get { return position; }
+            set { position = value; }
         }
+        protected Vector2 velocity;
+        public Vector2 Velocity
+        {
+            get { return velocity; }
+            set { velocity = value; }
+        }
+        protected CollisionStyle collisionStyle;
+        public CollisionStyle CollisionStyle
+        {
+            get { return collisionStyle; }
+        }
+        #endregion
+        //assetName should be set before LoadContent is called.
+        #region visual assets
+        protected Texture2D spriteSheet;
+        protected Animation currentAnimation;
+        protected Dictionary<string, Animation> animations;
+        protected string assetName;
         public virtual string AssetName
         {
-            get { return "placeholder"; }
-        }
-
-        protected SpriteBatch SpriteBatch
-        {
-            get { return Game.SpriteBatch; }
+            get { return assetName; }
         }
         protected int spriteWidth;
         protected virtual int SpriteWidth
@@ -152,6 +177,8 @@ namespace Cyclyc.Framework
         {
             return SpriteWidth * i;
         }
+        #endregion
+        #region purely visual scaling
         protected float visualWidth;
         public virtual float VisualWidth
         {
@@ -169,11 +196,12 @@ namespace Cyclyc.Framework
             get { return visualWidth/2; }
             set { visualWidth = value*2; visualHeight = value*2; }
         }
-        
+        #endregion
+
         public CycSprite(Game1 game)
         {
             Game = game;
-            spriteWidth = 8;
+            assetName = "placeholder";
             collisionStyle = CollisionStyle.Box;
             alive = true;
             visible = true;
@@ -182,9 +210,24 @@ namespace Cyclyc.Framework
             velocity = new Vector2(0, 0);
             currentAnimation = null;
             animations = new Dictionary<string, Animation>();
-            animations["default"] = new Animation(new int[]{0}, new int[]{0}, false);
+            AddAnimation("default", new int[]{0}, new int[]{0}, false);
             Play("default");
-            // TODO: Construct any child components here
+        }
+        public virtual void Initialize()
+        {
+
+        }
+
+        public virtual void LoadContent()
+        {
+            spriteSheet = Game.Content.Load<Texture2D>(AssetName);
+            visualWidth = SpriteWidth;
+            visualHeight = spriteSheet.Height;
+        }
+
+        public void AddAnimation(string name, int[] frames, int[] timings, bool loop)
+        {
+            animations[name] = new Animation(frames, timings, loop);
         }
 
         public void Play(string anim) { Play(anim, true); }
@@ -201,22 +244,7 @@ namespace Cyclyc.Framework
             }
         }
 
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
-        public virtual void Initialize()
-        {
-
-        }
-
-        public virtual void LoadContent()
-        {
-            spriteSheet = Game.Content.Load<Texture2D>(AssetName);
-            visualWidth = SpriteWidth;
-            visualHeight = spriteSheet.Height;
-        }
-
+        #region collision
         protected float CircleLineDistance(Vector2 p3, Vector2 p1, Vector2 p2)
         {
             if (p1 == p2) { return float.NaN; } //infinitely small line
@@ -278,7 +306,9 @@ namespace Cyclyc.Framework
             }
             return false;
         }
+        #endregion
 
+        #region movement
         protected virtual void MoveInX(GameTime gt)
         {
             position.X += velocity.X;
@@ -287,6 +317,8 @@ namespace Cyclyc.Framework
         {
             position.Y += velocity.Y;
         }
+        #endregion
+        #region edge checks and responses
         protected virtual bool IsOnRightEdge(GameTime gt)
         {
             return (RightEdge + velocity.X) > RightX;
@@ -367,6 +399,7 @@ namespace Cyclyc.Framework
         {
             //destroy self
         }
+        #endregion
         public virtual void Update(GameTime gameTime)
         {
             if (!Alive) { return; }

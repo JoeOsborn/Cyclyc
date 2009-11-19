@@ -17,14 +17,6 @@ namespace Cyclyc.ShipGirl
 {
     class ShipCircle : CycSprite
     {
-        protected string assetName;
-        public override string AssetName
-        {
-            get
-            {
-                return assetName;
-            }
-        }
         protected Ship ship;
         protected float oldRadius;
         protected double resizeTime;

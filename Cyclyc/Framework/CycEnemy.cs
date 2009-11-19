@@ -22,12 +22,6 @@ namespace Cyclyc.Framework
             get { return 2; }
         }
 
-        protected string assetName;
-        public override string AssetName
-        {
-            get { return assetName; }
-        }
-
         protected bool leftToRight;
 
         protected Vector2 startPosition;

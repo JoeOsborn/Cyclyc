@@ -17,15 +17,6 @@ namespace Cyclyc.Framework
 {
     class CycBackground : CycSprite
     {
-        protected string assetName;
-        public override string AssetName
-        {
-            get
-            {
-                return assetName;
-            }
-        }
-
         protected override float ScaleFactor
         {
             get { return 2.0f; }

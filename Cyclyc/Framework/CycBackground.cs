@@ -29,11 +29,6 @@ namespace Cyclyc.Framework
             set { scrollSpeed = value; }
         }
 
-        protected override int SpriteWidth
-        {
-            get { return spriteSheet.Width; }
-        }
-
         public CycBackground(Game1 game, string img)
             : base(game)
         {
@@ -49,6 +44,8 @@ namespace Cyclyc.Framework
         public override void LoadContent()
         {
             base.LoadContent();
+            spriteWidth = spriteSheet.Width;
+            visualWidth = SpriteWidth;
         }
 
         public override void Update(GameTime gameTime)

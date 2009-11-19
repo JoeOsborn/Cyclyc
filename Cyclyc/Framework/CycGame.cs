@@ -16,9 +16,10 @@ using Cyclyc.ShipGirl;
 
 namespace Cyclyc.Framework
 {
+    public delegate CycEnemy EnemyMaker(Challenge c);
+
     public class CycGame : Object
     {
-        List<CycSprite> sprites;
         Game1 game;
         public Game1 Game
         {
@@ -42,15 +43,64 @@ namespace Cyclyc.Framework
             }
         }
 
+        List<CycSprite> sprites;
+
+        protected float grade;
+        public float Grade
+        {
+            get { return grade; }
+        }
+
+        List<Challenge>[] challenges;
+        List<Challenge> otherPlayerChallenges;
+
         public CycGame(Game1 g)
         {
             game = g;
+            grade = 0.0f;
             sprites = new List<CycSprite>();
+            challenges = new List<Challenge>[3] { 
+                new List<Challenge>(), 
+                new List<Challenge>(), 
+                new List<Challenge>() 
+            };
+            otherPlayerChallenges = new List<Challenge>();
         }
 
-        public virtual void ChallengeIgnored(object challenge)
+        public void TriggerChallenge(int gradeLevel, Challenge c)
         {
-            Console.WriteLine("challenge skipped: " + challenge);
+            challenges[gradeLevel].Add(c);
+            c.CycGame = this;
+            c.Game = Game;
+        }
+        public virtual EnemyMaker MakeRandomEnemy(bool leftToRight)
+        {
+            return null;
+        }
+        public void DeliverRandomEnemy(bool leftSide)
+        {
+            EnemyMaker enemy = MakeRandomEnemy(leftSide);
+            //is the next beat in a new measure?
+            Challenge c=null;
+            int nextBeat = (int)(Math.Floor(Game.CurrentBeat) + 1);
+            //later, consider setting up at 4-measure bounadries
+            int measure = nextBeat / 4;
+            int beatInMeasure = nextBeat - (measure * 4);
+            if (nextBeat % 4 == 0 || otherPlayerChallenges.Count == 0)
+            {
+                c = new Challenge(measure);
+                if (otherPlayerChallenges.Count > 0)
+                {
+                    //TODO: not sure this is right
+                    otherPlayerChallenges.Last().State = ChallengeState.Deployed;
+                } 
+                otherPlayerChallenges.Add(c);
+            }
+            else
+            {
+                c = otherPlayerChallenges.Last();
+            }
+            c.AddBeat(new ChallengeBeat(beatInMeasure, new EnemyMaker[] { enemy }));
         }
 
         public void AddSprite(CycSprite cs)
@@ -68,16 +118,38 @@ namespace Cyclyc.Framework
             }
         }
 
+        protected virtual void SetupChallenges()
+        {
+
+        }
+
         public virtual void LoadContent()
         {
             foreach (CycSprite sprite in sprites)
             {
                 sprite.LoadContent();
             }
+            SetupChallenges();
+        }
+
+        protected virtual void ProcessChallenges(int gradeLevel, GameTime gt)
+        {
+            List<Challenge> challengeList = challenges[gradeLevel];
+            foreach (Challenge c in challengeList)
+            {
+                c.Process(gradeLevel, Grade, true);
+            }
         }
 
         public virtual void Update(GameTime gameTime)
         {
+            ProcessChallenges(0, gameTime);
+            ProcessChallenges(1, gameTime);
+            ProcessChallenges(2, gameTime);
+            foreach (Challenge c in otherPlayerChallenges)
+            {
+                c.Process(Grade, Grade, false);
+            }
             foreach (CycSprite sprite in sprites)
             {
                 sprite.Update(gameTime);

@@ -21,7 +21,7 @@ namespace Cyclyc.ShipGirl
         public ShipEnemyPool(CycGame g) : base(g)
         {
         }
-        public ShipEnemy Create(string img, string curveSet, bool left, int y, int w, int h, double timeScale)
+        public ShipEnemy Create(Challenge c, string img, string curveSet, bool left, int y, int w, int h, double timeScale)
         {
             ShipEnemy enemy = (ShipEnemy)FindFreeEnemy();
             if (enemy == null)
@@ -29,7 +29,8 @@ namespace Cyclyc.ShipGirl
                 enemy = new ShipEnemy(CycGame.Game, this);
                 enemies.Add(enemy);
             }
-            enemy.Reset(img, curveSet, left, left ? 0 : 800, y, w, h, timeScale);
+            Console.WriteLine("y:" + y);
+            enemy.Reset(c, img, curveSet, left, left ? 0 : 800, y, w, h, timeScale);
             return enemy;
         }
     }

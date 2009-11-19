@@ -19,10 +19,6 @@ namespace Cyclyc.JetpackGirl
     /// </summary>
     public class JetpackGirl : CycSprite
     {
-        public override string AssetName
-        {
-            get { return "rockGirl"; }
-        }
         KeyboardState kb;
         protected float jpFuel;
         protected bool jumpReleased;
@@ -32,14 +28,11 @@ namespace Cyclyc.JetpackGirl
             get { return 2.0f; }
         }
 
-        protected override int SpriteWidth
-        {
-            get { return 14; }
-        }
-
         public JetpackGirl(Game1 game)
             : base(game)
         {
+            assetName = "rockGirl";
+            spriteWidth = 14;
             jumpReleased = true;
             jpFuel = MaxJPFuel;
             bounds = new Rectangle(0, 0, 14, 16);

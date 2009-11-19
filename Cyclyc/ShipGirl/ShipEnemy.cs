@@ -42,12 +42,12 @@ namespace Cyclyc.ShipGirl
             base.LoadContent();
         }
 
-        public void Reset(string img, string curves, bool left, int xp, int yp, int w, int h, double ts)
+        public void Reset(Challenge c, string img, string curves, bool left, int xp, int yp, int w, int h, double ts)
         {
             timeScale = ts;
             tick = 0;
             curveSet = curves;
-            Reset(img, left, xp, yp, w, h);
+            Reset(c, img, left, xp, yp, w, h);
         }
 
         public override void Draw(GameTime gameTime)

@@ -16,16 +16,12 @@ namespace Cyclyc.ShipGirl
 {
     public class Ship : CycSprite
     {
-        public override string AssetName
-        {
-            get { return "shipGirl"; }
-        }
-
         protected KeyboardState kb;
 
         public Ship(Game1 game)
             : base(game)
         {
+            assetName = "shipGirl";
             collisionStyle = CollisionStyle.Circle;
             // TODO: Construct any child components here
         }

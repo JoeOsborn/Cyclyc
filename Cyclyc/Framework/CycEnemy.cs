@@ -17,9 +17,15 @@ namespace Cyclyc.Framework
 {
     public class CycEnemy : CycSprite
     {
-         protected int FrameCount
+        protected int FrameCount
         {
             get { return 2; }
+        }
+
+        protected Challenge challenge;
+        public Challenge Challenge
+        {
+            get { return challenge; }
         }
 
         protected bool leftToRight;
@@ -51,8 +57,9 @@ namespace Cyclyc.Framework
             visualWidth = spriteWidth;
         }
 
-        public virtual void Reset(string img, bool left, int xp, int yp, int w, int h)
+        public virtual void Reset(Challenge c, string img, bool left, int xp, int yp, int w, int h)
         {
+            challenge = c;
             assetName = img;
             LoadContent();
             Play("default");
@@ -71,7 +78,6 @@ namespace Cyclyc.Framework
             startPosition = new Vector2(x, yp);
             position = startPosition;
             velocity = new Vector2(0, 0);
-            leftToRight = false;
             alive = true;
             visible = true;
         }
@@ -88,13 +94,19 @@ namespace Cyclyc.Framework
                 {
                     alive = false;
                     visible = false;
-                    pool.EnemyOffScreen(this);
+                    if (Challenge != null)
+                    {
+                        Challenge.EnemyIgnored(this);
+                    }
                 }
                 if (!leftToRight && IsPastLeftEdge(gameTime))
                 {
                     alive = false;
                     visible = false;
-                    pool.EnemyOffScreen(this);
+                    if (Challenge != null)
+                    {
+                        Challenge.EnemyIgnored(this);
+                    }
                 }
                 //if (IsPastRightEdge(gameTime))
                 //{

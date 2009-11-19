@@ -22,9 +22,12 @@ namespace Cyclyc.ShipGirl
         ShipCircle debugRadius;
         ShipEnemyPool enemyBatch;
         protected float crushRecovery;
+
+        protected Random rgen;
         public ShipGame(Game1 game)
             : base(game)
         {
+            rgen = new Random();
             enemyBatch = new ShipEnemyPool(this);
         }
 
@@ -45,9 +48,26 @@ namespace Cyclyc.ShipGirl
             base.Initialize();
         }
 
+        public override EnemyMaker MakeRandomEnemy(bool leftToRight)
+        {
+            return (c) => 
+                enemyBatch.Create(c, "wrench", "wave", 
+                    leftToRight, (int)(rgen.NextDouble()*(View.Height)), 14, 14, 
+                    1.0);
+        }
+
+        protected override void SetupChallenges()
+        {
+            Challenge testChallenge = new Challenge(4);
+            testChallenge.AddBeat(new ChallengeBeat(0, new EnemyMaker[] { MakeRandomEnemy(true), MakeRandomEnemy(true) }));
+            testChallenge.AddBeat(new ChallengeBeat(2, new EnemyMaker[] { MakeRandomEnemy(true), MakeRandomEnemy(true) }));
+            TriggerChallenge(0, testChallenge);
+        }
+
         public override void LoadContent()
         {
-            enemyBatch.Create("wrench", "wave", false, 150, 14, 14, 1.0);
+            //replace this with a Challenge and an EnemyMaker. Also provide a random enemy maker.  Then implement
+            //killing and parametrize circle vs box collision?
             base.LoadContent();
             debugRadius.ResizeTo(ship.Radius, 0);
         }

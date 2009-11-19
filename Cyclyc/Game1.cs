@@ -30,14 +30,32 @@ namespace Cyclyc
 
         ShipGame shipGame;
         JetGame jetGame;
+        public bool playing;
+
+        public double timePlayed;
 
         public Game1()
         {
+            playing = false;
+            timePlayed = 0;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
             shipGame = new ShipGame(this);
             jetGame = new JetGame(this);
+        }
+
+        public int Tempo
+        {
+            get { return 180; }
+        }
+        public double CurrentBeat
+        {
+            get { return (timePlayed / 60.0) * Tempo; }
+        }
+        public double CurrentMeasure
+        {
+            get { return (int)(CurrentBeat / 4.0); }
         }
 
         /// <summary>
@@ -73,6 +91,8 @@ namespace Cyclyc
             shipGame.View = upperView;
             jetGame.View = lowerView;
 
+            playing = true;
+
             base.LoadContent();
         }
 
@@ -98,7 +118,11 @@ namespace Cyclyc
             {
                 this.Exit();
             }
-
+            //update beat and measure counters
+            if (playing)
+            {
+                timePlayed += gameTime.ElapsedGameTime.TotalSeconds;
+            }
             shipGame.Update(gameTime);
             jetGame.Update(gameTime);
             // TODO: Add your update logic here

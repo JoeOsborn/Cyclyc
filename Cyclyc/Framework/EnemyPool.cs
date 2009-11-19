@@ -56,12 +56,13 @@ namespace Cyclyc.Framework
         }
         public void EnemyOffScreen(CycEnemy e)
         {
-            cycGame.ChallengeIgnored(e);
+
         }
         public void Update(GameTime gameTime)
         {
             foreach (CycSprite cs in enemies)
             {
+                cs.View = cycGame.View;
                 cs.Update(gameTime);
             }
         }

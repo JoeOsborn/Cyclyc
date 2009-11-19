@@ -22,15 +22,11 @@ namespace Cyclyc.ShipGirl
         protected double resizeTime;
         protected double resizeDuration;
 
-        protected override int SpriteWidth
-        {
-            get { return 292; }
-        }
-
         public ShipCircle(Game1 game, Ship sh, string img)
             : base(game)
         {
             assetName = img;
+            spriteWidth = 292;
             collisionStyle = CollisionStyle.Circle;
             Radius = 1.0f;
             oldRadius = Radius;

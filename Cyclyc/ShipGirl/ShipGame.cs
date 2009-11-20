@@ -78,21 +78,21 @@ namespace Cyclyc.ShipGirl
         protected EnemyMaker MakeJerkEnemy(int y)
         {
             return (c) => 
-                enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "jerk", true,
+                enemyBatch.Create(c, "spider robot space", 2, CollisionStyle.Circle, "jerk", true,
                     y, 14, 14, 1.0);
         }
 
         protected EnemyMaker MakeLoopEnemy(int y)
         {
             return (c) =>
-                enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "loop", true,
+                enemyBatch.Create(c, "walking robot space", 2, CollisionStyle.Circle, "loop", true,
                     y, 28, 28, 1.0);
         }
 
         protected EnemyMaker MakeZigzagEnemy(int y)
         {
             return (c) =>
-                enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "zigzag", true,
+                enemyBatch.Create(c, "walking robot space creepy", 2, CollisionStyle.Circle, "zigzag", true,
                     y, 28, 28, 1.0);
         }
 

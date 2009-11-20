@@ -34,8 +34,10 @@ namespace Cyclyc.JetpackGirl
         public override void Initialize()
         {
             AddBackground("pixel city sky", 0.1f);
-            AddBackground("pixel city skyline", 0.3f);
-            AddBackground("pixel city foreground", 0.5f);
+            AddBackground("pixel city skyline", 0.2f);
+            AddBackground("pixel city middleground", 0.4f);
+            AddBackground("pixel city foreground", 0.6f);
+            AddBackground("pixel city road", 0.6f);
             
             jg = new JetpackGirl((Game1)Game);
             AddSprite(jg);

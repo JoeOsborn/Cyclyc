@@ -103,14 +103,12 @@ namespace Cyclyc.Framework
         {
             return null;
         }
-        public void DeliverRandomEnemy(bool leftSide, int difficulty)
+        protected Challenge NextMeasureChallenge()
         {
-            EnemyMaker enemy = MakeRandomEnemy(leftSide, difficulty);
             //is the next beat in a new measure?
-            Challenge c=null;
+            Challenge c = null;
             int nextMeasure = (int)Math.Floor(Game.CurrentMeasure) + 1;
             int nextBeat = nextMeasure * 4;
-            int beatInMeasure = 0;
             if (otherPlayerChallenges.Count == 0 || (otherPlayerChallenges.Last().Measure != nextMeasure))
             {
                 c = new Challenge(this, game, nextMeasure);
@@ -118,14 +116,20 @@ namespace Cyclyc.Framework
                 {
                     //TODO: not sure this is right
                     otherPlayerChallenges.Last().State = ChallengeState.Deployed;
-                } 
+                }
                 otherPlayerChallenges.Add(c);
             }
             else
             {
                 c = otherPlayerChallenges.Last();
             }
-            c.AddBeat(new ChallengeBeat(beatInMeasure, new EnemyMaker[] { enemy }));
+            return c;
+        }
+        public void DeliverRandomEnemy(bool leftSide, int difficulty)
+        {
+            EnemyMaker enemy = MakeRandomEnemy(leftSide, difficulty);
+            Challenge c = NextMeasureChallenge();
+            c.AddBeat(new ChallengeBeat(0, new EnemyMaker[] { enemy }));
         }
 
         public void AddSprite(CycSprite cs)

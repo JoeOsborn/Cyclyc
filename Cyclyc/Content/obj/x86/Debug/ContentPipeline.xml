@@ -38,24 +38,6 @@
       <Time>2009-11-17T08:45:38.106-08:00</Time>
     </Item>
     <Item>
-      <Source>wave-X.xml</Source>
-      <Name>wave-X</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\wave-X.xnb</Output>
-      <Time>2009-11-17T15:31:45.119-08:00</Time>
-    </Item>
-    <Item>
-      <Source>wave-Y.xml</Source>
-      <Name>wave-Y</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\wave-Y.xnb</Output>
-      <Time>2009-11-17T15:31:46.615-08:00</Time>
-    </Item>
-    <Item>
       <Source>shipGirl.png</Source>
       <Name>shipGirl</Name>
       <Importer>TextureImporter</Importer>
@@ -153,6 +135,42 @@
       <Options>None</Options>
       <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\spider.xnb</Output>
       <Time>2009-11-19T10:33:24.619-08:00</Time>
+    </Item>
+    <Item>
+      <Source>wave-X.xml</Source>
+      <Name>wave-X</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\wave-X.xnb</Output>
+      <Time>2009-11-17T15:31:45.119-08:00</Time>
+    </Item>
+    <Item>
+      <Source>wave-Y.xml</Source>
+      <Name>wave-Y</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\wave-Y.xnb</Output>
+      <Time>2009-11-17T15:31:46.615-08:00</Time>
+    </Item>
+    <Item>
+      <Source>loop-X.xml</Source>
+      <Name>loop-X</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\loop-X.xnb</Output>
+      <Time>2009-11-19T21:55:59.2362-08:00</Time>
+    </Item>
+    <Item>
+      <Source>loop-Y.xml</Source>
+      <Name>loop-Y</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\loop-Y.xnb</Output>
+      <Time>2009-11-19T21:55:59.2518-08:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

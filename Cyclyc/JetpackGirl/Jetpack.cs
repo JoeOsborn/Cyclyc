@@ -110,7 +110,7 @@ namespace Cyclyc.JetpackGirl
                 {
                     if (jpFuel <= 0)
                     {
-                        Console.WriteLine("fizzle");
+//                        Console.WriteLine("fizzle");
                         FizzleJet();
                     }
                     else
@@ -120,12 +120,12 @@ namespace Cyclyc.JetpackGirl
                         jpFuel -= DefuelRate;
                         if (!jetting)
                         {
-                            Console.WriteLine("start jet");
+//                            Console.WriteLine("start jet");
                             BeginJet();
                         }
                         else
                         {
-                            Console.WriteLine("jet");
+//                            Console.WriteLine("jet");
                             MaintainJet();
                         }
                     }
@@ -134,12 +134,12 @@ namespace Cyclyc.JetpackGirl
                 {
                     if (jetting)
                     {
-                        Console.WriteLine("stop jet");
+//                        Console.WriteLine("stop jet");
                         StopJet();
                     }
                     if (newVelocity.Y > 0)
                     {
-                        Console.WriteLine("falling");
+//                        Console.WriteLine("falling");
                         Fall();
                     }
                 }
@@ -148,7 +148,7 @@ namespace Cyclyc.JetpackGirl
             {
                 owner.BottomEdge = owner.FloorY;
                 newVelocity.Y = 0;
-                Console.WriteLine("landing");
+//                Console.WriteLine("landing");
                 Land();
             }
             if (owner.OnGround)
@@ -157,7 +157,7 @@ namespace Cyclyc.JetpackGirl
                 //do we jump?
                 if (owner.ShouldJump)
                 {
-                    Console.WriteLine("jump");
+//                    Console.WriteLine("jump");
                     if (JetWipesVelocity)
                     {
                         newVelocity.Y = -JumpThrust;
@@ -170,7 +170,7 @@ namespace Cyclyc.JetpackGirl
                 }
                 else
                 {
-                    Console.WriteLine("jog");
+//                    Console.WriteLine("jog");
                     Run();
                 }
             }

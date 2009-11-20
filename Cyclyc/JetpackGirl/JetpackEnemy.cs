@@ -19,13 +19,18 @@ namespace Cyclyc.JetpackGirl
     {
         protected Jetpack jetpack;
         protected double hitTimer;
-        Random rgen;
+        protected Random rgen;
         protected bool hitFromLeft;
 
         public CycSprite Target
         {
             get;
             set;
+        }
+
+        protected override bool FlipImage
+        {
+            get { return IsHit ? leftToRight : velocity.X > 0; }
         }
 
         public JetpackEnemy(Game1 game, EnemyPool p)
@@ -63,6 +68,7 @@ namespace Cyclyc.JetpackGirl
 
         public void Reset(Challenge c, string img, int fc, bool left, int xp, int yp, int w, int h, float speed, int radius)
         {
+            rgen = new Random((int)DateTime.Now.Ticks + yp + radius + h);
             hitTimer = 0;
             jetpack.MaxSpeedX = speed;
             Reset(c, img, fc, CollisionStyle.Circle, left, xp, yp, w, h);
@@ -72,6 +78,7 @@ namespace Cyclyc.JetpackGirl
 
         public void Reset(Challenge c, string img, int fc, bool left, int xp, int yp, int w, int h, float speed, int bx, int by, int bw, int bh)
         {
+            rgen = new Random((int)DateTime.Now.Ticks + yp + h + by + bh);
             hitTimer = 0;
             jetpack.MaxSpeedX = speed;
             Reset(c, img, fc, CollisionStyle.Box, left, xp, yp, w, h);
@@ -180,21 +187,21 @@ namespace Cyclyc.JetpackGirl
         {
             get { return TargetDistance > 0; }
         }
-        public bool ShouldMoveRight
+        public virtual bool ShouldMoveRight
         {
             //if close to player, move towards player; else, move right
             get { return CloseToTarget ? !TargetIsLeft : leftToRight; }
         }
-        public bool ShouldMoveLeft
+        public virtual bool ShouldMoveLeft
         {
             //if close to player, move towards player; else, move left
             get { return CloseToTarget ? TargetIsLeft : !leftToRight; }
         }
-        public bool ShouldJet
+        public virtual bool ShouldJet
         {
             get { return false; }
         }
-        public bool ShouldJump
+        public virtual bool ShouldJump
         {
             get { return false; }
         }

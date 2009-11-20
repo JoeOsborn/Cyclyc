@@ -114,7 +114,7 @@ namespace Cyclyc.Framework
                 bool anyUnsent = false;
                 foreach (ChallengeBeat beat in beats)
                 {
-                    if (beat.Unsent && (beat.Beat + (Measure * 4)) <= game.CurrentBeat)
+                    if (beat.Unsent && (beat.Beat + (Measure * 3)) <= game.CurrentBeat)
                     {
                         beat.Unsent = false;
                         foreach (EnemyMaker em in beat.Enemies)

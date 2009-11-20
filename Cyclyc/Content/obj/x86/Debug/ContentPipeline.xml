@@ -161,7 +161,7 @@
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\loop-X.xnb</Output>
-      <Time>2009-11-19T19:04:33.039-08:00</Time>
+      <Time>2009-11-19T21:21:25.235-08:00</Time>
     </Item>
     <Item>
       <Source>loop-Y.xml</Source>
@@ -170,7 +170,7 @@
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\loop-Y.xnb</Output>
-      <Time>2009-11-19T19:04:33.042-08:00</Time>
+      <Time>2009-11-19T21:21:22.984-08:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

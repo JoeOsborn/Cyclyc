@@ -34,6 +34,7 @@ namespace Cyclyc.JetpackGirl
         public override void Initialize()
         {
             AddBackground("pixel city sky", 0.1f);
+            AddBackground("pixel city sunset", 0.1f);
             AddBackground("pixel city skyline", 0.2f);
             AddBackground("pixel city middleground", 0.4f);
             AddBackground("pixel city foreground", 0.6f);

@@ -165,11 +165,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="pixel city middleground.png">
-      <Name>pixel city middleground</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="pixel city road.png">
       <Name>pixel city road</Name>
       <Importer>TextureImporter</Importer>
@@ -192,18 +187,22 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="spider robot space.png">
-      <Name>spider robot space</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="walking robot space creepy.png">
       <Name>walking robot space creepy</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="walking robot space.png">
-      <Name>walking robot space</Name>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="pixel city sunset.png">
+      <Name>pixel city sunset</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="pixel city middleground.png">
+      <Name>pixel city middleground</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

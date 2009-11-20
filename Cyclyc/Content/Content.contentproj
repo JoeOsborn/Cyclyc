@@ -153,23 +153,25 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="jerk-x.xml">
-      <Name>jerk-x</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-    </Compile>
-    <Compile Include="jerk-y.xml">
-      <Name>jerk-y</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-    </Compile>
     <Compile Include="zigzag-X.xml">
       <Name>zigzag-X</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Compile>
-    <Compile Include="zigzag-y.xml">
-      <Name>zigzag-y</Name>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="jerk-X.xml">
+      <Name>jerk-X</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="jerk-Y.xml">
+      <Name>jerk-Y</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="zigzag-Y.xml">
+      <Name>zigzag-Y</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Compile>

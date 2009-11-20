@@ -124,6 +124,8 @@ namespace Cyclyc.JetpackGirl
             base.LoadContent();
         }
 
+        public Vector2 StartPosition { get; set; }
+
         public void BeginJet()
         {
             //later, might have 'begin jet' anims
@@ -283,8 +285,7 @@ namespace Cyclyc.JetpackGirl
                     return;
                 }
                 Dying = false;
-                position.X = 0;
-                position.Y = 0;
+                position = StartPosition;
             }
             oldKB = kb;
             kb = Keyboard.GetState();

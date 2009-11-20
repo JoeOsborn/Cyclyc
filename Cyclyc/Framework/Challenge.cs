@@ -45,7 +45,7 @@ namespace Cyclyc.Framework
             set { state = value; }
         }
 
-        protected int measure;
+        public int Measure { get; set; }
 
         protected List<ChallengeBeat> beats;
 
@@ -70,7 +70,7 @@ namespace Cyclyc.Framework
             cycGame = cg;
             game = g;
             state = ChallengeState.NotYet;
-            measure = m;
+            Measure = m;
             beats = new List<ChallengeBeat>();
             enemiesIgnored = 0;
             enemiesKilled = 0;
@@ -95,7 +95,7 @@ namespace Cyclyc.Framework
 
         public void Process(float expectedGrade, float actualGrade, bool changeState)
         {
-            if (state == ChallengeState.NotYet && game.CurrentMeasure >= measure)
+            if (state == ChallengeState.NotYet && game.CurrentMeasure >= Measure)
             {
                 if (expectedGrade > actualGrade)
                 {
@@ -114,7 +114,7 @@ namespace Cyclyc.Framework
                 bool anyUnsent = false;
                 foreach (ChallengeBeat beat in beats)
                 {
-                    if (beat.Unsent && (beat.Beat + (measure * 4)) <= game.CurrentBeat)
+                    if (beat.Unsent && (beat.Beat + (Measure * 4)) <= game.CurrentBeat)
                     {
                         beat.Unsent = false;
                         foreach (EnemyMaker em in beat.Enemies)

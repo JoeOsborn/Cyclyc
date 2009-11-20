@@ -18,13 +18,24 @@ namespace Cyclyc.ShipGirl
     {
         protected KeyboardState kb;
 
+        public bool Dying { get; set; }
+        protected double respawnTimer;
+        protected double RespawnDelay
+        {
+            get { return 1.0; }
+        }
+
         public Ship(Game1 game)
             : base(game)
         {
             assetName = "shipGirl";
+            respawnTimer = 0;
+            Dying = false;
             collisionStyle = CollisionStyle.Circle;
-            // TODO: Construct any child components here
+            AddAnimation("death", new int[] { 0 }, new int[] { 5 }, true);
         }
+
+        public Vector2 StartPosition { get; set; }
 
         public override void Initialize()
         {
@@ -42,15 +53,37 @@ namespace Cyclyc.ShipGirl
 
         protected float MaxSpeedX
         {
-            get { return 2.0f; }
+            get { return 2.5f; }
         }
         protected float MaxSpeedY
         {
-            get { return 2.0f; }
+            get { return 2.5f; }
+        }
+
+        public void Die()
+        {
+            Dying = true;
+            respawnTimer = RespawnDelay;
+            Play("death", false);
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (Dying)
+            {
+                respawnTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                if(respawnTimer > 0)
+                {
+                    velocity.X = 0;
+                    velocity.Y = 0;
+                    base.Update(gameTime);
+                    return;
+                }
+                respawnTimer = 0;
+                Dying = false;
+                //check to make sure no enemies are here
+                position = StartPosition;
+            }
             // TODO: Add your update code here
             kb = Keyboard.GetState();
             if (kb.IsKeyDown(Keys.Up) && kb.IsKeyUp(Keys.Down) && TopEdge > CeilY)

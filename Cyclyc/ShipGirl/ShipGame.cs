@@ -38,9 +38,6 @@ namespace Cyclyc.ShipGirl
             AddBackground("galaxy", 0.08f);
             ship = new Ship(Game);
             ship.Position = new Vector2(30, 30);
-            AddSprite(ship);
-            debugRadius = new ShipCircle(Game, ship, "crushRing");
-            AddSprite(debugRadius);
             crush = new ShipCircle(Game, ship, "crushRing");
             AddSprite(crush);
             skim = new ShipCircle(Game, ship, "crushRing");
@@ -48,7 +45,26 @@ namespace Cyclyc.ShipGirl
             crushRecovery = 0;
             skim.ResizeTo(DefaultSkimRadius, 0);
             crush.ResizeTo(DefaultCrushRadius, 0);
+            AddSprite(ship);
+            ship.Position = StartPosition;
+            debugRadius = new ShipCircle(Game, ship, "crushRing");
+            AddSprite(debugRadius);
             base.Initialize();
+        }
+
+        protected Vector2 StartPosition
+        {
+            get
+            {
+                //a random free radius on the left half of the screen
+                Vector2 oldPos = ship.Position;
+                do {
+                    ship.Position = new Vector2((float)(rgen.NextDouble() * 370)+30, (float)(rgen.NextDouble() * 100)+10);
+                } while(enemyBatch.Collide(ship).Count != 0);
+                Vector2 ret = ship.Position;
+                ship.Position = oldPos;
+                return ret;
+            }
         }
 
         public override EnemyMaker MakeRandomEnemy(bool leftToRight, int difficulty)
@@ -88,7 +104,7 @@ namespace Cyclyc.ShipGirl
         }
         public float DefaultSkimRadius
         {
-            get { return 128; }
+            get { return 96; }
         }
         public float MaxCrushRadius
         {
@@ -96,7 +112,7 @@ namespace Cyclyc.ShipGirl
         }
         public float MinSkimRadius
         {
-            get { return 24; }
+            get { return 16; }
         }
         public float SkimResizeDuration
         {
@@ -108,7 +124,9 @@ namespace Cyclyc.ShipGirl
         }
         public void KillPlayer()
         {
-            Console.WriteLine("killed player");
+            skim.ResizeTo(DefaultSkimRadius, CrushCooldown);
+            crush.ResizeTo(DefaultCrushRadius, CrushCooldown);
+            ship.Die();
         }
         public void Skim()
         {
@@ -126,37 +144,45 @@ namespace Cyclyc.ShipGirl
 
         public override void Update(GameTime gameTime)
         {
-            if (crushRecovery > 0)
+            if (!ship.Dying)
             {
-                List<CycEnemy> crushCollided = enemyBatch.Collide(crush);
-                foreach (CycEnemy crushed in crushCollided)
+                if (crushRecovery > 0)
                 {
-                    crushed.Die();
-                    bool leftOfCenter = (ship.Position.X >= crushed.Position.X);
-                    NextGame.DeliverRandomEnemy(leftOfCenter, 0);
+                    List<CycEnemy> crushCollided = enemyBatch.Collide(crush);
+                    foreach (CycEnemy crushed in crushCollided)
+                    {
+                        crushed.Die();
+                        bool leftOfCenter = (ship.Position.X >= crushed.Position.X);
+                        NextGame.DeliverRandomEnemy(leftOfCenter, 0);
+                    }
+                    crushRecovery -= (float)(gameTime.ElapsedGameTime.TotalSeconds);
                 }
-                crushRecovery -= (float)(gameTime.ElapsedGameTime.TotalSeconds);
             }
             enemyBatch.Update(gameTime);
             base.Update(gameTime);
-            //check circle overlapping, ship collision
-            //we'll just treat them all as circles
-            List<CycEnemy> shipCollided = enemyBatch.Collide(ship);
-            if (shipCollided.Count() != 0)
+            if (!ship.Dying)
             {
-                KillPlayer();
+                List<CycEnemy> shipCollided = enemyBatch.Collide(ship);
+                if (shipCollided.Count() != 0)
+                {
+                    KillPlayer();
+                }
+                if (crushRecovery <= 0)
+                {
+                    List<CycEnemy> skimCollided = enemyBatch.Collide(skim);
+                    if (skimCollided.Count() != 0)
+                    {
+                        Skim();
+                    }
+                    if (Keyboard.GetState().IsKeyDown(Keys.Space))
+                    {
+                        Crush();
+                    }
+                }
             }
-            if (crushRecovery <= 0)
+            else
             {
-                List<CycEnemy> skimCollided = enemyBatch.Collide(skim);
-                if (skimCollided.Count() != 0)
-                {
-                    Skim();
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.Space))
-                {
-                    Crush();
-                }
+                ship.StartPosition = StartPosition;
             }
         }
 

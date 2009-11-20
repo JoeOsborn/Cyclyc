@@ -101,13 +101,12 @@ namespace Cyclyc.Framework
             EnemyMaker enemy = MakeRandomEnemy(leftSide, difficulty);
             //is the next beat in a new measure?
             Challenge c=null;
-            int nextBeat = (int)(Math.Floor(Game.CurrentBeat) + 1);
-            //later, consider setting up at 4-measure bounadries
-            int measure = nextBeat / 4;
-            int beatInMeasure = nextBeat - (measure * 4);
-            if (nextBeat % 4 == 0 || otherPlayerChallenges.Count == 0)
+            int nextMeasure = (int)Math.Floor(Game.CurrentMeasure) + 1;
+            int nextBeat = nextMeasure * 4;
+            int beatInMeasure = 0;
+            if (otherPlayerChallenges.Count == 0 || (otherPlayerChallenges.Last().Measure != nextMeasure))
             {
-                c = new Challenge(this, game, measure);
+                c = new Challenge(this, game, nextMeasure);
                 if (otherPlayerChallenges.Count > 0)
                 {
                     //TODO: not sure this is right

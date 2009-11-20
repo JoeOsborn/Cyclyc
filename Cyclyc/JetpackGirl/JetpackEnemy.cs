@@ -18,12 +18,20 @@ namespace Cyclyc.JetpackGirl
     public class JetpackEnemy : CycEnemy, JetpackOwner
     {
         protected Jetpack jetpack;
- 
+        protected double hitTimer;
+        Random rgen;
+
         public JetpackEnemy(Game1 game, EnemyPool p)
             : base(game, p)
         {
+            rgen = new Random();
             jetpack = new Jetpack(this);
             ScaleFactor = 2.0f;
+        }
+
+        public bool KnockedOffScreen
+        {
+            get { return (hitTimer > 0) && (leftToRight ? IsPastLeftEdge(null) : IsPastRightEdge(null)); }
         }
 
         public override void LoadContent()
@@ -33,10 +41,23 @@ namespace Cyclyc.JetpackGirl
             Play("default");
         }
 
-        public void Reset(Challenge c, string img, int fc, CollisionStyle col, bool left, int xp, int yp, int w, int h, float speed)
+        public void Hit()
+        {
+            hitTimer = rgen.NextDouble() * 0.3 + 0.1;
+        }
+
+        public void Reset(Challenge c, string img, int fc, bool left, int xp, int yp, int w, int h, float speed, int radius)
         {
             jetpack.MaxSpeedX = speed;
-            Reset(c, img, fc, col, left, xp, yp, w, h);
+            Reset(c, img, fc, CollisionStyle.Circle, left, xp, yp, w, h);
+            Radius = radius;
+        }
+
+        public void Reset(Challenge c, string img, int fc, bool left, int xp, int yp, int w, int h, float speed, int bx, int by, int bw, int bh)
+        {
+            jetpack.MaxSpeedX = speed;
+            Reset(c, img, fc, CollisionStyle.Box, left, xp, yp, w, h);
+            bounds = new Rectangle(bx, by, bw, bh);
         }
 
         protected virtual void LoadAnimations()
@@ -147,6 +168,18 @@ namespace Cyclyc.JetpackGirl
         protected override void UpdatePosition(GameTime gameTime)
         {
             jetpack.Update(gameTime);
+            if (hitTimer > 0)
+            {
+                hitTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                if (leftToRight)
+                {
+                    velocity.X = -3;
+                }
+                else
+                {
+                    velocity.X = 3;
+                }
+            }
         }
 
     }

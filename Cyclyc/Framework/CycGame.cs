@@ -177,6 +177,7 @@ namespace Cyclyc.Framework
             {
                 c.Process(Grade, Grade, false);
             }
+            //we can examine challenges here to see if they've been skipped wholesale, etc and calculate grade
             foreach (CycBackground bg in backgrounds)
             {
                 bg.Update(gameTime);

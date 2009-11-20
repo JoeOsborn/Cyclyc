@@ -24,6 +24,11 @@ namespace Cyclyc.Framework
         }
 
         protected bool leftToRight;
+        public bool LeftToRight
+        {
+            get { return leftToRight; }
+            set { leftToRight = value; }
+        }
 
         protected Vector2 startPosition;
 

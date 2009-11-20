@@ -24,6 +24,11 @@ namespace Cyclyc.Framework
         }
 
         protected List<CycEnemy> enemies;
+        public List<CycEnemy> Enemies
+        {
+            get { return enemies; }
+            set { enemies = value; }
+        }
 
         public EnemyPool(CycGame g)
         {

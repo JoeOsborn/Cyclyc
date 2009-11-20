@@ -94,6 +94,8 @@ namespace Cyclyc.Framework
             velocity = new Vector2(0, 0);
             alive = true;
             visible = true;
+            VisualWidth = w;
+            VisualHeight = h;
         }
         public void Die()
         {

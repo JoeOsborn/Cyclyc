@@ -7,8 +7,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\rockGirl.xnb</Output>
-      <Time>2009-11-16T22:21:36.2774-08:00</Time>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\rockGirl.xnb</Output>
+      <Time>2009-11-19T18:19:50.393-08:00</Time>
     </Item>
     <Item>
       <Source>wrench.PNG</Source>
@@ -16,8 +16,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\wrench.xnb</Output>
-      <Time>2009-11-16T22:22:36.6338-08:00</Time>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\wrench.xnb</Output>
+      <Time>2009-11-19T18:19:50.408-08:00</Time>
     </Item>
     <Item>
       <Source>crushRing.png</Source>
@@ -25,8 +25,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\crushRing.xnb</Output>
-      <Time>2009-11-17T09:05:11.944-08:00</Time>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\crushRing.xnb</Output>
+      <Time>2009-11-19T18:19:50.377-08:00</Time>
     </Item>
     <Item>
       <Source>skateRing.png</Source>
@@ -34,26 +34,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\skateRing.xnb</Output>
-      <Time>2009-11-17T08:45:38.106-08:00</Time>
-    </Item>
-    <Item>
-      <Source>wave-X.xml</Source>
-      <Name>wave-X</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\wave-X.xnb</Output>
-      <Time>2009-11-17T15:31:45.119-08:00</Time>
-    </Item>
-    <Item>
-      <Source>wave-Y.xml</Source>
-      <Name>wave-Y</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\wave-Y.xnb</Output>
-      <Time>2009-11-17T15:31:46.615-08:00</Time>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\skateRing.xnb</Output>
+      <Time>2009-11-19T18:19:50.395-08:00</Time>
     </Item>
     <Item>
       <Source>shipGirl.png</Source>
@@ -61,8 +43,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\shipGirl.xnb</Output>
-      <Time>2009-11-19T10:39:10.977-08:00</Time>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\shipGirl.xnb</Output>
+      <Time>2009-11-19T18:19:50.394-08:00</Time>
     </Item>
     <Item>
       <Source>pixel city foreground.png</Source>
@@ -70,8 +52,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\pixel city foreground.xnb</Output>
-      <Time>2009-11-19T10:18:25.456-08:00</Time>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\pixel city foreground.xnb</Output>
+      <Time>2009-11-19T18:19:50.389-08:00</Time>
     </Item>
     <Item>
       <Source>pixel city sky.png</Source>
@@ -79,8 +61,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\pixel city sky.xnb</Output>
-      <Time>2009-11-19T10:18:25.458-08:00</Time>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\pixel city sky.xnb</Output>
+      <Time>2009-11-19T18:19:50.39-08:00</Time>
     </Item>
     <Item>
       <Source>pixel city skyline.png</Source>
@@ -88,8 +70,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\pixel city skyline.xnb</Output>
-      <Time>2009-11-19T10:18:25.455-08:00</Time>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\pixel city skyline.xnb</Output>
+      <Time>2009-11-19T18:19:50.391-08:00</Time>
     </Item>
     <Item>
       <Source>galaxy.png</Source>
@@ -97,8 +79,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\galaxy.xnb</Output>
-      <Time>2009-11-19T10:33:14.118-08:00</Time>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\galaxy.xnb</Output>
+      <Time>2009-11-19T18:19:50.38-08:00</Time>
     </Item>
     <Item>
       <Source>nebula.png</Source>
@@ -106,8 +88,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\nebula.xnb</Output>
-      <Time>2009-11-19T10:33:14.121-08:00</Time>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\nebula.xnb</Output>
+      <Time>2009-11-19T18:19:50.381-08:00</Time>
     </Item>
     <Item>
       <Source>space background.png</Source>
@@ -115,8 +97,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\space background.xnb</Output>
-      <Time>2009-11-19T10:33:15.433-08:00</Time>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\space background.xnb</Output>
+      <Time>2009-11-19T18:19:50.401-08:00</Time>
     </Item>
     <Item>
       <Source>stars.png</Source>
@@ -124,8 +106,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\stars.xnb</Output>
-      <Time>2009-11-19T10:33:15.436-08:00</Time>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\stars.xnb</Output>
+      <Time>2009-11-19T18:19:50.405-08:00</Time>
     </Item>
     <Item>
       <Source>zodiac.png</Source>
@@ -133,8 +115,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\zodiac.xnb</Output>
-      <Time>2009-11-19T10:33:15.439-08:00</Time>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\zodiac.xnb</Output>
+      <Time>2009-11-19T18:19:50.41-08:00</Time>
     </Item>
     <Item>
       <Source>robot.png</Source>
@@ -142,8 +124,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\robot.xnb</Output>
-      <Time>2009-11-19T10:33:24.617-08:00</Time>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\robot.xnb</Output>
+      <Time>2009-11-19T18:19:50.392-08:00</Time>
     </Item>
     <Item>
       <Source>spider.png</Source>
@@ -151,47 +133,83 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\spider.xnb</Output>
-      <Time>2009-11-19T10:33:24.619-08:00</Time>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\spider.xnb</Output>
+      <Time>2009-11-19T18:19:50.402-08:00</Time>
+    </Item>
+    <Item>
+      <Source>wave-X.xml</Source>
+      <Name>wave-X</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\wave-X.xnb</Output>
+      <Time>2009-11-19T18:19:50.406-08:00</Time>
+    </Item>
+    <Item>
+      <Source>wave-Y.xml</Source>
+      <Name>wave-Y</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\wave-Y.xnb</Output>
+      <Time>2009-11-19T18:19:50.407-08:00</Time>
+    </Item>
+    <Item>
+      <Source>loop-X.xml</Source>
+      <Name>loop-X</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\loop-X.xnb</Output>
+      <Time>2009-11-19T19:04:33.039-08:00</Time>
+    </Item>
+    <Item>
+      <Source>loop-Y.xml</Source>
+      <Name>loop-Y</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\loop-Y.xnb</Output>
+      <Time>2009-11-19T19:04:33.042-08:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\joe\Desktop\Cyclyc\Cyclyc\Content\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\joe\Desktop\Cyclyc\Cyclyc\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\joe\Desktop\Cyclyc\Cyclyc\Content\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\joe\Desktop\Cyclyc\Cyclyc\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
-        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v3.1\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.1\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
         <Value>2009-05-28T01:16:14-07:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v3.1\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.1\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
         <Value>2009-05-28T01:16:06-07:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v3.1\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.1\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
         <Value>2009-05-28T01:16:16-07:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v3.1\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.1\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
         <Value>2009-05-28T01:16:26-07:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v3.1\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.1\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
         <Value>2009-05-28T01:16:12-07:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v3.1\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.1\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
         <Value>2009-05-28T01:16:06-07:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Windows\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\3.1.0.0__6d5c3888ef60e27d\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2009-11-15T08:35:12.8226487-08:00</Value>
+        <Value>2009-11-16T21:00:42.9086-08:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

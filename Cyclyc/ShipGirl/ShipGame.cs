@@ -75,12 +75,60 @@ namespace Cyclyc.ShipGirl
                     1.0);
         }
 
+        protected EnemyMaker MakeJerkEnemy(int y)
+        {
+            return (c) => 
+                enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "jerk", true,
+                    y, 14, 14, 1.0);
+        }
+
+        protected EnemyMaker MakeLoopEnemy(int y)
+        {
+            return (c) =>
+                enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "loop", true,
+                    y, 28, 28, 1.0);
+        }
+
+        protected EnemyMaker MakeZigzagEnemy(int y)
+        {
+            return (c) =>
+                enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "zigzag", true,
+                    y, 28, 28, 1.0);
+        }
+
         protected override void SetupChallenges()
         {
-            Challenge testChallenge = new Challenge(this, Game, 4);
+            Challenge testChallenge = new Challenge(this, Game, 0);
             testChallenge.AddBeat(new ChallengeBeat(0, new EnemyMaker[] { MakeRandomEnemy(true, 0), MakeRandomEnemy(true, 0) }));
             testChallenge.AddBeat(new ChallengeBeat(2, new EnemyMaker[] { MakeRandomEnemy(true, 0), MakeRandomEnemy(true, 0) }));
             TriggerChallenge(0, testChallenge);
+
+            Challenge wave0_0 = new Challenge(this, Game, 2);
+            wave0_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeJerkEnemy(40), MakeJerkEnemy(100), MakeJerkEnemy(250)
+            }));
+            TriggerChallenge(0, wave0_0);
+
+            Challenge wave1_0 = new Challenge(this, Game, 4);
+            wave1_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeLoopEnemy(50), MakeLoopEnemy(150)
+            }));
+            wave1_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
+                MakeLoopEnemy(100)
+            }));
+            TriggerChallenge(0, wave1_0);
+
+            Challenge wave2_0 = new Challenge(this, Game, 7);
+            wave2_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeZigzagEnemy(20), MakeZigzagEnemy(70)
+            }));
+            wave2_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
+                MakeZigzagEnemy(250), MakeZigzagEnemy(280)
+            }));
+            wave2_0.AddBeat(new ChallengeBeat(6, new EnemyMaker[] {
+                MakeZigzagEnemy(100), MakeZigzagEnemy(140), MakeZigzagEnemy(170)
+            }));
+            TriggerChallenge(0, wave2_0);
         }
 
         public override void LoadContent()

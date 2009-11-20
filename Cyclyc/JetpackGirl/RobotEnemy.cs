@@ -17,18 +17,45 @@ namespace Cyclyc.JetpackGirl
 {
     class RobotEnemy : JetpackEnemy
     {
+        float jetTime;
         public RobotEnemy(Game1 game, EnemyPool p)
             : base(game, p)
         {
-
+            jetTime = 0;
         }
         public override bool ShouldJet
         {
-            get { return !IsHit && (Target.Position.Y < position.Y && rgen.NextDouble() < 0.5); }
+            get 
+            {
+                return (jetTime > 0);
+            }
         }
         public override bool ShouldJump
         {
-            get { return !IsHit && (rgen.NextDouble() < 0.05 || (Target.Position.Y < position.Y && rgen.NextDouble() < 0.1)); }
+            get 
+            { 
+                return !IsHit && (rgen.NextDouble() < 0.05 || (Target.Position.Y < position.Y && rgen.NextDouble() < 0.1)); 
+            }
+        }
+        protected double MaxJetPeriod
+        {
+            get { return 2.0; }
+        }
+        public override void Update(GameTime gameTime)
+        {
+            if (jetTime > 0)
+            {
+                jetTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else if (!IsHit && (Target.Position.Y < position.Y && rgen.NextDouble() < 0.5))
+            {
+                jetTime = (float)(rgen.NextDouble() * MaxJetPeriod);
+            }
+            if (IsHit)
+            {
+                jetTime = 0;
+            }
+            base.Update(gameTime);
         }
     }
 }

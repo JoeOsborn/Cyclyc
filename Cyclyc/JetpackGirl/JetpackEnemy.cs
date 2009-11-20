@@ -90,7 +90,7 @@ namespace Cyclyc.JetpackGirl
         protected virtual void LoadAnimations()
         {
             //these are wrong, figure out a nice parameterizable way to avoid a lot of anim duplication?
-            int[] timings = TimingSequence(5, frameCount);
+            int[] timings = TimingSequence(8, frameCount);
             animations["default"] =
                 new Animation(FrameSequence(0, frameCount), timings, true);
             animations["run"] =
@@ -133,7 +133,7 @@ namespace Cyclyc.JetpackGirl
 
         public void BeginJet()
         {
-            Play("begin-jet", true);
+            Play("begin-jet", false);
         }
         public void MaintainJet()
         {
@@ -145,7 +145,7 @@ namespace Cyclyc.JetpackGirl
         }
         public void StopJet()
         {
-            Play("stop-jet", true);
+            Play("stop-jet", false);
         }
         public void Jump()
         {
@@ -177,11 +177,11 @@ namespace Cyclyc.JetpackGirl
         }
         protected float TargetDistance
         {
-            get { return position.X - Target.Position.X; }
+            get { return Center.X - Target.Center.X; }
         }
         protected bool CloseToTarget
         {
-            get { return Math.Abs(TargetDistance) < 100 && Math.Abs(TargetDistance) > 16; }
+            get { return Math.Abs(TargetDistance) < 100; }
         }
         protected bool TargetIsLeft
         {
@@ -190,12 +190,42 @@ namespace Cyclyc.JetpackGirl
         public virtual bool ShouldMoveRight
         {
             //if close to player, move towards player; else, move right
-            get { return CloseToTarget ? !TargetIsLeft : leftToRight; }
+            get
+            {
+                if (CloseToTarget)
+                {
+                    if (Math.Abs(TargetDistance) < 8)
+                    {
+                        //are we close and already moving left?  let's keep going
+                        return Velocity.X < 0 ? false : true;
+                    }
+                    return !TargetIsLeft;
+                }
+                else
+                {
+                    return leftToRight;
+                }
+            }
         }
         public virtual bool ShouldMoveLeft
         {
             //if close to player, move towards player; else, move left
-            get { return CloseToTarget ? TargetIsLeft : !leftToRight; }
+            get
+            {
+                if (CloseToTarget)
+                {
+                    if (Math.Abs(TargetDistance) < 8)
+                    {
+                        //are we close and already moving right?  let's keep going
+                        return Velocity.X < 0 ? true : false;
+                    }
+                    return TargetIsLeft;
+                }
+                else
+                {
+                    return !leftToRight;
+                }
+            }
         }
         public virtual bool ShouldJet
         {

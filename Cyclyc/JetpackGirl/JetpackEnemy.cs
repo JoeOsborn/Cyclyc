@@ -67,6 +67,7 @@ namespace Cyclyc.JetpackGirl
             jetpack.MaxSpeedX = speed;
             Reset(c, img, fc, CollisionStyle.Circle, left, xp, yp, w, h);
             Radius = radius;
+            VisualRadius = Radius;
         }
 
         public void Reset(Challenge c, string img, int fc, bool left, int xp, int yp, int w, int h, float speed, int bx, int by, int bw, int bh)
@@ -75,6 +76,8 @@ namespace Cyclyc.JetpackGirl
             jetpack.MaxSpeedX = speed;
             Reset(c, img, fc, CollisionStyle.Box, left, xp, yp, w, h);
             bounds = new Rectangle(bx, by, bw, bh);
+            VisualWidth = w;
+            VisualHeight = h;
         }
 
         protected virtual void LoadAnimations()

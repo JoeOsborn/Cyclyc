@@ -215,11 +215,13 @@ namespace Cyclyc.Framework
             set { visualWidth = value*2; visualHeight = value*2; }
         }
         protected virtual bool FlipImage { get; set; }
+        public float Rotation { get; set; }
         #endregion
 
         public CycSprite(Game1 game)
         {
             Game = game;
+            Rotation = 0.0f;
             ScaleFactor = 1.0f;
             assetName = "placeholder";
             collisionStyle = CollisionStyle.Box;
@@ -501,22 +503,23 @@ namespace Cyclyc.Framework
             Rectangle srcRect = new Rectangle(XForSprite(currentAnimation.CurrentFrame), 0, SpriteWidth, spriteSheet.Height);
             //modify srcRect.X for animation frame
             Rectangle dstRect = new Rectangle();
-            //modify dstRect.X, .Y for position, viewport
+            //modify dstRect.X, .Y for position
+            Vector2 rotOrigin;
             if (collisionStyle == CollisionStyle.Box)
             {
                 dstRect.X = (int)(position.X * ScaleFactor);
                 dstRect.Y = (int)(position.Y * ScaleFactor);
-                dstRect.Width = (int)(VisualWidth * ScaleFactor);
-                dstRect.Height = (int)(VisualHeight * ScaleFactor);
+                rotOrigin = new Vector2(0,0);
             }
             else
             {
-                dstRect.X = (int)((position.X * ScaleFactor) - VisualWidth/2);
-                dstRect.Y = (int)((position.Y * ScaleFactor) - VisualHeight/2);
-                dstRect.Width = (int)(VisualWidth * ScaleFactor);
-                dstRect.Height = (int)(VisualHeight * ScaleFactor);
+                dstRect.X = (int)((position.X * ScaleFactor));
+                dstRect.Y = (int)((position.Y * ScaleFactor));
+                rotOrigin = new Vector2(SpriteWidth / 2.0f, srcRect.Height / 2.0f);
             }
-            SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White, 0, Vector2.Zero, FlipImage ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            dstRect.Width = (int)(VisualWidth * ScaleFactor);
+            dstRect.Height = (int)(VisualHeight * ScaleFactor);
+            SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White, Rotation, rotOrigin, FlipImage ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
         }
     }
 }

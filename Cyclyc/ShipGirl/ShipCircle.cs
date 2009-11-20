@@ -65,26 +65,33 @@ namespace Cyclyc.ShipGirl
             resizeTime = 0;
             resizeDuration = duration;
         }
-
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected double RotScaleFactor
+        {
+            get { return 0.3; }
+        }
         public override void Update(GameTime gameTime)
         {
             if (resizeTime < resizeDuration)
             {
                 resizeTime += gameTime.ElapsedGameTime.TotalSeconds;
-                Radius = MathHelper.Lerp(oldRadius, destRadius, (float)(resizeTime / resizeDuration));
+                float ratio = (float)(resizeTime / resizeDuration);
+                Radius = MathHelper.Lerp(oldRadius, destRadius, ratio);
                 VisualRadius = Radius;
             }
             else
             {
                 Radius = destRadius;
+                oldRadius = Radius;
                 VisualRadius = Radius;
             }
+            //use a function of the visualradius for rot ? what about idle rotations?
+            Rotation = (float)((VisualRadius * RotScaleFactor) % (Math.PI * 2));
             position = ship.Center;
             base.Update(gameTime);
+        }
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
         }
     }
 }

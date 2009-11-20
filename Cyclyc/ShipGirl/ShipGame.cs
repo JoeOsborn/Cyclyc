@@ -172,8 +172,8 @@ namespace Cyclyc.ShipGirl
         }
         public void KillPlayer()
         {
-            skim.ResizeTo(DefaultSkimRadius, CrushCooldown);
-            crush.ResizeTo(DefaultCrushRadius, CrushCooldown);
+            skim.ResizeTo(DefaultSkimRadius, 0.0);
+            crush.ResizeTo(DefaultCrushRadius, 0.0);
             ship.Die();
         }
         public void Skim(int enemyCount)

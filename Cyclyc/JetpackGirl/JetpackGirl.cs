@@ -18,10 +18,10 @@ namespace Cyclyc.JetpackGirl
     {
         KeyboardState kb, oldKB;
         protected bool jumpReleased;
-        protected bool attacking;
+        public bool Attacking { get; set; }
         protected double attackCounter;
         protected Jetpack jetpack;
-        protected CycSprite wrench;
+        public CycSprite Wrench { get; set; }
 
         public JetpackGirl(Game1 game)
             : base(game)
@@ -33,7 +33,7 @@ namespace Cyclyc.JetpackGirl
             spriteWidth = 14;
             jumpReleased = true;
             attackCounter = 0;
-            attacking = false;
+            Attacking = false;
             bounds = new Rectangle(0, 0, 14, 16);
         }
 
@@ -81,26 +81,26 @@ namespace Cyclyc.JetpackGirl
                 new Animation(FrameSequence(4, 2), timings, true);
             Play("default");
 
-            wrench = new CycSprite(Game);
-            wrench.Initialize();
-            wrench.AddAnimation("default", new int[] { 0, 1 }, new int[] { 5, 5 }, true);
-            wrench.Play("default");
-            wrench.AssetName = "wrench";
-            wrench.Visible = false;
-            wrench.Alive = false;
-            wrench.CollisionStyle = CollisionStyle.Circle;
-            wrench.SpriteWidth = 14;
-            wrench.ScaleFactor = 2.0f;
-            wrench.Radius = 14;
-            wrench.VisualRadius = 14;
-            wrench.LoadContent();
+            Wrench = new CycSprite(Game);
+            Wrench.Initialize();
+            Wrench.AddAnimation("default", new int[] { 0, 1 }, new int[] { 5, 5 }, true);
+            Wrench.Play("default");
+            Wrench.AssetName = "wrench";
+            Wrench.Visible = false;
+            Wrench.Alive = false;
+            Wrench.CollisionStyle = CollisionStyle.Circle;
+            Wrench.SpriteWidth = 14;
+            Wrench.ScaleFactor = 2.0f;
+            Wrench.Radius = 14;
+            Wrench.VisualRadius = 14;
+            Wrench.LoadContent();
             base.LoadContent();
         }
 
         public void BeginJet()
         {
             //later, might have 'begin jet' anims
-            if (attacking)
+            if (Attacking)
             {
                 Play("begin-jet-attacking", true);
             }
@@ -111,7 +111,7 @@ namespace Cyclyc.JetpackGirl
         }
         public void MaintainJet()
         {
-            if (attacking)
+            if (Attacking)
             {
                 Play("jet-attacking", false);
             }
@@ -123,7 +123,7 @@ namespace Cyclyc.JetpackGirl
         public void FizzleJet()
         {
             //later, have a fizzled jet animation
-            if (attacking)
+            if (Attacking)
             {
                 Play("fizzle-jet-attacking", false);
             }
@@ -134,7 +134,7 @@ namespace Cyclyc.JetpackGirl
         }
         public void StopJet()
         {
-            if (attacking)
+            if (Attacking)
             {
                 Play("stop-jet-attacking", true);
             }
@@ -146,7 +146,7 @@ namespace Cyclyc.JetpackGirl
         public void Jump()
         {
             jumpReleased = false;
-            if (attacking)
+            if (Attacking)
             {
                 Play("jump-attacking", false);
             }
@@ -157,7 +157,7 @@ namespace Cyclyc.JetpackGirl
         }
         public void Fall()
         {
-            if (attacking)
+            if (Attacking)
             {
                 Play("fall-attacking", false);
             }
@@ -168,7 +168,7 @@ namespace Cyclyc.JetpackGirl
         }
         public void Land()
         {
-            if (attacking)
+            if (Attacking)
             {
                 Play("land-attacking", true);
             }
@@ -179,7 +179,7 @@ namespace Cyclyc.JetpackGirl
         }
         public void Run()
         {
-            if (attacking)
+            if (Attacking)
             {
                 Play("run-attacking", false);
             }
@@ -238,21 +238,24 @@ namespace Cyclyc.JetpackGirl
             }
             if (attackCounter > 0)
             {
-                wrench.Visible = true;
-                wrench.Alive = true;
+                Wrench.Visible = true;
+                Wrench.Alive = true;
                 double ratio = 1-AttackRatio;
                 double angle = ratio * 2*Math.PI;
                 //ratio of rotation from circle starting at 0 = 0 degrees, .25 = 90 degrees (flip), .5 = 180 degrees, .75 = 270 degrees (flip back), 1.0 = 0 degrees
                 double r = AttackRadius;
-                wrench.Position = new Vector2((float)(Center.X-2 + r * Math.Cos(angle)), (float)(Center.Y + r * Math.Sin(angle)));
+                Wrench.Position = new Vector2((float)(Center.X-2 + r * Math.Cos(angle)), (float)(Center.Y + r * Math.Sin(angle)));
                 if (angle > (Math.PI/2.0) && angle < (3.0*Math.PI/2.0)) { FlipImage = true; }
                 else { FlipImage = false; }
                 attackCounter -= gameTime.ElapsedGameTime.TotalSeconds;
+                Attacking = true;
             }
+            //attack cooldown?
             if (attackCounter <= 0)
             {
-                wrench.Visible = false;
-                wrench.Alive = false;
+                Attacking = false;
+                Wrench.Visible = false;
+                Wrench.Alive = false;
                 FlipImage = false;
                 attackCounter = 0;
                 if (kb.IsKeyDown(Keys.Q) && oldKB.IsKeyUp(Keys.Q))
@@ -260,15 +263,14 @@ namespace Cyclyc.JetpackGirl
                     attackCounter = AttackDuration;
                 }
             }
-            attacking = true;
-            wrench.Update(gameTime);
+            Wrench.Update(gameTime);
             jetpack.Update(gameTime);
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            wrench.Draw(gameTime);
+            Wrench.Draw(gameTime);
             base.Draw(gameTime);
         }
     }

@@ -106,7 +106,7 @@ namespace Cyclyc.ShipGirl
         {
             get { return 1.0f; }
         }
-        public void KillShip()
+        public void KillPlayer()
         {
             Console.WriteLine("killed player");
         }
@@ -144,7 +144,7 @@ namespace Cyclyc.ShipGirl
             List<CycEnemy> shipCollided = enemyBatch.Collide(ship);
             if (shipCollided.Count() != 0)
             {
-                KillShip();
+                KillPlayer();
             }
             if (crushRecovery <= 0)
             {

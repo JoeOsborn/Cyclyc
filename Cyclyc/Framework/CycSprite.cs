@@ -220,6 +220,7 @@ namespace Cyclyc.Framework
         public CycSprite(Game1 game)
         {
             Game = game;
+            ScaleFactor = 1.0f;
             assetName = "placeholder";
             collisionStyle = CollisionStyle.Box;
             alive = true;
@@ -279,15 +280,17 @@ namespace Cyclyc.Framework
             float top = bp.Y;
             float bottom = bp.Y + bsz.Y;
 
+            if ((cp.X + rad > left) && (cp.X - rad < right) && (cp.Y + rad > top) && (cp.Y - rad < bottom))
+            {
+                return true;
+            }
+
             //have to do this four times!
             float upperDist = CircleLineDistance(cp, new Vector2(left, top), new Vector2(right, top));
-            if (Math.Abs(upperDist) < rad) { return true; }
             float rightDist = CircleLineDistance(cp, new Vector2(right, top), new Vector2(right, bottom));
-            if (Math.Abs(rightDist) < rad) { return true; }
             float lowerDist = CircleLineDistance(cp, new Vector2(left, bottom), new Vector2(right, bottom));
-            if (Math.Abs(lowerDist) < rad) { return true; }
             float leftDist = CircleLineDistance(cp, new Vector2(left, top), new Vector2(left, bottom));
-            if(Math.Abs(leftDist) < rad) { return true; }
+            if (Math.Abs(upperDist) < rad && Math.Abs(rightDist) < rad && Math.Abs(lowerDist) < rad && Math.Abs(upperDist) < rad) { return true; }
             return upperDist < 0 && rightDist < 0 && lowerDist < 0 && leftDist < 0;
         }
 

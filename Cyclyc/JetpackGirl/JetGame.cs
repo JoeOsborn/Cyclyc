@@ -47,11 +47,11 @@ namespace Cyclyc.JetpackGirl
                 {
                     if (rgen.NextDouble() < 0.5)
                     {
-                        return robots.Create(c, "robot", 2, CollisionStyle.Box, leftToRight, 0, 16, 21, (float)((rgen.NextDouble() * 1.5)+0.25));
+                        return robots.Create(c, "robot", 2, leftToRight, 0, 16, 21, (float)((rgen.NextDouble() * 1.5)+0.25), 2, 2, 12, 17);
                     }
                     else
                     {
-                        return spiders.Create(c, "spider", 3, CollisionStyle.Box, leftToRight, View.Height / 2 - 34, 102 / 3, 17, (float)(rgen.NextDouble() * 1.5) + 0.25f);
+                        return spiders.Create(c, "spider", 3, leftToRight, View.Height / 2 - 34, 102 / 3, 17, (float)(rgen.NextDouble() * 1.5) + 0.25f, 6, 2, (102/3)-12, 13);
                     }
                 };
         }
@@ -68,13 +68,50 @@ namespace Cyclyc.JetpackGirl
         {
             base.LoadContent();
         }
-        
+
+        public void KillPlayer()
+        {
+            Console.WriteLine("jet killed player");
+        }
+
         public override void Update(GameTime gameTime)
         {
             robots.Update(gameTime);
             spiders.Update(gameTime);
             base.Update(gameTime);
-            //robots.Collide(jetpackGirl), spiders.Collide(jetpackGirl)
+            if (jg.Attacking)
+            {
+                List<CycEnemy> hitRobots = robots.Collide(jg.Wrench);
+                List<CycEnemy> hitSpiders = spiders.Collide(jg.Wrench);
+                foreach (CycEnemy hit in hitRobots)
+                {
+                    ((JetpackEnemy)(hit)).Hit();
+                }
+                foreach (CycEnemy hit in hitSpiders)
+                {
+                    ((JetpackEnemy)(hit)).Hit();
+                }
+            }
+            if(robots.Collide(jg).Count != 0 || spiders.Collide(jg).Count != 0)
+            {
+                KillPlayer();
+            }
+            foreach (CycEnemy en in robots.Enemies)
+            {
+                if (en.Alive && ((JetpackEnemy)en).KnockedOffScreen)
+                {
+                    en.Die();
+                    NextGame.DeliverRandomEnemy(en.LeftToRight, 0);
+                }
+            }
+            foreach (CycEnemy en in spiders.Enemies)
+            {
+                if (en.Alive && ((JetpackEnemy)en).KnockedOffScreen)
+                {
+                    en.Die();
+                    NextGame.DeliverRandomEnemy(en.LeftToRight, 0);
+                }
+            }
         }
 
         protected override void DrawInnards(GameTime gt)

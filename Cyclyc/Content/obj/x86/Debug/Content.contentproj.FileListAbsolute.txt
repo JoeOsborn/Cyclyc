@@ -1,2 +1,0 @@
-C:\Users\joe\Desktop\Cyclyc\Cyclyc\Content\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\TDiefenbach\Desktop\Hackathon\Cyclyc\Cyclyc\Content\obj\x86\Debug\ResolveAssemblyReference.cache

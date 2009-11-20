@@ -20,12 +20,21 @@ namespace Cyclyc.JetpackGirl
         protected bool jumpReleased;
         public bool Attacking { get; set; }
         protected double attackCounter;
+        protected double attackCooldown;
         protected Jetpack jetpack;
+        protected double respawnTimer;
         public CycSprite Wrench { get; set; }
+
+        public bool Dying
+        {
+            get;
+            set;
+        }
 
         public JetpackGirl(Game1 game)
             : base(game)
         {
+            Dying = false;
             ScaleFactor = 2.0f;
             assetName = "rockGirl";
             collisionStyle = CollisionStyle.Box;
@@ -33,6 +42,7 @@ namespace Cyclyc.JetpackGirl
             spriteWidth = 14;
             jumpReleased = true;
             attackCounter = 0;
+            attackCooldown = 0;
             Attacking = false;
             bounds = new Rectangle(0, 0, 14, 16);
         }
@@ -42,10 +52,27 @@ namespace Cyclyc.JetpackGirl
             base.Initialize();
         }
 
+        public void Die()
+        {
+            if (Dying) { return; }
+            Dying = true;
+            Play("death", false);
+            Attacking = false;
+            attackCooldown = 0;
+            attackCounter = 0;
+            Wrench.Visible = false;
+            Wrench.Alive = false;
+            FlipImage = false;
+            jumpReleased = true;
+            respawnTimer = RespawnDelay;
+        }
+
         public override void LoadContent()
         {
             int[] timings = TimingSequence(5, 2);
             animations["default"] = 
+                new Animation(FrameSequence(0, 2), timings, true);
+            animations["death"] =
                 new Animation(FrameSequence(0, 2), timings, true);
             animations["run"] = 
                 new Animation(FrameSequence(0, 2), timings, true);
@@ -100,7 +127,8 @@ namespace Cyclyc.JetpackGirl
         public void BeginJet()
         {
             //later, might have 'begin jet' anims
-            if (Attacking)
+            if (Dying) { Play("death", false); }
+            else if (Attacking)
             {
                 Play("begin-jet-attacking", true);
             }
@@ -111,7 +139,8 @@ namespace Cyclyc.JetpackGirl
         }
         public void MaintainJet()
         {
-            if (Attacking)
+            if (Dying) { Play("death", false); }
+            else if (Attacking)
             {
                 Play("jet-attacking", false);
             }
@@ -123,7 +152,8 @@ namespace Cyclyc.JetpackGirl
         public void FizzleJet()
         {
             //later, have a fizzled jet animation
-            if (Attacking)
+            if (Dying) { Play("death", false); }
+            else if (Attacking)
             {
                 Play("fizzle-jet-attacking", false);
             }
@@ -134,7 +164,8 @@ namespace Cyclyc.JetpackGirl
         }
         public void StopJet()
         {
-            if (Attacking)
+            if (Dying) { Play("death", false); }
+            else if (Attacking)
             {
                 Play("stop-jet-attacking", true);
             }
@@ -146,7 +177,8 @@ namespace Cyclyc.JetpackGirl
         public void Jump()
         {
             jumpReleased = false;
-            if (Attacking)
+            if (Dying) { Play("death", false); }
+            else if (Attacking)
             {
                 Play("jump-attacking", false);
             }
@@ -157,7 +189,8 @@ namespace Cyclyc.JetpackGirl
         }
         public void Fall()
         {
-            if (Attacking)
+            if (Dying) { Play("death", false); }
+            else if (Attacking)
             {
                 Play("fall-attacking", false);
             }
@@ -168,7 +201,8 @@ namespace Cyclyc.JetpackGirl
         }
         public void Land()
         {
-            if (Attacking)
+            if (Dying) { Play("death", false); }
+            else if (Attacking)
             {
                 Play("land-attacking", true);
             }
@@ -179,7 +213,8 @@ namespace Cyclyc.JetpackGirl
         }
         public void Run()
         {
-            if (Attacking)
+            if (Dying) { Play("death", false); }
+            else if (Attacking)
             {
                 Play("run-attacking", false);
             }
@@ -187,6 +222,14 @@ namespace Cyclyc.JetpackGirl
             {
                 Play("run", false);
             }
+        }
+        protected double RespawnDelay
+        {
+            get { return 1.0; }
+        }
+        protected double AttackCooldownDuration
+        {
+            get { return 0.1; }
         }
         protected double AttackDuration
         {
@@ -214,29 +257,58 @@ namespace Cyclyc.JetpackGirl
         }
         public bool ShouldMoveRight
         {
-            get { return kb.IsKeyDown(Keys.D); }
+            get { return !Dying && kb.IsKeyDown(Keys.D); }
         }
         public bool ShouldMoveLeft
         {
-            get { return kb.IsKeyDown(Keys.A); }
+            get { return !Dying && kb.IsKeyDown(Keys.A); }
         }
         public bool ShouldJet
         {
-            get { return jumpReleased && kb.IsKeyDown(Keys.W); }
+            get { return !Dying && jumpReleased && kb.IsKeyDown(Keys.W); }
         }
         public bool ShouldJump
         {
-            get { return !oldKB.IsKeyDown(Keys.W) && kb.IsKeyDown(Keys.W); }
+            get { return !Dying && !oldKB.IsKeyDown(Keys.W) && kb.IsKeyDown(Keys.W); }
         }
         public override void Update(GameTime gameTime)
         {
+            if (Dying)
+            {
+                respawnTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                if (respawnTimer >= 0)
+                {
+                    jetpack.Update(gameTime);
+                    base.Update(gameTime);
+                    return;
+                }
+                Dying = false;
+                position.X = 0;
+                position.Y = 0;
+            }
             oldKB = kb;
             kb = Keyboard.GetState();
             if (!jumpReleased && oldKB.IsKeyDown(Keys.W) && !kb.IsKeyDown(Keys.W))
             {
                 jumpReleased = true;
             }
-            if (attackCounter > 0)
+            if (!Attacking && attackCooldown > 0)
+            {
+                attackCooldown -= gameTime.ElapsedGameTime.TotalSeconds;
+                if (attackCooldown <= 0)
+                {
+                    attackCooldown = 0;
+                }
+            }
+            if (attackCooldown == 0 && attackCounter <= 0 && !Attacking)
+            {
+                if (kb.IsKeyDown(Keys.Q) && oldKB.IsKeyUp(Keys.Q))
+                {
+                    attackCounter = AttackDuration;
+                    Attacking = true;
+                }
+            } 
+            if (Attacking && attackCounter > 0)
             {
                 Wrench.Visible = true;
                 Wrench.Alive = true;
@@ -251,17 +323,15 @@ namespace Cyclyc.JetpackGirl
                 Attacking = true;
             }
             //attack cooldown?
-            if (attackCounter <= 0)
+            if (Attacking && attackCounter <= 0)
             {
+                attackCooldown = AttackCooldownDuration;
                 Attacking = false;
                 Wrench.Visible = false;
                 Wrench.Alive = false;
                 FlipImage = false;
                 attackCounter = 0;
-                if (kb.IsKeyDown(Keys.Q) && oldKB.IsKeyUp(Keys.Q))
-                {
-                    attackCounter = AttackDuration;
-                }
+                attackCooldown = AttackCooldownDuration;
             }
             Wrench.Update(gameTime);
             jetpack.Update(gameTime);

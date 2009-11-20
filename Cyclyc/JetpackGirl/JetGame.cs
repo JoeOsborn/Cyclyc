@@ -19,6 +19,8 @@ namespace Cyclyc.JetpackGirl
     {
         JetpackGirl jg;
 
+        //robots and spiders are the same right now, but laters robots will hop occasionally
+        //and maybe jetpack?
         RobotEnemyPool robots;
         SpiderEnemyPool spiders;
 
@@ -45,14 +47,18 @@ namespace Cyclyc.JetpackGirl
         {
             return (c) =>
                 {
+                    JetpackEnemy en;
+                    float sizeMultiplier = (float)(rgen.NextDouble() * 3.0 + 0.5);
                     if (rgen.NextDouble() < 0.5)
                     {
-                        return robots.Create(c, "robot", 2, leftToRight, 0, 16, 21, (float)((rgen.NextDouble() * 1.5)+0.25), 2, 2, 12, 17);
+                        en = robots.Create(c, "robot", 2, leftToRight, 0, (int)(16 * sizeMultiplier), (int)(21 * sizeMultiplier), (float)((rgen.NextDouble() * 1.0) + 0.25), (int)(3 * sizeMultiplier), (int)(3 * sizeMultiplier), (int)(10 * sizeMultiplier), (int)(18 * sizeMultiplier));
                     }
                     else
                     {
-                        return spiders.Create(c, "spider", 3, leftToRight, View.Height / 2 - 34, 102 / 3, 17, (float)(rgen.NextDouble() * 1.5) + 0.25f, 6, 2, (102/3)-12, 13);
+                        en = spiders.Create(c, "spider", 3, leftToRight, (int)(View.Height / 2 - 34 * sizeMultiplier), (int)(sizeMultiplier * 102 / 3), (int)(sizeMultiplier * 17), (float)(rgen.NextDouble() * 1.0) + 0.25f, (int)(sizeMultiplier * 5), (int)(sizeMultiplier * 4), (int)(sizeMultiplier * ((102 / 3) - 10)), (int)(sizeMultiplier * 11));
                     }
+                    en.Target = jg;
+                    return en;
                 };
         }
 
@@ -71,6 +77,7 @@ namespace Cyclyc.JetpackGirl
 
         public void KillPlayer()
         {
+            jg.Die();
             Console.WriteLine("jet killed player");
         }
 
@@ -85,23 +92,26 @@ namespace Cyclyc.JetpackGirl
                 List<CycEnemy> hitSpiders = spiders.Collide(jg.Wrench);
                 foreach (CycEnemy hit in hitRobots)
                 {
-                    ((JetpackEnemy)(hit)).Hit();
+                    ((JetpackEnemy)(hit)).Hit(jg.Position.X);
                 }
                 foreach (CycEnemy hit in hitSpiders)
                 {
-                    ((JetpackEnemy)(hit)).Hit();
+                    ((JetpackEnemy)(hit)).Hit(jg.Position.X);
                 }
             }
             if(robots.Collide(jg).Count != 0 || spiders.Collide(jg).Count != 0)
             {
-                KillPlayer();
+                if (!jg.Dying)
+                {
+                    KillPlayer();
+                }
             }
             foreach (CycEnemy en in robots.Enemies)
             {
                 if (en.Alive && ((JetpackEnemy)en).KnockedOffScreen)
                 {
                     en.Die();
-                    NextGame.DeliverRandomEnemy(en.LeftToRight, 0);
+                    NextGame.DeliverRandomEnemy(en.Position.X < 0 ? true : false, 0);
                 }
             }
             foreach (CycEnemy en in spiders.Enemies)
@@ -109,7 +119,7 @@ namespace Cyclyc.JetpackGirl
                 if (en.Alive && ((JetpackEnemy)en).KnockedOffScreen)
                 {
                     en.Die();
-                    NextGame.DeliverRandomEnemy(en.LeftToRight, 0);
+                    NextGame.DeliverRandomEnemy(en.Position.X < 0 ? true : false, 0);
                 }
             }
         }

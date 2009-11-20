@@ -20,18 +20,27 @@ namespace Cyclyc.JetpackGirl
         protected Jetpack jetpack;
         protected double hitTimer;
         Random rgen;
+        protected bool hitFromLeft;
+
+        public CycSprite Target
+        {
+            get;
+            set;
+        }
 
         public JetpackEnemy(Game1 game, EnemyPool p)
             : base(game, p)
         {
             rgen = new Random();
+            hitFromLeft = true;
+            hitTimer = 0;
             jetpack = new Jetpack(this);
             ScaleFactor = 2.0f;
         }
 
         public bool KnockedOffScreen
         {
-            get { return (hitTimer > 0) && (leftToRight ? IsPastLeftEdge(null) : IsPastRightEdge(null)); }
+            get { return (hitTimer > 0) && (IsPastLeftEdge(null) || IsPastRightEdge(null)); }
         }
 
         public override void LoadContent()
@@ -41,23 +50,34 @@ namespace Cyclyc.JetpackGirl
             Play("default");
         }
 
-        public void Hit()
+        public double Mass
         {
-            hitTimer = rgen.NextDouble() * 0.3 + 0.1;
+            get { return (CollisionStyle == CollisionStyle.Circle) ? ((float)Radius / (float)SpriteWidth) : ((float)bounds.Width / (float)SpriteWidth); }
+        }
+
+        public void Hit(float x)
+        {
+            hitFromLeft = (x < position.X);
+            hitTimer = rgen.NextDouble() * (1.0 / Mass) + (0.25 / Mass);
         }
 
         public void Reset(Challenge c, string img, int fc, bool left, int xp, int yp, int w, int h, float speed, int radius)
         {
+            hitTimer = 0;
             jetpack.MaxSpeedX = speed;
             Reset(c, img, fc, CollisionStyle.Circle, left, xp, yp, w, h);
             Radius = radius;
+            VisualRadius = Radius;
         }
 
         public void Reset(Challenge c, string img, int fc, bool left, int xp, int yp, int w, int h, float speed, int bx, int by, int bw, int bh)
         {
+            hitTimer = 0;
             jetpack.MaxSpeedX = speed;
             Reset(c, img, fc, CollisionStyle.Box, left, xp, yp, w, h);
             bounds = new Rectangle(bx, by, bw, bh);
+            VisualWidth = w;
+            VisualHeight = h;
         }
 
         protected virtual void LoadAnimations()
@@ -148,13 +168,27 @@ namespace Cyclyc.JetpackGirl
         {
             get { return BottomEdge == FloorY; }
         }
+        protected float TargetDistance
+        {
+            get { return position.X - Target.Position.X; }
+        }
+        protected bool CloseToTarget
+        {
+            get { return Math.Abs(TargetDistance) < 100 && Math.Abs(TargetDistance) > 16; }
+        }
+        protected bool TargetIsLeft
+        {
+            get { return TargetDistance > 0; }
+        }
         public bool ShouldMoveRight
         {
-            get { return leftToRight; }
+            //if close to player, move towards player; else, move right
+            get { return CloseToTarget ? !TargetIsLeft : leftToRight; }
         }
         public bool ShouldMoveLeft
         {
-            get { return !leftToRight; }
+            //if close to player, move towards player; else, move left
+            get { return CloseToTarget ? TargetIsLeft : !leftToRight; }
         }
         public bool ShouldJet
         {
@@ -171,13 +205,15 @@ namespace Cyclyc.JetpackGirl
             if (hitTimer > 0)
             {
                 hitTimer -= gameTime.ElapsedGameTime.TotalSeconds;
-                if (leftToRight)
+                if (hitFromLeft)
                 {
-                    velocity.X = -3;
+                    velocity.X = 3;
+                    leftToRight = false;
                 }
                 else
                 {
-                    velocity.X = 3;
+                    velocity.X = -3;
+                    leftToRight = true;
                 }
             }
         }

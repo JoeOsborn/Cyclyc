@@ -124,6 +124,12 @@ namespace Cyclyc.JetpackGirl
             base.LoadContent();
         }
 
+        protected Vector2 StartPosition
+        {
+            //later, make sure no enemies are here
+            get { return new Vector2(100, 0); }
+        }
+
         public void BeginJet()
         {
             //later, might have 'begin jet' anims
@@ -283,8 +289,7 @@ namespace Cyclyc.JetpackGirl
                     return;
                 }
                 Dying = false;
-                position.X = 0;
-                position.Y = 0;
+                position = StartPosition;
             }
             oldKB = kb;
             kb = Keyboard.GetState();

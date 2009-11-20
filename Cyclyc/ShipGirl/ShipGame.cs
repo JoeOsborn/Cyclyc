@@ -92,11 +92,11 @@ namespace Cyclyc.ShipGirl
         }
         public float SkimShrinkRate
         {
-            get { return 1.0f; }
+            get { return 0.3f; }
         }
         public float CrushGrowRate
         {
-            get { return 1.0f; }
+            get { return 0.3f; }
         }
         public float DefaultCrushRadius
         {
@@ -112,7 +112,7 @@ namespace Cyclyc.ShipGirl
         }
         public float MinSkimRadius
         {
-            get { return 16; }
+            get { return 32; }
         }
         public float SkimResizeDuration
         {
@@ -128,11 +128,11 @@ namespace Cyclyc.ShipGirl
             crush.ResizeTo(DefaultCrushRadius, CrushCooldown);
             ship.Die();
         }
-        public void Skim()
+        public void Skim(int enemyCount)
         {
             Console.WriteLine("skimmed");
-            skim.ResizeTo(Math.Max(skim.DestRadius - SkimShrinkRate, MinSkimRadius), SkimResizeDuration);
-            crush.ResizeTo(Math.Min(crush.DestRadius + CrushGrowRate, MaxCrushRadius), SkimResizeDuration);
+            skim.ResizeTo(Math.Max(skim.DestRadius - SkimShrinkRate * enemyCount, MinSkimRadius), SkimResizeDuration);
+            crush.ResizeTo(Math.Min(crush.DestRadius + CrushGrowRate * enemyCount, MaxCrushRadius), SkimResizeDuration);
         }
         public void Crush()
         {
@@ -172,7 +172,7 @@ namespace Cyclyc.ShipGirl
                     List<CycEnemy> skimCollided = enemyBatch.Collide(skim);
                     if (skimCollided.Count() != 0)
                     {
-                        Skim();
+                        Skim(skimCollided.Count());
                     }
                     if (Keyboard.GetState().IsKeyDown(Keys.Space))
                     {

@@ -61,10 +61,17 @@ namespace Cyclyc.Framework
         List<Challenge>[] challenges;
         List<Challenge> otherPlayerChallenges;
 
+        double[] GradeWeights { get; set; }
+        double GradeModifier { get; set; }
+
         protected Random rgen;
 
+        int lastMeasure;
         public CycGame(Game1 g)
         {
+            lastMeasure = -1;
+            GradeWeights = new double[] { 1.0, 1.0, 1.0,     0.3 };
+            GradeModifier = 1.0;
             rgen = new Random();
             game = g;
             backgrounds = new List<CycBackground>();
@@ -167,8 +174,49 @@ namespace Cyclyc.Framework
             }
         }
 
+        protected virtual void CalculateGrade()
+        {
+            double prospectiveGrade = 0.0;
+            double avgGrade = 0.0;
+            if (otherPlayerChallenges.Count > 0)
+            {
+                //average per-challenge grade of otherPlayerChallenges
+                foreach (Challenge c in otherPlayerChallenges)
+                {
+                    if (c.EnemyCount > 0)
+                    {
+                        avgGrade += ((double)c.EnemiesKilled / (double)c.EnemyCount);
+                    }
+                }
+                avgGrade /= otherPlayerChallenges.Count;
+                prospectiveGrade += avgGrade * GradeWeights[3];
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                if (challenges[i].Count == 0) { continue; }
+                avgGrade = 0.0;
+                //average per-challenge grade of each challenge
+                foreach (Challenge c in challenges[i])
+                {
+                    if (c.EnemyCount > 0)
+                    {
+                        avgGrade += ((double)c.EnemiesKilled / (double)c.EnemyCount);
+                    }
+                }
+                avgGrade /= challenges[i].Count;
+                prospectiveGrade += avgGrade * GradeWeights[i];
+            }
+            grade = (float)(prospectiveGrade * GradeModifier);
+            Console.WriteLine("new grade: " + grade);
+        }
+
         public virtual void Update(GameTime gameTime)
         {
+            if ((int)(Game.CurrentMeasure) != lastMeasure)
+            {
+                CalculateGrade();
+            }
+            lastMeasure = (int)(Game.CurrentMeasure);
             ProcessChallenges(0, gameTime);
             ProcessChallenges(1, gameTime);
             ProcessChallenges(2, gameTime);
@@ -176,7 +224,6 @@ namespace Cyclyc.Framework
             {
                 c.Process(Grade, Grade, false);
             }
-            //we can examine challenges here to see if they've been skipped wholesale, etc and calculate grade
             foreach (CycBackground bg in backgrounds)
             {
                 bg.Update(gameTime);

@@ -46,9 +46,25 @@ namespace Cyclyc.ShipGirl
             skim.ResizeTo(DefaultSkimRadius, 0);
             crush.ResizeTo(DefaultCrushRadius, 0);
             AddSprite(ship);
+            ship.Position = StartPosition;
             debugRadius = new ShipCircle(Game, ship, "crushRing");
             AddSprite(debugRadius);
             base.Initialize();
+        }
+
+        protected Vector2 StartPosition
+        {
+            get
+            {
+                //a random free radius on the left half of the screen
+                Vector2 oldPos = ship.Position;
+                do {
+                    ship.Position = new Vector2((float)(rgen.NextDouble() * 370)+30, (float)(rgen.NextDouble() * 100)+10);
+                } while(enemyBatch.Collide(ship).Count != 0);
+                Vector2 ret = ship.Position;
+                ship.Position = oldPos;
+                return ret;
+            }
         }
 
         public override EnemyMaker MakeRandomEnemy(bool leftToRight, int difficulty)
@@ -163,6 +179,10 @@ namespace Cyclyc.ShipGirl
                         Crush();
                     }
                 }
+            }
+            else
+            {
+                ship.StartPosition = StartPosition;
             }
         }
 

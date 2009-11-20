@@ -39,6 +39,7 @@ namespace Cyclyc.JetpackGirl
             
             jg = new JetpackGirl((Game1)Game);
             AddSprite(jg);
+            jg.StartPosition = StartPosition;
 
             base.Initialize();
         }
@@ -73,6 +74,22 @@ namespace Cyclyc.JetpackGirl
         public override void LoadContent()
         {
             base.LoadContent();
+        }
+
+        protected Vector2 StartPosition
+        {
+            get
+            {
+                //a random free range on the left upper part of the screen
+                Vector2 oldPos = jg.Position;
+                do
+                {
+                    jg.Position = new Vector2((float)(rgen.NextDouble() * 170)+30, 0);
+                } while (spiders.Collide(jg).Count != 0 || robots.Collide(jg).Count != 0);
+                Vector2 ret = jg.Position;
+                jg.Position = oldPos;
+                return ret;
+            }
         }
 
         public void KillPlayer()
@@ -130,6 +147,10 @@ namespace Cyclyc.JetpackGirl
                     en.Die();
                     NextGame.DeliverRandomEnemy(en.Position.X < 0 ? true : false, 0);
                 }
+            }
+            if (jg.Dying)
+            {
+                jg.StartPosition = StartPosition;
             }
         }
 

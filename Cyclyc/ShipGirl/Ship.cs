@@ -33,14 +33,9 @@ namespace Cyclyc.ShipGirl
             Dying = false;
             collisionStyle = CollisionStyle.Circle;
             AddAnimation("death", new int[] { 0 }, new int[] { 5 }, true);
-            // TODO: Construct any child components here
         }
 
-        protected Vector2 StartPosition
-        {
-            //later, make sure no enemies are near here
-            get { return new Vector2(64, 64); }
-        }
+        public Vector2 StartPosition { get; set; }
 
         public override void Initialize()
         {

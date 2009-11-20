@@ -124,11 +124,7 @@ namespace Cyclyc.JetpackGirl
             base.LoadContent();
         }
 
-        protected Vector2 StartPosition
-        {
-            //later, make sure no enemies are here
-            get { return new Vector2(100, 0); }
-        }
+        public Vector2 StartPosition { get; set; }
 
         public void BeginJet()
         {

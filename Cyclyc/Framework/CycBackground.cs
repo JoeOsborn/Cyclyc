@@ -17,11 +17,6 @@ namespace Cyclyc.Framework
 {
     class CycBackground : CycSprite
     {
-        protected override float ScaleFactor
-        {
-            get { return 2.0f; }
-        }
-
         protected float scrollSpeed;
         public float ScrollSpeed
         {
@@ -32,6 +27,7 @@ namespace Cyclyc.Framework
         public CycBackground(Game1 game, string img)
             : base(game)
         {
+            ScaleFactor = 2.0f;
             assetName = img;
             scrollSpeed = 1.0f;
         }

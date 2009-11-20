@@ -23,6 +23,7 @@ namespace Cyclyc.JetpackGirl
             : base(game, p)
         {
             jetpack = new Jetpack(this);
+            ScaleFactor = 2.0f;
         }
 
         public override void LoadContent()
@@ -32,9 +33,10 @@ namespace Cyclyc.JetpackGirl
             Play("default");
         }
 
-        protected override float ScaleFactor
+        public void Reset(Challenge c, string img, int fc, CollisionStyle col, bool left, int xp, int yp, int w, int h, float speed)
         {
-            get { return 2.0f; }
+            jetpack.MaxSpeedX = speed;
+            Reset(c, img, fc, col, left, xp, yp, w, h);
         }
 
         protected virtual void LoadAnimations()

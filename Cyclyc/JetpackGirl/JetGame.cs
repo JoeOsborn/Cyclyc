@@ -47,11 +47,11 @@ namespace Cyclyc.JetpackGirl
                 {
                     if (rgen.NextDouble() < 0.5)
                     {
-                        return robots.Create(c, "robot", 2, CollisionStyle.Box, leftToRight, 0, 16, 21);
+                        return robots.Create(c, "robot", 2, CollisionStyle.Box, leftToRight, 0, 16, 21, (float)((rgen.NextDouble() * 1.5)+0.25));
                     }
                     else
                     {
-                        return spiders.Create(c, "spider", 3, CollisionStyle.Box, leftToRight, View.Height/2 - 34, 102 / 3, 17);
+                        return spiders.Create(c, "spider", 3, CollisionStyle.Box, leftToRight, View.Height / 2 - 34, 102 / 3, 17, (float)(rgen.NextDouble() * 1.5) + 0.25f);
                     }
                 };
         }

@@ -124,10 +124,7 @@ namespace Cyclyc.Framework
         #endregion
         //scaleFactor is not just for visuals; it also scales the logical coordinate system of this sprite.
         #region logical placement & sizing
-        protected virtual float ScaleFactor
-        {
-            get { return 1.0f; }
-        }
+        public float ScaleFactor { get; set; }
 
         protected Rectangle bounds;
         public Rectangle Bounds
@@ -156,6 +153,7 @@ namespace Cyclyc.Framework
         public CollisionStyle CollisionStyle
         {
             get { return collisionStyle; }
+            set { collisionStyle = value; }
         }
         #endregion
         //assetName should be set before LoadContent is called.
@@ -167,11 +165,13 @@ namespace Cyclyc.Framework
         public virtual string AssetName
         {
             get { return assetName; }
+            set { assetName = value; }
         }
         protected int spriteWidth;
-        protected virtual int SpriteWidth
+        public virtual int SpriteWidth
         {
             get { return spriteWidth; }
+            set { spriteWidth = value; }
         }
         protected virtual int XForSprite(int i)
         {
@@ -214,10 +214,7 @@ namespace Cyclyc.Framework
             get { return visualWidth/2; }
             set { visualWidth = value*2; visualHeight = value*2; }
         }
-        protected virtual bool FlipImage
-        {
-            get { return false; }
-        }
+        protected virtual bool FlipImage { get; set; }
         #endregion
 
         public CycSprite(Game1 game)

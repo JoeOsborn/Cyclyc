@@ -19,19 +19,20 @@ namespace Cyclyc.JetpackGirl
         KeyboardState kb, oldKB;
         protected bool jumpReleased;
         protected bool attacking;
+        protected double attackCounter;
         protected Jetpack jetpack;
-        protected override float ScaleFactor
-        {
-            get { return 2.0f; }
-        }
+        protected CycSprite wrench;
 
         public JetpackGirl(Game1 game)
             : base(game)
         {
+            ScaleFactor = 2.0f;
             assetName = "rockGirl";
+            collisionStyle = CollisionStyle.Box;
             jetpack = new Jetpack(this);
             spriteWidth = 14;
             jumpReleased = true;
+            attackCounter = 0;
             attacking = false;
             bounds = new Rectangle(0, 0, 14, 16);
         }
@@ -79,6 +80,20 @@ namespace Cyclyc.JetpackGirl
             animations["run-attacking"] = 
                 new Animation(FrameSequence(4, 2), timings, true);
             Play("default");
+
+            wrench = new CycSprite(Game);
+            wrench.Initialize();
+            wrench.AddAnimation("default", new int[] { 0, 1 }, new int[] { 5, 5 }, true);
+            wrench.Play("default");
+            wrench.AssetName = "wrench";
+            wrench.Visible = false;
+            wrench.Alive = false;
+            wrench.CollisionStyle = CollisionStyle.Circle;
+            wrench.SpriteWidth = 14;
+            wrench.ScaleFactor = 2.0f;
+            wrench.Radius = 14;
+            wrench.VisualRadius = 14;
+            wrench.LoadContent();
             base.LoadContent();
         }
 
@@ -173,6 +188,18 @@ namespace Cyclyc.JetpackGirl
                 Play("run", false);
             }
         }
+        protected double AttackDuration
+        {
+            get { return 0.4; }
+        }
+        protected double AttackRatio
+        {
+            get { return attackCounter / AttackDuration; }
+        }
+        protected double AttackRadius
+        {
+            get { return 10.0; }
+        }
         public bool IsInAir
         {
             get { return BottomEdge < FloorY; }
@@ -209,12 +236,39 @@ namespace Cyclyc.JetpackGirl
             {
                 jumpReleased = true;
             }
+            if (attackCounter > 0)
+            {
+                wrench.Visible = true;
+                wrench.Alive = true;
+                double ratio = 1-AttackRatio;
+                double angle = ratio * 2*Math.PI;
+                //ratio of rotation from circle starting at 0 = 0 degrees, .25 = 90 degrees (flip), .5 = 180 degrees, .75 = 270 degrees (flip back), 1.0 = 0 degrees
+                double r = AttackRadius;
+                wrench.Position = new Vector2((float)(Center.X-2 + r * Math.Cos(angle)), (float)(Center.Y + r * Math.Sin(angle)));
+                if (angle > (Math.PI/2.0) && angle < (3.0*Math.PI/2.0)) { FlipImage = true; }
+                else { FlipImage = false; }
+                attackCounter -= gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            if (attackCounter <= 0)
+            {
+                wrench.Visible = false;
+                wrench.Alive = false;
+                FlipImage = false;
+                attackCounter = 0;
+                if (kb.IsKeyDown(Keys.Q) && oldKB.IsKeyUp(Keys.Q))
+                {
+                    attackCounter = AttackDuration;
+                }
+            }
+            attacking = true;
+            wrench.Update(gameTime);
             jetpack.Update(gameTime);
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
+            wrench.Draw(gameTime);
             base.Draw(gameTime);
         }
     }

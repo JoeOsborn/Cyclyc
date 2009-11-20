@@ -29,10 +29,10 @@ namespace Cyclyc.JetpackGirl
             return new JetpackEnemy(CycGame.Game, this);
         }
 
-        public JetpackEnemy Create(Challenge c, string img, int fc, CollisionStyle col, bool left, int y, int w, int h)
+        public JetpackEnemy Create(Challenge c, string img, int fc, CollisionStyle col, bool left, int y, int w, int h, float speed)
         {
             JetpackEnemy enemy = (JetpackEnemy)FindOrMakeEnemy();
-            enemy.Reset(c, img, fc, col, left, (int)(left ? (0 - (rgen.NextDouble() * 32)) : (400 + (rgen.NextDouble()*32))), y, w, h);
+            enemy.Reset(c, img, fc, col, left, (int)(left ? (0 - (rgen.NextDouble() * 32)) : (400 + (rgen.NextDouble()*32))), y, w, h, speed);
             return enemy;
         }
     }

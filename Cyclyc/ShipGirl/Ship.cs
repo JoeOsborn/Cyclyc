@@ -53,11 +53,11 @@ namespace Cyclyc.ShipGirl
 
         protected float MaxSpeedX
         {
-            get { return 2.0f; }
+            get { return 2.5f; }
         }
         protected float MaxSpeedY
         {
-            get { return 2.0f; }
+            get { return 2.5f; }
         }
 
         public void Die()

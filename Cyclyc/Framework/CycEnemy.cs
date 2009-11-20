@@ -36,7 +36,7 @@ namespace Cyclyc.Framework
 
         protected override bool FlipImage
         {
-            get { return leftToRight; }
+            get { return velocity.X > 0; }
         }
 
         protected int frameCount;

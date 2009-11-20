@@ -199,10 +199,15 @@ namespace Cyclyc.JetpackGirl
             get { return false; }
         }
 
+        public bool IsHit
+        {
+            get { return hitTimer > 0; }
+        }
+
         protected override void UpdatePosition(GameTime gameTime)
         {
             jetpack.Update(gameTime);
-            if (hitTimer > 0)
+            if (IsHit)
             {
                 hitTimer -= gameTime.ElapsedGameTime.TotalSeconds;
                 if (hitFromLeft)

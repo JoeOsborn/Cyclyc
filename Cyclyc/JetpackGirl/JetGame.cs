@@ -99,9 +99,18 @@ namespace Cyclyc.JetpackGirl
                     ((JetpackEnemy)(hit)).Hit(jg.Position.X);
                 }
             }
-            if(robots.Collide(jg).Count != 0 || spiders.Collide(jg).Count != 0)
+            List<CycEnemy> killerRobots = robots.Collide(jg);
+            List<CycEnemy> killerSpiders = spiders.Collide(jg);
+            foreach (CycEnemy en in killerRobots)
             {
-                if (!jg.Dying)
+                if (!((JetpackEnemy)en).IsHit && !jg.Dying)
+                {
+                    KillPlayer();
+                }
+            }
+            foreach (CycEnemy en in killerSpiders)
+            {
+                if (!((JetpackEnemy)en).IsHit && !jg.Dying)
                 {
                     KillPlayer();
                 }

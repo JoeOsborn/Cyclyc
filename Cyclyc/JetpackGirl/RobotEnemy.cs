@@ -22,5 +22,13 @@ namespace Cyclyc.JetpackGirl
         {
 
         }
+        public override bool ShouldJet
+        {
+            get { return !IsHit && (Target.Position.Y < position.Y && rgen.NextDouble() < 0.5); }
+        }
+        public override bool ShouldJump
+        {
+            get { return !IsHit && (rgen.NextDouble() < 0.05 || (Target.Position.Y < position.Y && rgen.NextDouble() < 0.1)); }
+        }
     }
 }

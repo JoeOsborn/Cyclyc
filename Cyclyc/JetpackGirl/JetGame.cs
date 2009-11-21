@@ -65,7 +65,7 @@ namespace Cyclyc.JetpackGirl
                 {
                     JetpackEnemy en;
                     //scale up or down based on difficulty, etc
-                    float sizeMultiplier = (float)(rgen.NextDouble() * 3.0 + 0.5);
+                    float sizeMultiplier = (float)(rgen.NextDouble() * 1.0 + 0.5);
                     if (rgen.NextDouble() < 0.5)
                     {
                         en = robots.Create(c, "robot", 2, leftToRight, 0, (int)(16 * sizeMultiplier), (int)(21 * sizeMultiplier), (float)((rgen.NextDouble() * 1.0) + 0.25), (int)(3 * sizeMultiplier), (int)(3 * sizeMultiplier), (int)(10 * sizeMultiplier), (int)(18 * sizeMultiplier), difficulty);

@@ -25,10 +25,10 @@ namespace Cyclyc.ShipGirl
         {
             return new ShipEnemy(CycGame.Game, this);
         }
-        public ShipEnemy Create(Challenge c, string img, int fc, CollisionStyle col, string curveSet, bool left, int x, int y, int w, int h, double timeScale, int diff)
+        public ShipEnemy Create(Challenge c, string img, int fc, CollisionStyle col, string curveSet, bool left, int y, int w, int h, double timeScale, int diff)
         {
             ShipEnemy enemy = (ShipEnemy)FindOrMakeEnemy();
-            enemy.Reset(c, img, fc, col, curveSet, left, left ? (0-x) : (800+x), y, w, h, timeScale, diff);
+            enemy.Reset(c, img, fc, col, curveSet, left, left ? 0 : 800, y, w, h, timeScale, diff);
             return enemy;
         }
     }

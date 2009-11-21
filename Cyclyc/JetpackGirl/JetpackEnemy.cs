@@ -66,22 +66,22 @@ namespace Cyclyc.JetpackGirl
             hitTimer = rgen.NextDouble() * (1.0 / Mass) + (0.25 / Mass);
         }
 
-        public void Reset(Challenge c, string img, int fc, bool left, int xp, int yp, int w, int h, float speed, int radius)
+        public void Reset(Challenge c, string img, int fc, bool left, int xp, int yp, int w, int h, float speed, int radius, int diff)
         {
             rgen = new Random((int)DateTime.Now.Ticks + yp + radius + h);
             hitTimer = 0;
             jetpack.MaxSpeedX = speed;
-            Reset(c, img, fc, CollisionStyle.Circle, left, xp, yp, w, h);
+            Reset(c, img, fc, CollisionStyle.Circle, left, xp, yp, w, h, diff);
             Radius = radius;
             VisualRadius = Radius;
         }
 
-        public void Reset(Challenge c, string img, int fc, bool left, int xp, int yp, int w, int h, float speed, int bx, int by, int bw, int bh)
+        public void Reset(Challenge c, string img, int fc, bool left, int xp, int yp, int w, int h, float speed, int bx, int by, int bw, int bh, int diff)
         {
             rgen = new Random((int)DateTime.Now.Ticks + yp + h + by + bh);
             hitTimer = 0;
             jetpack.MaxSpeedX = speed;
-            Reset(c, img, fc, CollisionStyle.Box, left, xp, yp, w, h);
+            Reset(c, img, fc, CollisionStyle.Box, left, xp, yp, w, h, diff);
             bounds = new Rectangle(bx, by, bw, bh);
             VisualWidth = w;
             VisualHeight = h;

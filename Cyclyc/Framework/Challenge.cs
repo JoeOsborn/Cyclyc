@@ -80,17 +80,21 @@ namespace Cyclyc.Framework
         public void AddBeat(ChallengeBeat beat)
         {
             beats.Add(beat);
-            enemyCount += beat.Enemies.Length;
+        }
+
+        public void EnemyCreated(CycEnemy enemy)
+        {
+            enemyCount += enemy.Difficulty;
         }
 
         public void EnemyKilled(CycEnemy enemy)
         {
-            enemiesKilled++;
+            enemiesKilled+=enemy.Difficulty;
         }
 
         public void EnemyIgnored(CycEnemy enemy)
         {
-            enemiesIgnored++;
+            enemiesIgnored+=enemy.Difficulty;
         }
 
         public void Process(float expectedGrade, float actualGrade, bool changeState)

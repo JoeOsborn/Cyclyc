@@ -39,6 +39,8 @@ namespace Cyclyc.Framework
             get { return velocity.X > 0; }
         }
 
+        public int Difficulty { get; set; }
+
         protected int frameCount;
         public int FrameCount
         {
@@ -69,9 +71,10 @@ namespace Cyclyc.Framework
             visualWidth = spriteWidth;
         }
 
-        public virtual void Reset(Challenge c, string img, int fc, CollisionStyle col, bool left, int xp, int yp, int w, int h)
+        public virtual void Reset(Challenge c, string img, int fc, CollisionStyle col, bool left, int xp, int yp, int w, int h, int diff)
         {
             challenge = c;
+            Difficulty = diff;
             collisionStyle = col;
             frameCount = fc;
             assetName = img;
@@ -96,6 +99,7 @@ namespace Cyclyc.Framework
             visible = true;
             VisualWidth = w;
             VisualHeight = h;
+            c.EnemyCreated(this);
         }
         public void Die()
         {

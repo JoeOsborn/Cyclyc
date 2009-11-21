@@ -75,10 +75,11 @@ namespace Cyclyc
             base.Initialize();
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
+        protected int PipeWidth
+        {
+            get { return 24; }
+        }
+
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -88,6 +89,8 @@ namespace Cyclyc
 
             Viewport upperView = GraphicsDevice.Viewport;
             upperView.Height /= 2;
+            upperView.X = PipeWidth;
+            upperView.Width -= PipeWidth*2;
             Viewport lowerView = upperView;
             lowerView.Y += lowerView.Height;
 

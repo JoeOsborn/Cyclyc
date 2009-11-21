@@ -20,6 +20,7 @@ namespace Cyclyc.ShipGirl
 
         protected Curve xCurve;
         protected Curve yCurve;
+
         protected double tick;
         protected double timeScale;
         public double TimeScale

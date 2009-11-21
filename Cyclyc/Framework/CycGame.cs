@@ -79,7 +79,7 @@ namespace Cyclyc.Framework
         {
             lastMeasure = -1;
             GradeWeights = new double[] { 1.0, 1.0, 1.0,     0.6 };
-            GradeModifier = 3.0;
+            GradeModifier = 2.0;
             rgen = new Random();
             game = g;
             backgrounds = new List<CycBackground>();

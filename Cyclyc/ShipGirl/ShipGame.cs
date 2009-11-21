@@ -60,7 +60,7 @@ namespace Cyclyc.ShipGirl
                 //a random free radius on the left half of the screen
                 Vector2 oldPos = ship.Position;
                 do {
-                    ship.Position = new Vector2(800 - (float)(rgen.NextDouble() * 370)+30, (float)(rgen.NextDouble() * 100)+10);
+                    ship.Position = new Vector2(View.Width - (float)(rgen.NextDouble() * View.Width/2.0)-30, (float)(rgen.NextDouble() * 100)+10);
                 } while(enemyBatch.Collide(ship).Count != 0);
                 Vector2 ret = ship.Position;
                 ship.Position = oldPos;

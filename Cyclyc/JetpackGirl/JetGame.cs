@@ -27,6 +27,7 @@ namespace Cyclyc.JetpackGirl
         public JetGame(Game1 game)
             : base(game)
         {
+            SongName = "jet";
             robots = new RobotEnemyPool(this);
             spiders = new SpiderEnemyPool(this);
         }

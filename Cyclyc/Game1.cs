@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+using Cyclyc.Framework;
 using Cyclyc.JetpackGirl;
 using Cyclyc.ShipGirl;
 
@@ -93,6 +94,14 @@ namespace Cyclyc
             shipGame.View = upperView;
             jetGame.View = lowerView;
 
+            foreach (SongTrack s in shipGame.Songs)
+            {
+                s.Play();
+            }
+            foreach (SongTrack s in jetGame.Songs)
+            {
+                s.Play();
+            }
             playing = true;
 
             base.LoadContent();

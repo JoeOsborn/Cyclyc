@@ -85,7 +85,7 @@ namespace Cyclyc.ShipGirl
                 VisualRadius = Radius;
             }
             //use a function of the visualradius for rot ? what about idle rotations?
-            Rotation = (float)((VisualRadius * RotScaleFactor) % (Math.PI * 2));
+            Rotation = (float)((-VisualRadius * RotScaleFactor) % (Math.PI * 2));
             position = ship.Center;
             base.Update(gameTime);
         }

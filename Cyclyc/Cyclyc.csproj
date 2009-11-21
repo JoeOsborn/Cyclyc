@@ -93,6 +93,7 @@
     <Compile Include="Framework\CycGame.cs" />
     <Compile Include="Framework\CycSprite.cs" />
     <Compile Include="Framework\EnemyPool.cs" />
+    <Compile Include="Framework\SongTrack.cs" />
     <Compile Include="JetpackGirl\JetpackEnemy.cs" />
     <Compile Include="JetpackGirl\JetpackEnemyPool.cs" />
     <Compile Include="JetpackGirl\JetpackOwner.cs" />

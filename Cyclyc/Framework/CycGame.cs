@@ -64,16 +64,20 @@ namespace Cyclyc.Framework
         double[] GradeWeights { get; set; }
         double GradeModifier { get; set; }
 
+        public SongTrack[] Songs { get; set; }
+
         protected Random rgen;
 
         public int NextMeasureLeftDifficulty { get; set; }
         public int NextMeasureRightDifficulty { get; set; }
 
+        protected string SongName { get; set; }
+
         int lastMeasure;
         public CycGame(Game1 g)
         {
             lastMeasure = -1;
-            GradeWeights = new double[] { 1.0, 1.0, 1.0,     0.3 };
+            GradeWeights = new double[] { 1.0, 1.0, 1.0,     0.6 };
             GradeModifier = 1.0;
             rgen = new Random();
             game = g;
@@ -144,6 +148,10 @@ namespace Cyclyc.Framework
 
         public virtual void LoadContent()
         {
+            Songs = new SongTrack[3];
+            Songs[0] = new SongTrack(Game, SongName + "-0", true);
+            Songs[1] = new SongTrack(Game, SongName + "-1", false);
+            Songs[2] = new SongTrack(Game, SongName + "-2", false);
             foreach (CycBackground bg in backgrounds)
             {
                 bg.LoadContent();
@@ -221,7 +229,7 @@ namespace Cyclyc.Framework
                 avgGrade /= challenges[i].Count;
                 prospectiveGrade += avgGrade * GradeWeights[i];
             }
-            grade = (float)(prospectiveGrade * GradeModifier);
+            grade = (float)Math.Min(2.9, (prospectiveGrade * GradeModifier));
             Console.WriteLine("new grade: " + grade);
         }
 
@@ -231,6 +239,18 @@ namespace Cyclyc.Framework
             {
                 CalculateGrade();
                 TriggerOtherPlayerChallenge();
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                if (i == Math.Floor(Grade))
+                {
+                    Songs[i].ShouldPlay = true;
+                }
+                else
+                {
+                    Songs[i].ShouldPlay = false;
+                }
+                Songs[i].Update(gameTime);
             }
             lastMeasure = (int)(Game.CurrentMeasure);
             ProcessChallenges(0, gameTime);

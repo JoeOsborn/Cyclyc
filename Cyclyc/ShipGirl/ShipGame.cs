@@ -26,6 +26,7 @@ namespace Cyclyc.ShipGirl
         public ShipGame(Game1 game)
             : base(game)
         {
+            SongName = "ship";
             enemyBatch = new ShipEnemyPool(this);
         }
 

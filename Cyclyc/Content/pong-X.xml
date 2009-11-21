@@ -1,1 +1,1 @@
-﻿<?xml version="1.0" encoding="utf-8"?><XnaContent xmlns:Framework="Microsoft.Xna.Framework"><Asset Type="Framework:Curve"><PreLoop>Constant</PreLoop><PostLoop>Constant</PostLoop><Keys>0 0 0 0 Smooth 0 0 0 900 Smooth 15 900 900 0 Smooth</Keys></Asset></XnaContent>
+﻿<?xml version="1.0" encoding="utf-8"?><XnaContent xmlns:Framework="Microsoft.Xna.Framework"><Asset Type="Framework:Curve"><PreLoop>Constant</PreLoop><PostLoop>CycleOffset</PostLoop><Keys>0 0 0 0 Smooth 0 0 0 900 Smooth 15 900 900 0 Smooth</Keys></Asset></XnaContent>

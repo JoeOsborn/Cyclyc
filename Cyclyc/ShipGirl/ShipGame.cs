@@ -145,7 +145,7 @@ namespace Cyclyc.ShipGirl
         protected EnemyMaker MakePongEnemy(int y)
         {
             return (c) =>
-                enemyBatch.Create(c, "walking robot space creepy", 1, CollisionStyle.Circle, "pong", true,
+                enemyBatch.Create(c, "frog space", 1, CollisionStyle.Circle, "pong", true,
                     y, 21, 21, 1.0, 1);
         }
         #endregion

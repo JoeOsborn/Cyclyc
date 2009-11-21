@@ -15,7 +15,7 @@ using Cyclyc.Framework;
 
 namespace Cyclyc.Framework
 {
-    class CycBackground : CycSprite
+    public class CycBackground : CycSprite
     {
         protected float scrollSpeed;
         public float ScrollSpeed
@@ -27,7 +27,7 @@ namespace Cyclyc.Framework
         public CycBackground(Game1 game, string img)
             : base(game)
         {
-            ScaleFactor = 2.0f;
+            ScaleFactor = 1.0f;
             assetName = img;
             scrollSpeed = 1.0f;
         }
@@ -65,7 +65,7 @@ namespace Cyclyc.Framework
             dstRect.Width = (int)(VisualWidth * ScaleFactor);
             dstRect.Height = (int)(VisualHeight * ScaleFactor);
             SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White);
-            dstRect.X = (int)(dstRect.X + dstRect.Width);
+            dstRect.X = (int)(dstRect.X + ((scrollSpeed > 0) ? dstRect.Width : -dstRect.Width));
             SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White);
         }
     }

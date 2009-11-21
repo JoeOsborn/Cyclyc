@@ -31,6 +31,12 @@ namespace Cyclyc.JetpackGirl
             spiders = new SpiderEnemyPool(this);
         }
 
+        protected override void AddBackground(string n, float spd)
+        {
+            base.AddBackground(n, spd);
+            Backgrounds.Last().ScaleFactor = 2.0f;
+        }
+
         public override void Initialize()
         {
             AddBackground("pixel city sky", 0.1f);

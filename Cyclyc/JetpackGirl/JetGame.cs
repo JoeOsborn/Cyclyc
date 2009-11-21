@@ -57,7 +57,15 @@ namespace Cyclyc.JetpackGirl
 
         protected override ChallengeBeat[] CoalesceChallengeBeatEnemies(bool left, int difficulty)
         {
-            return base.CoalesceChallengeBeatEnemies(left, difficulty);
+            //ship game needs to halve the number of enemies
+            EnemyMaker[] es = new EnemyMaker[difficulty / 2];
+            for (int i = 0; i < difficulty / 2; i++)
+            {
+                es[i] = MakeEnemy(left, 2);
+                if (left) { ConsumeLeft(2); }
+                else { ConsumeRight(2); }
+            }
+            return new ChallengeBeat[] { new ChallengeBeat(0, es) };
         }
 
         public override EnemyMaker MakeEnemy(bool leftToRight, int difficulty)

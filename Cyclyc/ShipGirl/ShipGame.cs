@@ -68,7 +68,16 @@ namespace Cyclyc.ShipGirl
 
         protected override ChallengeBeat[] CoalesceChallengeBeatEnemies(bool left, int difficulty)
         {
-            return base.CoalesceChallengeBeatEnemies(left, difficulty);
+            //ship game needs to double the number of enemies
+            EnemyMaker[] es = new EnemyMaker[difficulty * 2];
+            for (int i = 0; i < difficulty*2; i+=2)
+            {
+                es[i] = MakeEnemy(left, 1);
+                es[i+1] = MakeEnemy(left, 1);
+                if (left) { ConsumeLeft(1); }
+                else { ConsumeRight(1); }
+            }
+            return new ChallengeBeat[] { new ChallengeBeat(0, es) };
         }
 
 

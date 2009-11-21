@@ -71,6 +71,8 @@ namespace Cyclyc.ShipGirl
             base.CoalesceChallengeBeats(c);
         }
 
+
+
         //MAKE AN ENEMY. USED WHEN AN ENEMY IS SENT FROM OTHER PLAYER
         public override EnemyMaker MakeEnemy(bool leftToRight, int difficulty)
         {
@@ -80,24 +82,31 @@ namespace Cyclyc.ShipGirl
                 //make a different monster based on difficulty
                 if (r < 0.2)
                 {
-                    enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "wave",
-                        leftToRight, (int)(rgen.NextDouble() * (View.Height)), 22, 22,
-                        1.0, difficulty);
+                    enemyBatch.Create(c, "spider robot space creepy", 1, CollisionStyle.Circle, "jerk", leftToRight, 
+                        (int)(rgen.NextDouble() * ((View.Height) - 21)), 21, 21, 1.0, difficulty);
                 }
                 else if (r < 0.4)
                 {
-                    enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "wave",
-                        leftToRight, (int)(rgen.NextDouble() * (View.Height)), 22, 22,
-                        1.0, difficulty);
+                    enemyBatch.Create(c, "walking robot space creepy", 1, CollisionStyle.Circle, "loop", leftToRight, 
+                        (int)((25 + rgen.NextDouble() * ((View.Height) - 53))), 28, 28, 1.0, difficulty);
                 }
-                else if (r < 0)
-                    enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "wave",
-                        leftToRight, (int)(rgen.NextDouble() * (View.Height)), 22, 22,
-                        1.0, difficulty);
+                else if (r < 0.6)
+                {
+                    enemyBatch.Create(c, "hover space", 1, CollisionStyle.Circle, "static", leftToRight,
+                        (int)(rgen.NextDouble() * ((View.Height)-28)), 28, 28, 1.0, difficulty);
+                }
+                else if (r < 0.8)
+                {
+                    enemyBatch.Create(c, "spider robot space creepy", 1, CollisionStyle.Circle, "ess", leftToRight,
+                        (int)(30 + rgen.NextDouble() * ((View.Height) - 44)), 14, 14, 1.0, difficulty);
+                }
+                else if (r < 1)
+                {
+                    enemyBatch.Create(c, "walking robot space creepy", 1, CollisionStyle.Circle, "pong", leftToRight,
+                        0, 21, 21, 1.0, difficulty);
+                }
             };
         }
-
-
 
 
         #region enemyTypes
@@ -107,9 +116,9 @@ namespace Cyclyc.ShipGirl
 
         protected EnemyMaker MakeJerkEnemy(int y)
         {
-            return (c) => 
+            return (c) =>
                 enemyBatch.Create(c, "spider robot space creepy", 1, CollisionStyle.Circle, "jerk", true,
-                    y, 14, 14, 1.0, 1);
+                    y, 21, 21, 1.0, 1);
         }
 
         protected EnemyMaker MakeLoopEnemy(int y)
@@ -119,28 +128,26 @@ namespace Cyclyc.ShipGirl
                     y, 28, 28, 1.0, 1);
         }
 
-        protected EnemyMaker MakeZigzagEnemy(int y)
+        protected EnemyMaker MakeStaticEnemy(int y)
         {
             return (c) =>
-                enemyBatch.Create(c, "walking robot space creepy", 1, CollisionStyle.Circle, "zigzag", true,
+                enemyBatch.Create(c, "hover space", 1, CollisionStyle.Circle, "static", true,
                     y, 28, 28, 1.0, 1);
         }
 
         protected EnemyMaker MakeEssEnemy(int y)
         {
             return (c) =>
-                enemyBatch.Create(c, "walking robot space creepy", 1, CollisionStyle.Circle, "ess", true,
-                    y, 28, 28, 1.0, 1);
-        }
-
-        protected EnemyMaker MakeWaveEnemy(int y)
-        {
-            return (c) =>
-                enemyBatch.Create(c, "spider robot space creepy", 1, CollisionStyle.Circle, "wave", true,
+                enemyBatch.Create(c, "spider robot space creepy", 1, CollisionStyle.Circle, "ess", true,
                     y, 14, 14, 1.0, 1);
         }
-        //--------------------------------------------------------------------------------
-        //--------------------------------------------------------------------------------
+
+        protected EnemyMaker MakePongEnemy(int y)
+        {
+            return (c) =>
+                enemyBatch.Create(c, "walking robot space creepy", 1, CollisionStyle.Circle, "pong", true,
+                    y, 21, 21, 1.0, 1);
+        }
         #endregion
 
         #region enemyGroups
@@ -155,31 +162,70 @@ namespace Cyclyc.ShipGirl
         //    makers.Concat(moreMakers);
         //}
 
-        protected void AddEssBeats(Challenge c, int y)
+        protected void AddEssBeats(Challenge c, int y, int length)
         {
-            c.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+            int templength = length;
+
+            while (length > 0)
+            {
+                c.AddBeat(new ChallengeBeat((templength - length), new EnemyMaker[] {
                 MakeEssEnemy(y)
-            }));
-            c.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
-                MakeEssEnemy(y)
-            }));
-            c.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
-                MakeEssEnemy(y)
-            }));
-            c.AddBeat(new ChallengeBeat(6, new EnemyMaker[] {
-                MakeEssEnemy(y)
-            }));
-            c.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
-                MakeEssEnemy(y)
-            }));
-            c.AddBeat(new ChallengeBeat(10, new EnemyMaker[] {
-                MakeEssEnemy(y)
-            }));
+                }));
+                length--;
+            }
+        }
+
+        protected void AddStaticBlock(Challenge c, int y, int w, int h)
+        {
+            int tempy = y;
+            int temph = h;
+            int tempw = w;
+
+            while (w > 0)
+            {
+                while (h > 0)
+                {
+                    c.AddBeat(new ChallengeBeat(((2 * tempw) - (2 * w)), new EnemyMaker[] {
+                    MakeStaticEnemy(y)
+                    }));
+                    y += 30;
+                    h--;
+                }
+                y = tempy;
+                h = temph;
+                w--;
+            }
+        }
+
+        protected void AddStaticWall(Challenge c, int y, int h, int gap)
+        {
+            int tempy = y;
+            int temph = h;
+
+            while (h > 0)
+            {
+                if (h != gap)
+                {
+                    c.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                    MakeStaticEnemy(y)
+                    }));
+                    y += 30;
+                    h--;
+                }
+                else
+                {
+                    y += 40;
+                    h--;
+                }
+            }
         }
 
         //--------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------
         #endregion
+
+
+
 
 
         #region levelDesign
@@ -189,6 +235,8 @@ namespace Cyclyc.ShipGirl
 
         protected override void SetupChallenges()
         {
+
+            #region Demo Level
             Challenge wave0_0 = new Challenge(this, Game, 4);
             wave0_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
                 MakeJerkEnemy(40), MakeJerkEnemy(100), MakeJerkEnemy(250)
@@ -205,27 +253,38 @@ namespace Cyclyc.ShipGirl
             TriggerChallenge(0, wave1_0);
 
             Challenge wave2_0 = new Challenge(this, Game, 12);
-            wave2_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
-                MakeZigzagEnemy(20), MakeZigzagEnemy(70)
-            }));
-            wave2_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
-                MakeZigzagEnemy(250), MakeZigzagEnemy(280)
-            }));
-            wave2_0.AddBeat(new ChallengeBeat(6, new EnemyMaker[] {
-                MakeZigzagEnemy(100), MakeZigzagEnemy(140), MakeZigzagEnemy(170)
-            }));
+            AddStaticBlock(wave2_0, 20, 5, 5);
             TriggerChallenge(0, wave2_0);
 
             Challenge wave3_0 = new Challenge(this, Game, 16);
-
-            AddEssBeats(wave3_0, 100);
+            AddEssBeats(wave3_0, 100, 12);
             TriggerChallenge(0, wave3_0);
 
-            Challenge wave5_0 = new Challenge(this, Game, 20);
-            wave5_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
-                MakeWaveEnemy(40)
+            Challenge wave4_0 = new Challenge(this, Game, 20);
+            wave4_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakePongEnemy(0)
             }));
+            TriggerChallenge(0, wave4_0);
+
+            Challenge wave5_0 = new Challenge(this, Game, 30);
+            AddStaticWall(wave5_0, 20, 9, 3); ;
             TriggerChallenge(0, wave5_0);
+            Challenge wave6_0 = new Challenge(this, Game, 31);
+            AddStaticWall(wave6_0, 20, 9, 4); ;
+            TriggerChallenge(0, wave6_0);
+            Challenge wave7_0 = new Challenge(this, Game, 32);
+            AddStaticWall(wave7_0, 20, 9, 5); ;
+            TriggerChallenge(0, wave7_0);
+            Challenge wave8_0 = new Challenge(this, Game, 33);
+            AddStaticWall(wave8_0, 20, 9, 6); ;
+            TriggerChallenge(0, wave8_0);
+            Challenge wave9_0 = new Challenge(this, Game, 34);
+            AddStaticWall(wave9_0, 20, 9, 6); ;
+            TriggerChallenge(0, wave9_0);
+
+            #endregion
+
+
         }
 
         //--------------------------------------------------------------------------------

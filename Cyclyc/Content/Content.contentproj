@@ -408,8 +408,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="tubes.png">
-      <Name>tubes</Name>
+    <Compile Include="logoBlack.png">
+      <Name>logoBlack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="logoWhite.png">
+      <Name>logoWhite</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

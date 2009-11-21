@@ -253,7 +253,7 @@ namespace Cyclyc.ShipGirl
             TriggerChallenge(0, wave1_0);
 
             Challenge wave2_0 = new Challenge(this, Game, 12);
-            AddStaticBlock(wave2_0, 20, 5, 5);
+            AddStaticBlock(wave2_0, 20, 1, 9);
             TriggerChallenge(0, wave2_0);
 
             Challenge wave3_0 = new Challenge(this, Game, 16);
@@ -302,7 +302,7 @@ namespace Cyclyc.ShipGirl
         }
         public float SkimShrinkRate
         {
-            get { return 0.3f; }
+            get { return 0.15f; }
         }
         public float CrushGrowRate
         {
@@ -314,7 +314,7 @@ namespace Cyclyc.ShipGirl
         }
         public float DefaultSkimRadius
         {
-            get { return 96; }
+            get { return 64; }
         }
         public float MaxCrushRadius
         {

@@ -239,7 +239,10 @@ namespace Cyclyc.Framework
             if ((int)(Game.CurrentMeasure) != lastMeasure)
             {
                 CalculateGrade();
-                TriggerOtherPlayerChallenge();
+                if (NextMeasureLeftDifficulty > 0 || NextMeasureRightDifficulty > 0)
+                {
+                    TriggerOtherPlayerChallenge();
+                }
             }
             for (int i = 0; i < 3; i++)
             {

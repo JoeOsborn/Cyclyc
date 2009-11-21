@@ -22,7 +22,7 @@ namespace Cyclyc.JetpackGirl
             : base(game, p)
         {
             jetTime = 0;
-            jetpack.MaxJPFuel = 60f;
+            jetpack.MaxJPFuel = 2f;
         }
         public override bool ShouldJet
         {

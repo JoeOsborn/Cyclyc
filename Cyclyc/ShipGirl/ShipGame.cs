@@ -106,8 +106,8 @@ namespace Cyclyc.ShipGirl
         protected override void SetupChallenges()
         {
             Challenge testChallenge = new Challenge(this, Game, 0);
-            testChallenge.AddBeat(new ChallengeBeat(0, new EnemyMaker[] { MakeEnemy(true, 0), MakeEnemy(true, 0) }));
-            testChallenge.AddBeat(new ChallengeBeat(2, new EnemyMaker[] { MakeEnemy(true, 0), MakeEnemy(true, 0) }));
+            testChallenge.AddBeat(new ChallengeBeat(0, new EnemyMaker[] { MakeEnemy(true, 1), MakeEnemy(true, 1) }));
+            testChallenge.AddBeat(new ChallengeBeat(2, new EnemyMaker[] { MakeEnemy(true, 1), MakeEnemy(true, 1) }));
             TriggerChallenge(0, testChallenge);
 
             Challenge wave0_0 = new Challenge(this, Game, 2);

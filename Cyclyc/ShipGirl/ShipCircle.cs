@@ -30,7 +30,7 @@ namespace Cyclyc.ShipGirl
             : base(game)
         {
             assetName = img;
-            spriteWidth = 292;
+            spriteWidth = 500;
             collisionStyle = CollisionStyle.Circle;
             Radius = 1.0f;
             oldRadius = Radius;

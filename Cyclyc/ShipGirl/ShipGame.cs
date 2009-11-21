@@ -73,14 +73,33 @@ namespace Cyclyc.ShipGirl
             base.CoalesceChallengeBeats(c);
         }
 
+        //MAKE AN ENEMY. USED WHEN AN ENEMY IS SENT FROM OTHER PLAYER
         public override EnemyMaker MakeEnemy(bool leftToRight, int difficulty)
         {
-            return (c) => 
+            return (c) => {
+                double r = rgen.NextDouble();
                 //make a different monster based on difficulty
+                if(r < 0.2)
+                {
+
+                }
+                else if (r < 0.4)
+                {
+
+                }
+                else if(r < 0)
                 enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "wave", 
                     leftToRight, (int)(rgen.NextDouble()*(View.Height)), 22, 22, 
                     1.0, difficulty);
+            }
         }
+
+
+
+        #region enemyTypes
+        //--------------------------------------------------------------------------------
+        //   DEFINE SPECIFIC ENEMY TYPES
+        //--------------------------------------------------------------------------------
 
         protected EnemyMaker MakeJerkEnemy(int y)
         {
@@ -96,6 +115,7 @@ namespace Cyclyc.ShipGirl
                     y, 28, 28, 1.0, 1);
         }
 
+ 
         protected EnemyMaker MakeZigzagEnemy(int y)
         {
             return (c) =>
@@ -103,20 +123,54 @@ namespace Cyclyc.ShipGirl
                     y, 28, 28, 1.0, 1);
         }
 
+        protected EnemyMaker MakeEssEnemy(int y)
+        {
+            return (c) =>
+                enemyBatch.Create(c, "walking robot space creepy", 1, CollisionStyle.Circle, "ess", true,
+                    y, 28, 28, 1.0, 1);
+        }
+
+        protected EnemyMaker MakeWaveEnemy(int y)
+        {
+            return (c) =>
+                enemyBatch.Create(c, "spider robot space creepy", 1, CollisionStyle.Circle, "wave", true,
+                    y, 14, 14, 1.0, 1);
+        }
+        //--------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------
+        #endregion
+
+        #region enemyGroups
+        //--------------------------------------------------------------------------------
+        //   DEFINE ENEMY GROUPS
+        //--------------------------------------------------------------------------------
+
+        protected ChallengeBeat MakeEssString(int y)
+        {
+            EnemyMaker[] makers = new EnemyMaker[] { MakeEssEnemy(0, y), MakeEssEnemy(16, y) };
+            EnemyMaker[] moreMakers = new EnemyMaker[] { MakeEssEnemy(32, y) };
+            makers.Concat(moreMakers);
+        }
+
+        //--------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------
+        #endregion
+
+
+        #region levelDesign
+        //--------------------------------------------------------------------------------
+        //   CODE FOR WHAT THE GAME ACTUALLY SENDS TO THE PLAYER
+        //--------------------------------------------------------------------------------
+
         protected override void SetupChallenges()
         {
-            Challenge testChallenge = new Challenge(this, Game, 0);
-            testChallenge.AddBeat(new ChallengeBeat(0, new EnemyMaker[] { MakeEnemy(true, 1), MakeEnemy(true, 1) }));
-            testChallenge.AddBeat(new ChallengeBeat(2, new EnemyMaker[] { MakeEnemy(true, 1), MakeEnemy(true, 1) }));
-            TriggerChallenge(0, testChallenge);
-
-            Challenge wave0_0 = new Challenge(this, Game, 2);
+            Challenge wave0_0 = new Challenge(this, Game, 4);
             wave0_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
                 MakeJerkEnemy(40), MakeJerkEnemy(100), MakeJerkEnemy(250)
             }));
             TriggerChallenge(0, wave0_0);
 
-            Challenge wave1_0 = new Challenge(this, Game, 4);
+            Challenge wave1_0 = new Challenge(this, Game, 8);
             wave1_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
                 MakeLoopEnemy(50), MakeLoopEnemy(150)
             }));
@@ -125,18 +179,49 @@ namespace Cyclyc.ShipGirl
             }));
             TriggerChallenge(0, wave1_0);
 
-            Challenge wave2_0 = new Challenge(this, Game, 7);
+            Challenge wave2_0 = new Challenge(this, Game, 12);
             wave2_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
                 MakeZigzagEnemy(20), MakeZigzagEnemy(70)
             }));
-            wave2_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
+            wave2_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
                 MakeZigzagEnemy(250), MakeZigzagEnemy(280)
             }));
-            wave2_0.AddBeat(new ChallengeBeat(6, new EnemyMaker[] {
+            wave2_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
                 MakeZigzagEnemy(100), MakeZigzagEnemy(140), MakeZigzagEnemy(170)
             }));
             TriggerChallenge(0, wave2_0);
+
+            Challenge wave3_0 = new Challenge(this, Game, 16);
+            wave3_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeEssEnemy(100)
+            }));
+            wave3_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
+                MakeEssEnemy(100)
+            }));
+            wave3_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
+                MakeEssEnemy(100)
+            }));
+            wave3_0.AddBeat(new ChallengeBeat(6, new EnemyMaker[] {
+                MakeEssEnemy(100)
+            }));
+            wave3_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
+                MakeEssEnemy(100)
+            }));
+            wave3_0.AddBeat(new ChallengeBeat(10, new EnemyMaker[] {
+                MakeEssEnemy(100)
+            }));
+            TriggerChallenge(0, wave3_0);
+
+            Challenge wave5_0 = new Challenge(this, Game, 20);
+            wave5_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeWaveEnemy(40)
+            }));
+            TriggerChallenge(0, wave5_0);
         }
+
+        //--------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------
+        #endregion
 
         public override void LoadContent()
         {

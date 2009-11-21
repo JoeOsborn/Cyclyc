@@ -189,6 +189,8 @@ namespace Cyclyc.Framework
 
         protected virtual void CalculateGrade()
         {
+            //later, should grade be a function of difficulty as well?
+            
             double prospectiveGrade = 0.0;
             double avgGrade = 0.0;
             if (otherPlayerChallenges.Count > 0)

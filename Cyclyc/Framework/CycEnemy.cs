@@ -99,6 +99,7 @@ namespace Cyclyc.Framework
             visible = true;
             VisualWidth = w;
             VisualHeight = h;
+            c.EnemyCreated(this);
         }
         public void Die()
         {

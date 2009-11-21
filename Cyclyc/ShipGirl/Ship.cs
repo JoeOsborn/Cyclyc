@@ -68,6 +68,15 @@ namespace Cyclyc.ShipGirl
             Play("death", false);
         }
 
+        protected float ManualSpeedStep
+        {
+            get { return 0.25f; }
+        }
+        protected float InertiaSpeedStep
+        {
+            get { return 0.125f; }
+        }
+
         public override void Update(GameTime gameTime)
         {
             if (Dying)
@@ -89,27 +98,41 @@ namespace Cyclyc.ShipGirl
             kb = Keyboard.GetState();
             if (kb.IsKeyDown(Keys.Up) && kb.IsKeyUp(Keys.Down) && TopEdge > CeilY)
             {
-                velocity.Y = -MaxSpeedY;
+                velocity.Y = MathHelper.Clamp(velocity.Y - ManualSpeedStep, -MaxSpeedY, MaxSpeedY);
             }
             else if (kb.IsKeyDown(Keys.Down) && kb.IsKeyUp(Keys.Up) && BottomEdge < FloorY)
             {
-                velocity.Y = MaxSpeedY;
+                velocity.Y = MathHelper.Clamp(velocity.Y + ManualSpeedStep, -MaxSpeedY, MaxSpeedY);
             }
             else
             {
-                velocity.Y = 0;
+                if (velocity.Y > 0) 
+                {
+                    velocity.Y = MathHelper.Max(velocity.Y - InertiaSpeedStep, 0);
+                }
+                else if (velocity.Y < 0) 
+                {
+                    velocity.Y = MathHelper.Min(velocity.Y + InertiaSpeedStep, 0);
+                }
             }
             if (kb.IsKeyDown(Keys.Right) && kb.IsKeyUp(Keys.Left) && RightEdge < RightX)
             {
-                velocity.X = MaxSpeedX;
+                velocity.X = MathHelper.Clamp(velocity.X + ManualSpeedStep, -MaxSpeedX, MaxSpeedX);
             }
             else if (kb.IsKeyDown(Keys.Left) && kb.IsKeyUp(Keys.Right) && LeftEdge > LeftX)
             {
-                velocity.X = -MaxSpeedX;
+                velocity.X = MathHelper.Clamp(velocity.X - ManualSpeedStep, -MaxSpeedX, MaxSpeedX);
             }
             else
             {
-                velocity.X = 0;
+                if (velocity.X > 0)
+                {
+                    velocity.X = MathHelper.Max(velocity.X - InertiaSpeedStep, 0);
+                }
+                else if (velocity.X < 0)
+                {
+                    velocity.X = MathHelper.Min(velocity.X + InertiaSpeedStep, 0);
+                }
             }
 
             base.Update(gameTime);

@@ -22,6 +22,7 @@ namespace Cyclyc.JetpackGirl
             : base(game, p)
         {
             jetTime = 0;
+            jetpack.MaxJPFuel = 2f;
         }
         public override bool ShouldJet
         {
@@ -34,12 +35,12 @@ namespace Cyclyc.JetpackGirl
         {
             get 
             { 
-                return !IsHit && (rgen.NextDouble() < 0.05 || (Target.Position.Y < position.Y && rgen.NextDouble() < 0.1)); 
+                return !IsHit && (rgen.NextDouble() < 0.001 || (Target.Position.Y < position.Y && rgen.NextDouble() < 0.005)); 
             }
         }
         protected double MaxJetPeriod
         {
-            get { return 2.0; }
+            get { return 1.0; }
         }
         public override void Update(GameTime gameTime)
         {
@@ -47,7 +48,7 @@ namespace Cyclyc.JetpackGirl
             {
                 jetTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
-            else if (!IsHit && (Target.Position.Y < position.Y && rgen.NextDouble() < 0.5))
+            else if (!IsHit && (Target.Position.Y < position.Y && rgen.NextDouble() < 0.05))
             {
                 jetTime = (float)(rgen.NextDouble() * MaxJetPeriod);
             }

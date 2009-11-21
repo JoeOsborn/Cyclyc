@@ -47,9 +47,13 @@ namespace Cyclyc.Framework
         public override void Update(GameTime gameTime)
         {
             position.X -= scrollSpeed;
-            if(position.X < -VisualWidth)
+            if(ScrollSpeed > 0 && position.X < -VisualWidth)
             {
                 position.X += VisualWidth;
+            }
+            if (ScrollSpeed < 0 && position.X > VisualWidth)
+            {
+                position.X -= VisualWidth;
             }
             //base.Update(gameTime);
         }

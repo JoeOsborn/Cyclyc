@@ -314,7 +314,7 @@ namespace Cyclyc.JetpackGirl
                 Wrench.Visible = true;
                 Wrench.Alive = true;
                 double ratio = 1-AttackRatio;
-                double angle = ratio * 2*Math.PI;
+                double angle = ratio * 2*Math.PI - Math.PI/2.0;
                 //ratio of rotation from circle starting at 0 = 0 degrees, .25 = 90 degrees (flip), .5 = 180 degrees, .75 = 270 degrees (flip back), 1.0 = 0 degrees
                 double r = AttackRadius;
                 Wrench.Position = new Vector2((float)(Center.X-2 + r * Math.Cos(angle)), (float)(Center.Y + r * Math.Sin(angle)));

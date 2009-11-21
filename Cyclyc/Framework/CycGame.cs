@@ -79,7 +79,7 @@ namespace Cyclyc.Framework
         {
             lastMeasure = -1;
             GradeWeights = new double[] { 1.0, 1.0, 1.0,     0.6 };
-            GradeModifier = 1.0;
+            GradeModifier = 3.0;
             rgen = new Random();
             game = g;
             backgrounds = new List<CycBackground>();
@@ -209,7 +209,7 @@ namespace Cyclyc.Framework
                 {
                     if (c.EnemyCount > 0)
                     {
-                        avgGrade += ((double)c.EnemiesKilled / (double)c.EnemyCount);
+                        avgGrade += ((double)c.EnemiesKilled / (2.0*(double)c.EnemyCount/4.0));
                     }
                 }
                 avgGrade /= otherPlayerChallenges.Count;

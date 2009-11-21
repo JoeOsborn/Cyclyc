@@ -19,7 +19,6 @@ namespace Cyclyc.ShipGirl
         Ship ship;
         ShipCircle crush;
         ShipCircle skim;
-        ShipCircle debugRadius;
         ShipEnemyPool enemyBatch;
         protected float crushRecovery;
 
@@ -156,7 +155,7 @@ namespace Cyclyc.ShipGirl
         }
         public float DefaultCrushRadius
         {
-            get { return 32; }
+            get { return 16; }
         }
         public float DefaultSkimRadius
         {

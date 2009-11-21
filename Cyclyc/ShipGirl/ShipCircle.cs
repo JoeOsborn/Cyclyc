@@ -91,7 +91,10 @@ namespace Cyclyc.ShipGirl
         }
         public override void Draw(GameTime gameTime)
         {
-            base.Draw(gameTime);
+            if (!ship.Dying)
+            {
+                base.Draw(gameTime);
+            }
         }
     }
 }

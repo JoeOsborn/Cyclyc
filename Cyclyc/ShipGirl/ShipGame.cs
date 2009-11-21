@@ -32,16 +32,17 @@ namespace Cyclyc.ShipGirl
 
         public override void Initialize()
         {
-            AddBackground("space background", 0.05f);
-            AddBackground("stars", 0.06f);
-            AddBackground("zodiac", 0.07f);
-            AddBackground("nebula", 0.075f);
-            AddBackground("galaxy", 0.08f);
+            AddBackground("space background", -0.05f);
+            AddBackground("galaxy", -0.1f);
+            AddBackground("nebula", -0.1f);
+            AddBackground("zodiac", -0.2f);
+            AddBackground("stars", -0.3f);
+
             ship = new Ship(Game);
             ship.Position = new Vector2(30, 30);
             crush = new ShipCircle(Game, ship, "crushRing");
             AddSprite(crush);
-            skim = new ShipCircle(Game, ship, "crushRing");
+            skim = new ShipCircle(Game, ship, "skimRing");
             AddSprite(skim);
             crushRecovery = 0;
             skim.ResizeTo(DefaultSkimRadius, 0);
@@ -60,7 +61,7 @@ namespace Cyclyc.ShipGirl
                 //a random free radius on the left half of the screen
                 Vector2 oldPos = ship.Position;
                 do {
-                    ship.Position = new Vector2((float)(rgen.NextDouble() * 370)+30, (float)(rgen.NextDouble() * 100)+10);
+                    ship.Position = new Vector2(800 - (float)(rgen.NextDouble() * 370)+30, (float)(rgen.NextDouble() * 100)+10);
                 } while(enemyBatch.Collide(ship).Count != 0);
                 Vector2 ret = ship.Position;
                 ship.Position = oldPos;

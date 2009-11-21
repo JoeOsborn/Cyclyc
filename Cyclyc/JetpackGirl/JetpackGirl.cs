@@ -73,7 +73,7 @@ namespace Cyclyc.JetpackGirl
             animations["default"] = 
                 new Animation(FrameSequence(0, 2), timings, true);
             animations["death"] =
-                new Animation(FrameSequence(0, 2), timings, true);
+                new Animation(FrameSequence(8, 1), TimingSequence(1,1), false);
             animations["run"] = 
                 new Animation(FrameSequence(0, 2), timings, true);
             animations["run-attacking"] = 

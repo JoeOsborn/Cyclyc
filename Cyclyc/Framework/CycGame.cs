@@ -57,7 +57,8 @@ namespace Cyclyc.Framework
             get { return grade; }
         }
 
-        List<CycBackground> backgrounds;
+        protected List<CycBackground> backgrounds;
+        public List<CycBackground> Backgrounds { get { return backgrounds; } }
         List<Challenge>[] challenges;
         List<Challenge> otherPlayerChallenges;
 
@@ -92,7 +93,7 @@ namespace Cyclyc.Framework
             otherPlayerChallenges = new List<Challenge>();
         }
 
-        protected void AddBackground(string bgName, float bgSpeed)
+        protected virtual void AddBackground(string bgName, float bgSpeed)
         {
             CycBackground bg = new CycBackground(Game, bgName);
             bg.ScrollSpeed = bgSpeed;

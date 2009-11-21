@@ -33,6 +33,7 @@ namespace Cyclyc.ShipGirl
             Dying = false;
             collisionStyle = CollisionStyle.Circle;
             AddAnimation("death", new int[] { 0 }, new int[] { 5 }, true);
+            FlipImage = true;
         }
 
         public Vector2 StartPosition { get; set; }

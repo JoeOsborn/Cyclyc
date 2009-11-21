@@ -111,8 +111,6 @@ namespace Cyclyc.JetpackGirl
                 new Animation(FrameSequence(0, frameCount), timings, true);
         }
 
-
-
         protected override bool StopAtRightEdge(GameTime gt)
         {
             return false;
@@ -192,19 +190,7 @@ namespace Cyclyc.JetpackGirl
             //if close to player, move towards player; else, move right
             get
             {
-                if (CloseToTarget)
-                {
-                    if (Math.Abs(TargetDistance) < 8)
-                    {
-                        //are we close and already moving left?  let's keep going
-                        return Velocity.X < 0 ? false : true;
-                    }
-                    return !TargetIsLeft;
-                }
-                else
-                {
-                    return leftToRight;
-                }
+                return leftToRight;
             }
         }
         public virtual bool ShouldMoveLeft
@@ -212,19 +198,7 @@ namespace Cyclyc.JetpackGirl
             //if close to player, move towards player; else, move left
             get
             {
-                if (CloseToTarget)
-                {
-                    if (Math.Abs(TargetDistance) < 8)
-                    {
-                        //are we close and already moving right?  let's keep going
-                        return Velocity.X < 0 ? true : false;
-                    }
-                    return TargetIsLeft;
-                }
-                else
-                {
-                    return !leftToRight;
-                }
+                return !leftToRight;
             }
         }
         public virtual bool ShouldJet

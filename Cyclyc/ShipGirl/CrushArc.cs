@@ -13,19 +13,19 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using Cyclyc.Framework;
 
-namespace Cyclyc.JetpackGirl
+namespace Cyclyc.ShipGirl
 {
-    public class HoverEnemyPool : JetpackEnemyPool
+    public class CrushArc : ShipCircle
     {
-        public HoverEnemyPool(CycGame game)
-            : base(game)
+        public CrushArc(Game1 g, Ship s, string img)
+            : base(g, s, img)
         {
 
         }
 
-        public override CycSprite MakeEnemy()
+        protected override void UpdateRotation(GameTime gt)
         {
-            return new HoverEnemy(CycGame.Game, this);
+            Rotation = ship.Rotation;
         }
     }
 }

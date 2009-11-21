@@ -89,10 +89,17 @@ namespace Cyclyc.Framework
             {
                 for(int i = 0; i < amt; i++)
                 {
+                    if (i >= topNotches.Count)
+                    {
+                        break;
+                    }
                     EnemyNotch n = topNotches[i];
                     n.ShuffleOut((X == 0) ? this.Width : X - n.Width, 0);
                 }
-                topNotches.RemoveRange(0, amt);
+                if (topNotches.Count > 0)
+                {
+                    topNotches.RemoveRange(0, Math.Min(topNotches.Count, amt));
+                }
                 for (int i = 0; i < topNotches.Count; i++)
                 {
                     EnemyNotch n = topNotches[i];
@@ -108,10 +115,17 @@ namespace Cyclyc.Framework
             {
                 for (int i = 0; i < amt; i++)
                 {
+                    if (i >= bottomNotches.Count)
+                    {
+                        break;
+                    }
                     EnemyNotch n = bottomNotches[i];
                     n.ShuffleOut((X == 0) ? this.Width : X - n.Width, this.Height - Width / 2 - n.Height);
                 }
-                bottomNotches.RemoveRange(0, amt);
+                if (bottomNotches.Count > 0)
+                {
+                    bottomNotches.RemoveRange(0, Math.Min(bottomNotches.Count, amt));
+                }
                 for (int i = 0; i < bottomNotches.Count; i++)
                 {
                     EnemyNotch n = bottomNotches[i];

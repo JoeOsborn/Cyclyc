@@ -111,6 +111,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="ShipGirl\BeamBit.cs" />
+    <Compile Include="ShipGirl\BeamPool.cs" />
     <Compile Include="ShipGirl\Ship.cs" />
     <Compile Include="ShipGirl\ShipCircle.cs" />
     <Compile Include="ShipGirl\ShipEnemy.cs" />

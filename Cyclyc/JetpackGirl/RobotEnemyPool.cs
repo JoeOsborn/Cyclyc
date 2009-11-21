@@ -23,7 +23,7 @@ namespace Cyclyc.JetpackGirl
 
         }
 
-        public override CycEnemy MakeEnemy()
+        public override CycSprite MakeEnemy()
         {
             return new RobotEnemy(CycGame.Game, this);
         }

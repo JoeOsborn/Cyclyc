@@ -124,7 +124,7 @@ namespace Cyclyc.Framework
                         beat.Unsent = false;
                         foreach (EnemyMaker em in beat.Enemies)
                         {
-                            CycEnemy enemy = em(this);
+                            CycEnemy enemy = (CycEnemy)em(this);
                             difficultyThisTurn += enemy.Difficulty;
                         }
                     }

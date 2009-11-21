@@ -16,7 +16,7 @@ using Cyclyc.ShipGirl;
 
 namespace Cyclyc.Framework
 {
-    public delegate CycEnemy EnemyMaker(Challenge c);
+    public delegate CycSprite EnemyMaker(Challenge c);
 
     public class CycGame : Object
     {

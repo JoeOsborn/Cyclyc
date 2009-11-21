@@ -104,7 +104,7 @@ namespace Cyclyc.Framework
 
         public void LoadContent()
         {
-            bg = Game.Content.Load<Texture2D>("space background");
+            bg = Game.Content.Load<Texture2D>("tubeLeft");
             foreach (EnemyNotch n in topNotches)
             {
                 n.LoadContent();

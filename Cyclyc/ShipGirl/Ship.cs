@@ -18,6 +18,8 @@ namespace Cyclyc.ShipGirl
     {
         protected KeyboardState kb;
 
+        protected Vector2 LastInputVelocity { get; set; }
+
         public bool Dying { get; set; }
         protected double respawnTimer;
         protected double RespawnDelay
@@ -25,16 +27,26 @@ namespace Cyclyc.ShipGirl
             get { return 1.0; }
         }
 
+        protected float ShotCooldown { get; set; }
+
+        Random rgen;
+
+        public BeamPool CrushPool { get; set; }
+
         public Ship(Game1 game)
             : base(game)
         {
+            rgen = new Random();
             assetName = "shipGirl";
             respawnTimer = 0;
             Dying = false;
             collisionStyle = CollisionStyle.Circle;
             AddAnimation("death", new int[] { 0 }, new int[] { 5 }, true);
-            FlipImage = true;
+            TargetRotation = Rotation;
+            LastInputVelocity = velocity;
         }
+
+        protected float TargetRotation { get; set; }
 
         public Vector2 StartPosition { get; set; }
 
@@ -50,6 +62,7 @@ namespace Cyclyc.ShipGirl
             VisualWidth = spriteWidth/2;
             VisualHeight = spriteSheet.Height/2;
             Radius = 15;
+            CrushPower = 0;
         }
 
         protected float MaxSpeedX
@@ -61,10 +74,85 @@ namespace Cyclyc.ShipGirl
             get { return 2.5f; }
         }
 
+        public float CrushPower { get; set; }
+        public float CrushMaxPower { get { return 30.0f; } }
+        public float CrushPowerUpRate
+        {
+            get { return 0.5f; }
+        }
+        public float CrushPowerDownRate
+        {
+            get { return 1.0f; }
+        }
+
+        public void Skim(int enemyCount)
+        {
+            CrushPower = (float)Math.Min(CrushMaxPower, CrushPower+CrushPowerUpRate * enemyCount);
+        }
+
+        protected float ShotCooldownMax
+        {
+            get
+            {
+                if (CrushPower > (3 * CrushMaxPower / 4.0))
+                {
+                    return 0.1f;
+                }
+                else if (CrushPower > (CrushMaxPower / 2.0))
+                {
+                    return 0.5f;
+                }
+                else
+                {
+                    return 0.8f;
+                }
+            }
+        }
+        protected float ShotMaxSpeed
+        {
+            get { return 6.0f; }
+        }
+        protected float ShotMinSpeed
+        {
+            get { return 5.0f; }
+        }
+        protected float MaxRotationVariance
+        {
+            get { return (float)(Math.PI / 64); }
+        }
+        public float PowerRatio
+        {
+            get { return ((float)Math.Max(CrushPower, 0.05) / CrushMaxPower); }
+        }
+
+        protected void FireShot()
+        {
+            //magnitude
+            float ratio = PowerRatio;
+            float mag = (float)(ratio * (ShotMaxSpeed-ShotMinSpeed) * rgen.NextDouble() + ShotMinSpeed);
+            float rotVar = (MaxRotationVariance * ratio);
+            float dir = (float)(Rotation + ((rotVar * 2 * rgen.NextDouble()) - rotVar));
+            Vector2 vel = new Vector2((float)(Math.Cos(dir) * mag), (float)(Math.Sin(dir) * mag));
+            Vector2 pos = Position + new Vector2((float)(Radius * Math.Cos(dir)), (float)(Radius * Math.Sin(dir)));
+            CrushPool.Create(pos.X, pos.Y, vel.X, vel.Y);
+        }
+
+        protected void Crush(GameTime gt)
+        {
+            if (ShotCooldown <= 0)
+            {
+                FireShot();
+                ShotCooldown = ShotCooldownMax;
+            }
+            CrushPower = Math.Max(CrushPower - CrushPowerDownRate, 0);
+        }
+
         public void Die()
         {
             Dying = true;
             respawnTimer = RespawnDelay;
+            CrushPower = 0;
+            ShotCooldown = 0;
             Play("death", false);
         }
 
@@ -79,6 +167,19 @@ namespace Cyclyc.ShipGirl
 
         public override void Update(GameTime gameTime)
         {
+            Console.WriteLine("Crush power: " + CrushPower);
+            if (ShotCooldown > ShotCooldownMax)
+            {
+                ShotCooldown = ShotCooldownMax;
+            }
+            if (ShotCooldown > 0)
+            {
+                ShotCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            if (!Dying && Keyboard.GetState().IsKeyDown(Keys.Space) && ShotCooldown <= 0)
+            {
+                Crush(gameTime);
+            }
             if (Dying)
             {
                 respawnTimer -= gameTime.ElapsedGameTime.TotalSeconds;
@@ -99,10 +200,12 @@ namespace Cyclyc.ShipGirl
             if (kb.IsKeyDown(Keys.Up) && kb.IsKeyUp(Keys.Down) && TopEdge > CeilY)
             {
                 velocity.Y = MathHelper.Clamp(velocity.Y - ManualSpeedStep, -MaxSpeedY, MaxSpeedY);
+                LastInputVelocity = Velocity;
             }
             else if (kb.IsKeyDown(Keys.Down) && kb.IsKeyUp(Keys.Up) && BottomEdge < FloorY)
             {
                 velocity.Y = MathHelper.Clamp(velocity.Y + ManualSpeedStep, -MaxSpeedY, MaxSpeedY);
+                LastInputVelocity = Velocity;
             }
             else
             {
@@ -118,10 +221,12 @@ namespace Cyclyc.ShipGirl
             if (kb.IsKeyDown(Keys.Right) && kb.IsKeyUp(Keys.Left) && RightEdge < RightX)
             {
                 velocity.X = MathHelper.Clamp(velocity.X + ManualSpeedStep, -MaxSpeedX, MaxSpeedX);
+                LastInputVelocity = Velocity;
             }
             else if (kb.IsKeyDown(Keys.Left) && kb.IsKeyUp(Keys.Right) && LeftEdge > LeftX)
             {
                 velocity.X = MathHelper.Clamp(velocity.X - ManualSpeedStep, -MaxSpeedX, MaxSpeedX);
+                LastInputVelocity = Velocity;
             }
             else
             {
@@ -134,7 +239,15 @@ namespace Cyclyc.ShipGirl
                     velocity.X = MathHelper.Min(velocity.X + InertiaSpeedStep, 0);
                 }
             }
-
+            if (LastInputVelocity.X != 0 || LastInputVelocity.Y != 0)
+            {
+                TargetRotation = (float)Math.Atan2(LastInputVelocity.Y, LastInputVelocity.X);
+            }
+            if (Math.Abs(Rotation - TargetRotation) > float.Epsilon)
+            {
+                double turnAmount = Math.Atan2(Math.Sin(TargetRotation - Rotation), Math.Cos(TargetRotation - Rotation));
+                Rotation += (float)(turnAmount * 0.1);
+            }
             base.Update(gameTime);
         }
 

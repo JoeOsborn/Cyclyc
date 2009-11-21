@@ -139,9 +139,9 @@ namespace Cyclyc.JetpackGirl
             base.Update(gameTime);
             if (jg.Attacking)
             {
-                List<CycEnemy> hitRobots = robots.Collide(jg.Wrench);
-                List<CycEnemy> hitSpiders = spiders.Collide(jg.Wrench);
-                List<CycEnemy> hitHovers = hovers.Collide(jg.Wrench);
+                List<CycSprite> hitRobots = robots.Collide(jg.Wrench);
+                List<CycSprite> hitSpiders = spiders.Collide(jg.Wrench);
+                List<CycSprite> hitHovers = hovers.Collide(jg.Wrench);
                 foreach (CycEnemy hit in hitRobots)
                 {
                     ((JetpackEnemy)(hit)).Hit(jg.Position.X);
@@ -155,24 +155,24 @@ namespace Cyclyc.JetpackGirl
                     ((JetpackEnemy)(hit)).Hit(jg.Position.X);
                 }
             }
-            List<CycEnemy> killerRobots = robots.Collide(jg);
-            List<CycEnemy> killerSpiders = spiders.Collide(jg);
-            List<CycEnemy> killerHovers = hovers.Collide(jg);
-            foreach (CycEnemy en in killerRobots)
+            List<CycSprite> killerRobots = robots.Collide(jg);
+            List<CycSprite> killerSpiders = spiders.Collide(jg);
+            List<CycSprite> killerHovers = hovers.Collide(jg);
+            foreach (CycSprite en in killerRobots)
             {
                 if (!((JetpackEnemy)en).IsHit && !jg.Dying)
                 {
                     KillPlayer();
                 }
             }
-            foreach (CycEnemy en in killerSpiders)
+            foreach (CycSprite en in killerSpiders)
             {
                 if (!((JetpackEnemy)en).IsHit && !jg.Dying)
                 {
                     KillPlayer();
                 }
             }
-            foreach (CycEnemy en in killerHovers)
+            foreach (CycSprite en in killerHovers)
             {
                 if (!((JetpackEnemy)en).IsHit && !jg.Dying)
                 {

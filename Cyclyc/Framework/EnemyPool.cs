@@ -15,6 +15,12 @@ using Cyclyc.Framework;
 
 namespace Cyclyc.Framework
 {
+    public struct CollisionGroup
+    {
+        public CycSprite collider;
+        public List<CycSprite> collided;
+    }
+
     public class EnemyPool
     {
         CycGame cycGame;
@@ -23,8 +29,8 @@ namespace Cyclyc.Framework
             get { return cycGame; }
         }
 
-        protected List<CycEnemy> enemies;
-        public List<CycEnemy> Enemies
+        protected List<CycSprite> enemies;
+        public List<CycSprite> Enemies
         {
             get { return enemies; }
             set { enemies = value; }
@@ -33,17 +39,17 @@ namespace Cyclyc.Framework
         public EnemyPool(CycGame g)
         {
             cycGame = g;
-            enemies = new List<CycEnemy>();
+            enemies = new List<CycSprite>();
         }
 
-        public virtual CycEnemy MakeEnemy()
+        public virtual CycSprite MakeEnemy()
         {
-            return new CycEnemy(CycGame.Game, this);
+            return null;
         }
 
-        public CycEnemy FindOrMakeEnemy()
+        public CycSprite FindOrMakeEnemy()
         {
-            CycEnemy enemy = FindFreeEnemy();
+            CycSprite enemy = FindFreeEnemy();
             if (enemy == null)
             {
                 enemy = MakeEnemy();
@@ -51,9 +57,9 @@ namespace Cyclyc.Framework
             }
             return enemy;
         }
-        protected CycEnemy FindFreeEnemy()
+        protected CycSprite FindFreeEnemy()
         {
-            foreach (CycEnemy e in enemies)
+            foreach (CycSprite e in enemies)
             {
                 if (!e.Alive && !e.Visible)
                 {
@@ -62,10 +68,10 @@ namespace Cyclyc.Framework
             }
             return null;
         }
-        public List<CycEnemy> Collide(CycSprite sprite)
+        public List<CycSprite> Collide(CycSprite sprite)
         {
-            List<CycEnemy> collided = new List<CycEnemy>();
-            foreach (CycEnemy e in enemies)
+            List<CycSprite> collided = new List<CycSprite>();
+            foreach (CycSprite e in enemies)
             {
                 if (!e.Alive) { continue; }
                 if (e.Collide(sprite))
@@ -75,7 +81,21 @@ namespace Cyclyc.Framework
             }
             return collided;
         }
-        public void EnemyOffScreen(CycEnemy e)
+        public List<CollisionGroup> CollidePool(EnemyPool pool)
+        {
+            List<CollisionGroup> collisions = new List<CollisionGroup>();
+            foreach (CycSprite e in enemies)
+            {
+                if (!e.Alive) { continue; }
+                List<CycSprite> collided = pool.Collide(e);
+                if (collided.Count > 0)
+                {
+                    collisions.Add(new CollisionGroup { collider = e, collided = collided });
+                }
+            }
+            return collisions;
+        }
+        public void EnemyOffScreen(CycSprite e)
         {
 
         }

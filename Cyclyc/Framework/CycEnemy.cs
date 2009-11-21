@@ -134,11 +134,6 @@ namespace Cyclyc.Framework
                         Challenge.EnemyIgnored(this);
                     }
                 }
-                //if (IsPastRightEdge(gameTime))
-                //{
-                //    alive = false;
-                //    visible = false;
-                //}
             }
             base.Update(gameTime);
         }

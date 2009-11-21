@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,19 +14,27 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using Cyclyc.Framework;
 
-namespace Cyclyc.JetpackGirl
+namespace Cyclyc.ShipGirl
 {
-    public class HoverEnemyPool : JetpackEnemyPool
+    public class BeamPool : EnemyPool
     {
-        public HoverEnemyPool(CycGame game)
-            : base(game)
+        public BeamPool(CycGame g)
+            : base(g)
         {
 
         }
 
         public override CycSprite MakeEnemy()
         {
-            return new HoverEnemy(CycGame.Game, this);
+            return new BeamBit(CycGame.Game, this);
+        }
+        public BeamBit Create(float x, float y, float vx, float vy)
+        {
+            BeamBit bit = (BeamBit)FindOrMakeEnemy();
+            bit.Initialize();
+            bit.LoadContent();
+            bit.Reset(x, y, vx, vy);
+            return bit;
         }
     }
 }

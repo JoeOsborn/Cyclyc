@@ -24,7 +24,7 @@ namespace Cyclyc.JetpackGirl
             rgen = new Random();
         }
 
-        public override CycEnemy MakeEnemy()
+        public override CycSprite MakeEnemy()
         {
             return new JetpackEnemy(CycGame.Game, this);
         }

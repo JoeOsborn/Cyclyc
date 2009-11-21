@@ -21,11 +21,11 @@ namespace Cyclyc.ShipGirl
         public ShipEnemyPool(CycGame g) : base(g)
         {
         }
-        public override CycEnemy MakeEnemy()
+        public override CycSprite MakeEnemy()
         {
             return new ShipEnemy(CycGame.Game, this);
         }
-        public ShipEnemy Create(Challenge c, string img, int fc, CollisionStyle col, string curveSet, bool left, int y, int w, int h, double timeScale, int diff)
+        public CycSprite Create(Challenge c, string img, int fc, CollisionStyle col, string curveSet, bool left, int y, int w, int h, double timeScale, int diff)
         {
             ShipEnemy enemy = (ShipEnemy)FindOrMakeEnemy();
             enemy.Reset(c, img, fc, col, curveSet, left, left ? 0 : CycGame.View.Width, y, w, h, timeScale, diff);

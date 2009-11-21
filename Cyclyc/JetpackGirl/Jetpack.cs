@@ -20,6 +20,11 @@ namespace Cyclyc.JetpackGirl
         JetpackOwner owner;
         public bool jetting;
         protected float jpFuel;
+        public float JPFuel
+        {
+            get { return jpFuel; }
+            set { jpFuel = value; }
+        }
         public Jetpack(JetpackOwner o)
         {
             MaxSpeedX = 1.0f;

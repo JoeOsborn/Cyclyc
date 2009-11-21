@@ -89,10 +89,11 @@ namespace Cyclyc.ShipGirl
                 }
                 else if(r < 0)
                 enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "wave", 
-                    leftToRight, (int)(rgen.NextDouble()*(View.Height)), 22, 22, 
+                    leftToRight, 0, (int)(rgen.NextDouble()*(View.Height)), 22, 22, 
                     1.0, difficulty);
             }
         }
+
 
 
 
@@ -101,40 +102,39 @@ namespace Cyclyc.ShipGirl
         //   DEFINE SPECIFIC ENEMY TYPES
         //--------------------------------------------------------------------------------
 
-        protected EnemyMaker MakeJerkEnemy(int y)
+        protected EnemyMaker MakeJerkEnemy(int x, int y)
         {
             return (c) => 
                 enemyBatch.Create(c, "spider robot space creepy", 1, CollisionStyle.Circle, "jerk", true,
-                    y, 14, 14, 1.0, 1);
+                    x, y, 14, 14, 1.0, 1);
         }
 
-        protected EnemyMaker MakeLoopEnemy(int y)
+        protected EnemyMaker MakeLoopEnemy(int x, int y)
         {
             return (c) =>
                 enemyBatch.Create(c, "walking robot space creepy", 1, CollisionStyle.Circle, "loop", true,
-                    y, 28, 28, 1.0, 1);
+                    x, y, 28, 28, 1.0, 1);
         }
 
- 
-        protected EnemyMaker MakeZigzagEnemy(int y)
+        protected EnemyMaker MakeZigzagEnemy(int x, int y)
         {
             return (c) =>
                 enemyBatch.Create(c, "walking robot space creepy", 1, CollisionStyle.Circle, "zigzag", true,
-                    y, 28, 28, 1.0, 1);
+                    x, y, 28, 28, 1.0, 1);
         }
 
-        protected EnemyMaker MakeEssEnemy(int y)
+        protected EnemyMaker MakeEssEnemy(int x, int y)
         {
             return (c) =>
                 enemyBatch.Create(c, "walking robot space creepy", 1, CollisionStyle.Circle, "ess", true,
-                    y, 28, 28, 1.0, 1);
+                    x, y, 28, 28, 1.0, 1);
         }
 
-        protected EnemyMaker MakeWaveEnemy(int y)
+        protected EnemyMaker MakeWaveEnemy(int x, int y)
         {
             return (c) =>
                 enemyBatch.Create(c, "spider robot space creepy", 1, CollisionStyle.Circle, "wave", true,
-                    y, 14, 14, 1.0, 1);
+                    x, y, 14, 14, 1.0, 1);
         }
         //--------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------
@@ -166,28 +166,36 @@ namespace Cyclyc.ShipGirl
         {
             Challenge wave0_0 = new Challenge(this, Game, 4);
             wave0_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
-                MakeJerkEnemy(40), MakeJerkEnemy(100), MakeJerkEnemy(250)
+                MakeJerkEnemy(0, 40), MakeJerkEnemy(0, 100), MakeJerkEnemy(0, 250)
             }));
             TriggerChallenge(0, wave0_0);
 
             Challenge wave1_0 = new Challenge(this, Game, 8);
             wave1_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
-                MakeLoopEnemy(50), MakeLoopEnemy(150)
+                MakeLoopEnemy(0, 50), MakeLoopEnemy(0, 150)
             }));
             wave1_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
-                MakeLoopEnemy(100)
+                MakeLoopEnemy(0, 100)
             }));
             TriggerChallenge(0, wave1_0);
 
             Challenge wave2_0 = new Challenge(this, Game, 12);
             wave2_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
-                MakeZigzagEnemy(20), MakeZigzagEnemy(70)
+                MakeZigzagEnemy(0, 20), MakeZigzagEnemy(0, 70)
             }));
+<<<<<<< HEAD
             wave2_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
                 MakeZigzagEnemy(250), MakeZigzagEnemy(280)
             }));
             wave2_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
                 MakeZigzagEnemy(100), MakeZigzagEnemy(140), MakeZigzagEnemy(170)
+=======
+            wave2_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
+                MakeZigzagEnemy(0, 250), MakeZigzagEnemy(0, 280)
+            }));
+            wave2_0.AddBeat(new ChallengeBeat(6, new EnemyMaker[] {
+                MakeZigzagEnemy(0, 100), MakeZigzagEnemy(0, 140), MakeZigzagEnemy(0, 170)
+>>>>>>> 4b1bd71393dd4804c690b2a0608d5e418fb65ddc
             }));
             TriggerChallenge(0, wave2_0);
 

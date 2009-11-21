@@ -65,6 +65,8 @@ namespace Cyclyc.JetpackGirl
             FlipImage = false;
             jumpReleased = true;
             respawnTimer = RespawnDelay;
+            jetpack.JPFuel = jetpack.MaxJPFuel;
+            velocity.Y = -jetpack.Gravity*4;
         }
 
         public override void LoadContent()
@@ -251,7 +253,7 @@ namespace Cyclyc.JetpackGirl
         }
         public bool FallingThroughGround
         {
-            get { return OnGround && velocity.Y > 0; }
+            get { return Dying ? false : (OnGround && velocity.Y > 0); }
         }
         public bool OnGround
         {
@@ -273,6 +275,23 @@ namespace Cyclyc.JetpackGirl
         {
             get { return !Dying && !oldKB.IsKeyDown(Keys.W) && kb.IsKeyDown(Keys.W); }
         }
+
+        protected override bool StopAtBottomEdge(GameTime gt)
+        {
+            return Dying ? false : true;
+        }
+        protected override void HitBottomEdge(GameTime gt)
+        {
+            if (Dying)
+            {
+                //nop
+            }
+            else
+            {
+                BottomEdge = FloorY;
+            }
+        }
+
         public override void Update(GameTime gameTime)
         {
             if (Dying)

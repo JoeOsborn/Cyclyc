@@ -40,7 +40,7 @@ namespace Cyclyc.JetpackGirl
             hitFromLeft = true;
             hitTimer = 0;
             jetpack = new Jetpack(this);
-            ScaleFactor = 2.0f;
+            ScaleFactor = 2f;
         }
 
         public bool KnockedOffScreen

@@ -92,6 +92,8 @@
     <Compile Include="Framework\CycEnemy.cs" />
     <Compile Include="Framework\CycGame.cs" />
     <Compile Include="Framework\CycSprite.cs" />
+    <Compile Include="Framework\EnemyNotch.cs" />
+    <Compile Include="Framework\EnemyPipe.cs" />
     <Compile Include="Framework\EnemyPool.cs" />
     <Compile Include="Framework\SongTrack.cs" />
     <Compile Include="JetpackGirl\HoverEnemy.cs" />

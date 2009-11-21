@@ -51,7 +51,6 @@ namespace Cyclyc.JetpackGirl
             
             jg = new JetpackGirl((Game1)Game);
             AddSprite(jg);
-            jg.StartPosition = StartPosition;
 
             base.Initialize();
         }
@@ -96,6 +95,8 @@ namespace Cyclyc.JetpackGirl
 
         public override void LoadContent()
         {
+            jg.StartPosition = StartPosition;
+            jg.Position = StartPosition;
             base.LoadContent();
         }
 

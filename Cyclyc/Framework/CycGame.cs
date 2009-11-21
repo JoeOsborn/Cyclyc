@@ -29,6 +29,10 @@ namespace Cyclyc.Framework
         {
             get { return Game.GraphicsDevice; }
         }
+
+        public EnemyPipe LeftPipe { get; set; }
+        public EnemyPipe RightPipe { get; set; }
+
         Viewport view;
         public Viewport View
         {
@@ -116,10 +120,12 @@ namespace Cyclyc.Framework
             if (leftSide)
             {
                 NextMeasureLeftDifficulty += difficulty;
+                LeftPipe.RegisterDifficultyNotch(this, difficulty);
             }
             else
             {
                 NextMeasureRightDifficulty += difficulty;
+                RightPipe.RegisterDifficultyNotch(this, difficulty);
             }
         }
 

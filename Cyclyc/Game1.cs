@@ -33,6 +33,9 @@ namespace Cyclyc
         JetGame jetGame;
         public bool playing;
 
+        EnemyPipe leftPipe;
+        EnemyPipe rightPipe;
+
         public double timePlayed;
 
         public Game1()
@@ -40,12 +43,26 @@ namespace Cyclyc
             playing = false;
             timePlayed = 0;
             graphics = new GraphicsDeviceManager(this);
+            //graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
+
+            leftPipe = new EnemyPipe(this);
+            rightPipe = new EnemyPipe(this);
 
             shipGame = new ShipGame(this);
             jetGame = new JetGame(this);
             shipGame.NextGame = jetGame;
             jetGame.NextGame = shipGame;
+
+            leftPipe.TopGame = shipGame;
+            leftPipe.BottomGame = jetGame;
+            rightPipe.TopGame = shipGame;
+            rightPipe.BottomGame = jetGame;
+
+            shipGame.LeftPipe = leftPipe;
+            shipGame.RightPipe = rightPipe;
+            jetGame.LeftPipe = leftPipe;
+            jetGame.RightPipe = rightPipe;
         }
 
         public int Tempo
@@ -72,6 +89,8 @@ namespace Cyclyc
             // TODO: Add your initialization logic here
             shipGame.Initialize();
             jetGame.Initialize();
+            leftPipe.Initialize();
+            rightPipe.Initialize();
             base.Initialize();
         }
 
@@ -84,9 +103,6 @@ namespace Cyclyc
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            shipGame.LoadContent();
-            jetGame.LoadContent();
-
             Viewport upperView = GraphicsDevice.Viewport;
             upperView.Height /= 2;
             upperView.X = PipeWidth;
@@ -97,6 +113,18 @@ namespace Cyclyc
             shipGame.View = upperView;
             jetGame.View = lowerView;
 
+            shipGame.LoadContent();
+            jetGame.LoadContent();
+
+            leftPipe.Height = GraphicsDevice.Viewport.Height;
+            leftPipe.Width = PipeWidth;
+            rightPipe.X = lowerView.X + lowerView.Width;
+            rightPipe.Width = PipeWidth;
+            rightPipe.Height = leftPipe.Height;
+            //add a couple of pipes!
+
+
+
             foreach (SongTrack s in shipGame.Songs)
             {
                 s.Play();
@@ -106,7 +134,8 @@ namespace Cyclyc
                 s.Play();
             }
             playing = true;
-
+            leftPipe.LoadContent();
+            rightPipe.LoadContent();
             base.LoadContent();
         }
 
@@ -139,6 +168,8 @@ namespace Cyclyc
             }
             shipGame.Update(gameTime);
             jetGame.Update(gameTime);
+            leftPipe.Update(gameTime);
+            rightPipe.Update(gameTime);
             // TODO: Add your update logic here
             base.Update(gameTime);
         }
@@ -153,6 +184,10 @@ namespace Cyclyc
             GraphicsDevice.Clear(Color.CornflowerBlue);
             shipGame.Draw(gameTime);
             jetGame.Draw(gameTime);
+            SpriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
+            leftPipe.Draw(gameTime);
+            rightPipe.Draw(gameTime);
+            SpriteBatch.End();
             base.Draw(gameTime);
             GraphicsDevice.Viewport = defaultVP;
         }

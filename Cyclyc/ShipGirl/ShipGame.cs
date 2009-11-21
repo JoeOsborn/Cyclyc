@@ -38,7 +38,6 @@ namespace Cyclyc.ShipGirl
             AddBackground("stars", -0.3f);
 
             ship = new Ship(Game);
-            ship.Position = new Vector2(30, 30);
             crush = new ShipCircle(Game, ship, "crushRing");
             AddSprite(crush);
             skim = new ShipCircle(Game, ship, "skimRing");
@@ -47,7 +46,6 @@ namespace Cyclyc.ShipGirl
             skim.ResizeTo(DefaultSkimRadius, 0);
             crush.ResizeTo(DefaultCrushRadius, 0);
             AddSprite(ship);
-            ship.Position = StartPosition;
 //            debugRadius = new ShipCircle(Game, ship, "crushRing");
 //            AddSprite(debugRadius);
             base.Initialize();
@@ -60,7 +58,7 @@ namespace Cyclyc.ShipGirl
                 //a random free radius on the left half of the screen
                 Vector2 oldPos = ship.Position;
                 do {
-                    ship.Position = new Vector2(View.Width - (float)(rgen.NextDouble() * View.Width/2.0)-30, (float)(rgen.NextDouble() * 100)+10);
+                    ship.Position = new Vector2(View.Width - (float)(rgen.NextDouble() * View.Width/4.0)-30, (float)(rgen.NextDouble() * 100)+10);
                 } while(enemyBatch.Collide(ship).Count != 0);
                 Vector2 ret = ship.Position;
                 ship.Position = oldPos;
@@ -238,6 +236,8 @@ namespace Cyclyc.ShipGirl
         {
             //replace this with a Challenge and an EnemyMaker. Also provide a random enemy maker.  Then implement
             //killing and parametrize circle vs box collision?
+            ship.StartPosition = StartPosition;
+            ship.Position = StartPosition;
             base.LoadContent();
 //            debugRadius.ResizeTo(ship.Radius, 0);
         }

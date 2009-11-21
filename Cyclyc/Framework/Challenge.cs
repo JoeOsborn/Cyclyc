@@ -97,8 +97,9 @@ namespace Cyclyc.Framework
             enemiesIgnored+=enemy.Difficulty;
         }
 
-        public void Process(float expectedGrade, float actualGrade, bool changeState)
+        public int Process(float expectedGrade, float actualGrade, bool changeState)
         {
+            int difficultyThisTurn = 0;
             if (state == ChallengeState.NotYet && game.CurrentMeasure >= Measure)
             {
                 if (expectedGrade > actualGrade)
@@ -123,7 +124,8 @@ namespace Cyclyc.Framework
                         beat.Unsent = false;
                         foreach (EnemyMaker em in beat.Enemies)
                         {
-                            em(this);
+                            CycEnemy enemy = em(this);
+                            difficultyThisTurn += enemy.Difficulty;
                         }
                     }
                     else
@@ -136,6 +138,7 @@ namespace Cyclyc.Framework
                     state = ChallengeState.Deployed;
                 }
             }
+            return difficultyThisTurn;
         }
 
     }

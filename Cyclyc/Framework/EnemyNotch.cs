@@ -50,7 +50,7 @@ namespace Cyclyc.Framework
             set
             {
                 duration = value;
-                rollTick = duration;
+                rollTick = 0;
             }
         }
 
@@ -88,11 +88,11 @@ namespace Cyclyc.Framework
 
         public void Update(GameTime gt)
         {
-            if (rollTick > 0)
+            if (rollTick <= Duration)
             {
-                rollTick -= (float)(gt.ElapsedGameTime.TotalSeconds);
+                rollTick += (float)(gt.ElapsedGameTime.TotalSeconds);
                 //doesn't really work, try an epsilon and if that doesn't work use curves instead, geez
-                if (Y != TargetY)
+                if (Math.Abs(TargetY-Y) > float.Epsilon)
                 {
                     Y = (int)(MathHelper.Lerp(StartY, TargetY, rollTick / Duration));
                     yReachedTick = rollTick;

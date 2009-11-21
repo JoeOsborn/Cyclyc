@@ -47,40 +47,68 @@ namespace Cyclyc.Framework
             bottomNotches = new List<EnemyNotch>();
         }
 
-        public void RegisterDifficultyNotch(CycGame src, int difficulty)
+        protected int UpPipeX { get { return X == 0 ? (X + 2) : (X + PipeMargin + 2); } }
+        protected int UpPipeStartY { get { return Height - 8; } }
+        protected int DownPipeX { get { return X == 0 ? (X + PipeMargin + 2) : (X + 2); } }
+        protected int DownPipeStartY { get { return PipeMargin; } }
+
+        public void RegisterDifficultyNotch(CycGame dst, int difficulty)
         {
-            if (src == TopGame)
+            float triggerTime = ((((int)Game.CurrentMeasure) / 4) + 1) * 4 - (2.0f/180f);
+            if (dst == TopGame)
+            {
+                //send a notch to the upper edge of the pipe
+                //warning magic number
+                EnemyNotch n = new EnemyNotch(this, UpPipeX, UpPipeStartY, 8);
+                //assumption: notches have uniform height
+                n.TargetY = topNotches.Count() * n.Height;
+                n.Duration = (float)(triggerTime - Game.CurrentMeasure);
+                topNotches.Add(n);
+                n.Initialize();
+                n.LoadContent();         
+            }
+            else
             {
                 //send a notch to the bottom edge of the pipe
-                EnemyNotch n = new EnemyNotch(this, X+PipeMargin+2, 0, 8);
-                n.TargetY = Height - bottomNotches.Count() * n.Height;
-                n.Duration = (float)(1 - (Game.CurrentMeasure - (int)(Game.CurrentMeasure)));
+                EnemyNotch n = new EnemyNotch(this, DownPipeX, DownPipeStartY, 8);
+                n.TargetY = Height - bottomNotches.Count() * n.Height - 8 - PipeMargin;
+                n.Duration = (float)(triggerTime - Game.CurrentMeasure);
                 bottomNotches.Add(n);
                 n.Initialize();
                 n.LoadContent();
             }
+        }
+        public void ClearNotches(CycGame src, int amt)
+        {
+            if (src == TopGame)
+            {
+                for(int i = 0; i < amt; i++)
+                {
+                    EnemyNotch n = topNotches[i];
+                    n.ShuffleOut((X == 0) ? this.Width : X - n.Width, 0);
+                }
+                topNotches.RemoveRange(0, amt);
+                for (int i = 0; i < topNotches.Count; i++)
+                {
+                    EnemyNotch n = topNotches[i];
+                    n.TargetY = i * n.Height;
+                    n.Duration = 2.0f / 180f;
+                }
+            }
             else
             {
-                //send a notch to the upper edge of the pipe
-                //warning magic number
-                EnemyNotch n = new EnemyNotch(this, X+2, Height - 8 - PipeMargin, 8);
-                //assumption: notches have uniform height
-                n.TargetY = topNotches.Count() * n.Height + Width / 2;
-                n.Duration = (float)(1 - (Game.CurrentMeasure - (int)(Game.CurrentMeasure)));
-                topNotches.Add(n);
-                n.Initialize();
-                n.LoadContent();
-            }
-        }
-        public void ClearNotches()
-        {
-            foreach(EnemyNotch n in topNotches)
-            {
-                n.ShuffleOut((X == 0) ? this.Width : X - n.Width, 0);
-            }
-            foreach (EnemyNotch n in bottomNotches)
-            {
-                n.ShuffleOut((X == 0) ? this.Width : X - n.Width, this.Height - Width / 2 - n.Height);
+                for (int i = 0; i < amt; i++)
+                {
+                    EnemyNotch n = bottomNotches[i];
+                    n.ShuffleOut((X == 0) ? this.Width : X - n.Width, this.Height - Width / 2 - n.Height);
+                }
+                bottomNotches.RemoveRange(0, amt);
+                for (int i = 0; i < bottomNotches.Count; i++)
+                {
+                    EnemyNotch n = bottomNotches[i];
+                    n.TargetY = Height - i * n.Height - 8 - PipeMargin;
+                    n.Duration = 2.0f / 180f;
+                }
             }
         }
 

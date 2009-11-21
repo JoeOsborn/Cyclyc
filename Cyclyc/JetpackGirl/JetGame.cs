@@ -48,16 +48,16 @@ namespace Cyclyc.JetpackGirl
             AddBackground("pixel city middleground", 0.4f);
             AddBackground("pixel city foreground", 0.6f);
             AddBackground("pixel city road", 0.6f);
-            
+
             jg = new JetpackGirl((Game1)Game);
             AddSprite(jg);
 
             base.Initialize();
         }
 
-        protected override void CoalesceChallengeBeats(Challenge c)
+        protected override ChallengeBeat[] CoalesceChallengeBeatEnemies(bool left, int difficulty)
         {
-            base.CoalesceChallengeBeats(c);
+            return base.CoalesceChallengeBeatEnemies(left, difficulty);
         }
 
         public override EnemyMaker MakeEnemy(bool leftToRight, int difficulty)
@@ -82,6 +82,7 @@ namespace Cyclyc.JetpackGirl
                     }
 
                     en.Target = jg;
+                    return en;
                 };
         }
 

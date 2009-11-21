@@ -66,9 +66,9 @@ namespace Cyclyc.ShipGirl
             }
         }
 
-        protected override void CoalesceChallengeBeats(Challenge c)
+        protected override ChallengeBeat[] CoalesceChallengeBeatEnemies(bool left, int difficulty)
         {
-            base.CoalesceChallengeBeats(c);
+            return base.CoalesceChallengeBeatEnemies(left, difficulty);
         }
 
         //MAKE AN ENEMY. USED WHEN AN ENEMY IS SENT FROM OTHER PLAYER
@@ -80,20 +80,22 @@ namespace Cyclyc.ShipGirl
                 //make a different monster based on difficulty
                 if (r < 0.2)
                 {
-                    enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "wave",
+                    return enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "wave",
                         leftToRight, (int)(rgen.NextDouble() * (View.Height)), 22, 22,
                         1.0, difficulty);
                 }
                 else if (r < 0.4)
                 {
-                    enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "wave",
+                    return enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "wave",
                         leftToRight, (int)(rgen.NextDouble() * (View.Height)), 22, 22,
                         1.0, difficulty);
                 }
-                else if (r < 0)
-                    enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "wave",
+                else
+                {
+                    return enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "wave",
                         leftToRight, (int)(rgen.NextDouble() * (View.Height)), 22, 22,
                         1.0, difficulty);
+                }
             };
         }
 

@@ -16,7 +16,7 @@ using Cyclyc.ShipGirl;
 
 namespace Cyclyc.Framework
 {
-    public delegate void EnemyMaker(Challenge c);
+    public delegate CycEnemy EnemyMaker(Challenge c);
 
     public class CycGame : Object
     {
@@ -64,7 +64,8 @@ namespace Cyclyc.Framework
         protected List<CycBackground> backgrounds;
         public List<CycBackground> Backgrounds { get { return backgrounds; } }
         List<Challenge>[] challenges;
-        List<Challenge> otherPlayerChallenges;
+        List<Challenge> leftChallenges;
+        List<Challenge> rightChallenges;
 
         double[] GradeWeights { get; set; }
         double GradeModifier { get; set; }
@@ -94,7 +95,8 @@ namespace Cyclyc.Framework
                 new List<Challenge>(), 
                 new List<Challenge>() 
             };
-            otherPlayerChallenges = new List<Challenge>();
+            leftChallenges = new List<Challenge>();
+            rightChallenges = new List<Challenge>();
         }
 
         protected virtual void AddBackground(string bgName, float bgSpeed)
@@ -170,27 +172,50 @@ namespace Cyclyc.Framework
             SetupChallenges();
         }
 
-        protected virtual void CoalesceChallengeBeats(Challenge c)
+        protected void ConsumeLeft(int d)
         {
-            EnemyMaker[] enemies = new EnemyMaker[NextMeasureLeftDifficulty + NextMeasureRightDifficulty];
-            for (int i = 0; i < NextMeasureLeftDifficulty; i++)
+            LeftPipe.ClearNotches(this, d);
+            NextMeasureLeftDifficulty -= d;
+        }
+        protected void ConsumeRight(int d)
+        {
+            RightPipe.ClearNotches(this, d);
+            NextMeasureRightDifficulty -= d;
+        }
+
+        protected virtual ChallengeBeat[] CoalesceChallengeBeatEnemies(bool left, int difficulty)
+        {
+            EnemyMaker[] es = new EnemyMaker[difficulty];
+            for (int i = 0; i < difficulty; i++)
             {
-                enemies[i] = MakeEnemy(true, 1);
+                es[i] = MakeEnemy(left, 1);
+                if (left) { ConsumeLeft(1); }
+                else { ConsumeRight(1); }
             }
-            for (int j = 0; j < NextMeasureRightDifficulty; j++)
+            return new ChallengeBeat[] {new ChallengeBeat(0, es)};
+        }
+
+        protected virtual void CoalesceChallengeBeats(Challenge l, Challenge r)
+        {
+            ChallengeBeat[] leftBeats = CoalesceChallengeBeatEnemies(true, NextMeasureLeftDifficulty);
+            ChallengeBeat[] rightBeats = CoalesceChallengeBeatEnemies(false, NextMeasureRightDifficulty);
+            foreach (ChallengeBeat b in leftBeats)
             {
-                enemies[j + NextMeasureLeftDifficulty] = MakeEnemy(false, 1);
+                l.AddBeat(b);
             }
-            c.AddBeat(new ChallengeBeat(0, enemies));
+            foreach (ChallengeBeat b in rightBeats)
+            {
+                r.AddBeat(b);
+            }
         }
 
         protected void TriggerOtherPlayerChallenge()
         {
-            Challenge c = new Challenge(this, Game, (int)Math.Floor(Game.CurrentMeasure));
-            CoalesceChallengeBeats(c);
-            otherPlayerChallenges.Add(c);
-            NextMeasureLeftDifficulty = 0;
-            NextMeasureRightDifficulty = 0;
+            Challenge left = new Challenge(this, Game, (int)Math.Floor(Game.CurrentMeasure));
+            Challenge right = new Challenge(this, Game, (int)Math.Floor(Game.CurrentMeasure));
+            CoalesceChallengeBeats(left, right);
+            leftChallenges.Add(left);
+            rightChallenges.Add(right);
         }
 
         protected virtual void ProcessChallenges(int gradeLevel, GameTime gt)
@@ -201,26 +226,32 @@ namespace Cyclyc.Framework
                 c.Process(gradeLevel, Grade, true);
             }
         }
-
-        protected virtual void CalculateGrade()
-        {
-            //later, should grade be a function of difficulty as well?
-            
-            double prospectiveGrade = 0.0;
-            double avgGrade = 0.0;
-            if (otherPlayerChallenges.Count > 0)
+        protected double ComputePlayerChallenges(List<Challenge> cs)
+        {   
+            if (cs.Count > 0)
             {
-                //average per-challenge grade of otherPlayerChallenges
-                foreach (Challenge c in otherPlayerChallenges)
+                double avgGrade = 0.0;
+                //average per-challenge grade of otherPlayerChallenges - this is wrong and makes small challenges abusable
+                foreach (Challenge c in cs)
                 {
                     if (c.EnemyCount > 0)
                     {
                         avgGrade += ((double)c.EnemiesKilled / (2.0*(double)c.EnemyCount/4.0));
                     }
                 }
-                avgGrade /= otherPlayerChallenges.Count;
-                prospectiveGrade += avgGrade * GradeWeights[3];
+                avgGrade /= cs.Count;
+                return avgGrade * GradeWeights[3];
             }
+            return 0.0;
+        }
+        protected virtual void CalculateGrade()
+        {
+            //later, should grade be a function of difficulty as well?
+            
+            double prospectiveGrade = 0.0;
+            double avgGrade = 0.0;
+            prospectiveGrade += ComputePlayerChallenges(leftChallenges);            
+            prospectiveGrade += ComputePlayerChallenges(rightChallenges);
             for (int i = 0; i < 3; i++)
             {
                 if (challenges[i].Count == 0) { continue; }
@@ -245,7 +276,8 @@ namespace Cyclyc.Framework
             if ((int)(Game.CurrentMeasure) != lastMeasure)
             {
                 CalculateGrade();
-                if (NextMeasureLeftDifficulty > 0 || NextMeasureRightDifficulty > 0)
+                //trigger other player's challenges every four measures
+                if (((int)(Game.CurrentMeasure) % 4 == 0) && (NextMeasureLeftDifficulty > 0 || NextMeasureRightDifficulty > 0))
                 {
                     TriggerOtherPlayerChallenge();
                 }
@@ -266,7 +298,11 @@ namespace Cyclyc.Framework
             ProcessChallenges(0, gameTime);
             ProcessChallenges(1, gameTime);
             ProcessChallenges(2, gameTime);
-            foreach (Challenge c in otherPlayerChallenges)
+            foreach (Challenge c in leftChallenges)
+            {
+                c.Process(Grade, Grade, false);
+            }
+            foreach (Challenge c in rightChallenges)
             {
                 c.Process(Grade, Grade, false);
             }

@@ -49,8 +49,8 @@ namespace Cyclyc.ShipGirl
             crush.ResizeTo(DefaultCrushRadius, 0);
             AddSprite(ship);
             ship.Position = StartPosition;
-            debugRadius = new ShipCircle(Game, ship, "crushRing");
-            AddSprite(debugRadius);
+//            debugRadius = new ShipCircle(Game, ship, "crushRing");
+//            AddSprite(debugRadius);
             base.Initialize();
         }
 
@@ -144,7 +144,7 @@ namespace Cyclyc.ShipGirl
             //replace this with a Challenge and an EnemyMaker. Also provide a random enemy maker.  Then implement
             //killing and parametrize circle vs box collision?
             base.LoadContent();
-            debugRadius.ResizeTo(ship.Radius, 0);
+//            debugRadius.ResizeTo(ship.Radius, 0);
         }
         public float SkimShrinkRate
         {

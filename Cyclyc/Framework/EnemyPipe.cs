@@ -48,21 +48,25 @@ namespace Cyclyc.Framework
         }
 
         protected int UpPipeX { get { return X == 0 ? (X + 2) : (X + PipeMargin + 2); } }
-        protected int UpPipeStartY { get { return Height - 8; } }
+        protected int UpPipeStartY { get { return Height - 12; } }
         protected int DownPipeX { get { return X == 0 ? (X + PipeMargin + 2) : (X + 2); } }
         protected int DownPipeStartY { get { return PipeMargin; } }
 
         public void RegisterDifficultyNotch(CycGame dst, int difficulty)
         {
-            float triggerTime = ((((int)Game.CurrentMeasure) / 4) + 1) * 4 - (2.0f/180f);
+            float triggerTime = ((((int)Game.CurrentMeasure) / 4) + 1) * 4 - 1;
             if (dst == TopGame)
             {
                 //send a notch to the upper edge of the pipe
                 //warning magic number
-                EnemyNotch n = new EnemyNotch(this, UpPipeX, UpPipeStartY, 8);
+                EnemyNotch n = new EnemyNotch(this, UpPipeX, UpPipeStartY, 12);
                 //assumption: notches have uniform height
                 n.TargetY = topNotches.Count() * n.Height;
-                n.Duration = (float)(triggerTime - Game.CurrentMeasure);
+                if (topNotches.Count() == 0)
+                {
+                    n.TargetX = DownPipeX;
+                }
+                n.Duration = (float)((triggerTime - Game.CurrentMeasure)*(4.0/3.0));
                 topNotches.Add(n);
                 n.Initialize();
                 n.LoadContent();         
@@ -70,9 +74,10 @@ namespace Cyclyc.Framework
             else
             {
                 //send a notch to the bottom edge of the pipe
-                EnemyNotch n = new EnemyNotch(this, DownPipeX, DownPipeStartY, 8);
-                n.TargetY = Height - bottomNotches.Count() * n.Height - 8 - PipeMargin;
-                n.Duration = (float)(triggerTime - Game.CurrentMeasure);
+                EnemyNotch n = new EnemyNotch(this, DownPipeX, DownPipeStartY, 12);
+                n.TargetY = Height - bottomNotches.Count() * n.Height - 12 - PipeMargin;
+                n.TargetX = DownPipeX;
+                n.Duration = (float)((triggerTime - Game.CurrentMeasure) * (4.0 / 3.0));
                 bottomNotches.Add(n);
                 n.Initialize();
                 n.LoadContent();
@@ -91,8 +96,12 @@ namespace Cyclyc.Framework
                 for (int i = 0; i < topNotches.Count; i++)
                 {
                     EnemyNotch n = topNotches[i];
+                    if (i == 0)
+                    {
+                        n.TargetX = DownPipeX;
+                    }
                     n.TargetY = i * n.Height;
-                    n.Duration = 2.0f / 180f;
+                    n.Duration = 2.0f / 3.0f;
                 }
             }
             else
@@ -106,8 +115,8 @@ namespace Cyclyc.Framework
                 for (int i = 0; i < bottomNotches.Count; i++)
                 {
                     EnemyNotch n = bottomNotches[i];
-                    n.TargetY = Height - i * n.Height - 8 - PipeMargin;
-                    n.Duration = 2.0f / 180f;
+                    n.TargetY = Height - i * n.Height - 12 - PipeMargin;
+                    n.Duration = 2.0f / 3.0f;
                 }
             }
         }
@@ -132,7 +141,7 @@ namespace Cyclyc.Framework
 
         public void LoadContent()
         {
-            bg = Game.Content.Load<Texture2D>("space background");
+            bg = Game.Content.Load<Texture2D>("tubeLeft");
             foreach (EnemyNotch n in topNotches)
             {
                 n.LoadContent();
@@ -157,7 +166,7 @@ namespace Cyclyc.Framework
 
         public void Draw(GameTime gt)
         {
-            SpriteBatch.Draw(bg, new Rectangle(X, 0, Width, Height), Color.White);
+            SpriteBatch.Draw(bg, new Rectangle(X, 0, Width, Height), null, Color.White, 0, Vector2.Zero, X == 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             foreach (EnemyNotch n in topNotches)
             {
                 n.Draw(gt);

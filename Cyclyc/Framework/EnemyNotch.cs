@@ -63,9 +63,11 @@ namespace Cyclyc.Framework
             shuffling = false;
             X = x;
             Y = y;
+            yReachedTick = 0;
+            StartX = X;
             StartY = Y;
             Width = w;
-            Height = 8;
+            Height = w;
         }
 
         public void Initialize()
@@ -94,7 +96,7 @@ namespace Cyclyc.Framework
                 //doesn't really work, try an epsilon and if that doesn't work use curves instead, geez
                 if (Math.Abs(TargetY-Y) > float.Epsilon)
                 {
-                    Y = (int)(MathHelper.Lerp(StartY, TargetY, rollTick / Duration));
+                    Y = (int)(MathHelper.Lerp(StartY, TargetY, (rollTick-(2.0f/3.0f)) / (Duration-(2.0f/3.0f))));
                     yReachedTick = rollTick;
                 }
                 else

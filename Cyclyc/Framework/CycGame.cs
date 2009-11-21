@@ -66,6 +66,9 @@ namespace Cyclyc.Framework
 
         protected Random rgen;
 
+        public int NextMeasureLeftDifficulty { get; set; }
+        public int NextMeasureRightDifficulty { get; set; }
+
         int lastMeasure;
         public CycGame(Game1 g)
         {
@@ -99,37 +102,20 @@ namespace Cyclyc.Framework
             c.CycGame = this;
             c.Game = Game;
         }
-        public virtual EnemyMaker MakeRandomEnemy(bool leftToRight, int difficulty)
+        public virtual EnemyMaker MakeEnemy(bool leftToRight, int difficulty)
         {
             return null;
         }
-        protected Challenge NextMeasureChallenge()
+        public void DeliverEnemy(bool leftSide, int difficulty)
         {
-            //is the next beat in a new measure?
-            Challenge c = null;
-            int nextMeasure = (int)Math.Floor(Game.CurrentMeasure) + 1;
-            int nextBeat = nextMeasure * 4;
-            if (otherPlayerChallenges.Count == 0 || (otherPlayerChallenges.Last().Measure != nextMeasure))
+            if (leftSide)
             {
-                c = new Challenge(this, game, nextMeasure);
-                if (otherPlayerChallenges.Count > 0)
-                {
-                    //TODO: not sure this is right
-                    otherPlayerChallenges.Last().State = ChallengeState.Deployed;
-                }
-                otherPlayerChallenges.Add(c);
+                NextMeasureLeftDifficulty += difficulty;
             }
             else
             {
-                c = otherPlayerChallenges.Last();
+                NextMeasureRightDifficulty += difficulty;
             }
-            return c;
-        }
-        public void DeliverRandomEnemy(bool leftSide, int difficulty)
-        {
-            EnemyMaker enemy = MakeRandomEnemy(leftSide, difficulty);
-            Challenge c = NextMeasureChallenge();
-            c.AddBeat(new ChallengeBeat(0, new EnemyMaker[] { enemy }));
         }
 
         public void AddSprite(CycSprite cs)
@@ -167,6 +153,29 @@ namespace Cyclyc.Framework
                 sprite.LoadContent();
             }
             SetupChallenges();
+        }
+
+        protected virtual void CoalesceChallengeBeats(Challenge c)
+        {
+            EnemyMaker[] enemies = new EnemyMaker[NextMeasureLeftDifficulty + NextMeasureRightDifficulty];
+            for (int i = 0; i < NextMeasureLeftDifficulty; i++)
+            {
+                enemies[i] = MakeEnemy(true, 1);
+            }
+            for (int j = 0; j < NextMeasureRightDifficulty; j++)
+            {
+                enemies[j + NextMeasureLeftDifficulty] = MakeEnemy(false, 1);
+            }
+            c.AddBeat(new ChallengeBeat(0, enemies));
+        }
+
+        protected void TriggerOtherPlayerChallenge()
+        {
+            Challenge c = new Challenge(this, Game, (int)Math.Floor(Game.CurrentMeasure));
+            CoalesceChallengeBeats(c);
+            otherPlayerChallenges.Add(c);
+            NextMeasureLeftDifficulty = 0;
+            NextMeasureRightDifficulty = 0;
         }
 
         protected virtual void ProcessChallenges(int gradeLevel, GameTime gt)
@@ -219,6 +228,7 @@ namespace Cyclyc.Framework
             if ((int)(Game.CurrentMeasure) != lastMeasure)
             {
                 CalculateGrade();
+                TriggerOtherPlayerChallenge();
             }
             lastMeasure = (int)(Game.CurrentMeasure);
             ProcessChallenges(0, gameTime);

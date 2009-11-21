@@ -47,19 +47,25 @@ namespace Cyclyc.JetpackGirl
             base.Initialize();
         }
 
-        public override EnemyMaker MakeRandomEnemy(bool leftToRight, int difficulty)
+        protected override void CoalesceChallengeBeats(Challenge c)
+        {
+            base.CoalesceChallengeBeats(c);
+        }
+
+        public override EnemyMaker MakeEnemy(bool leftToRight, int difficulty)
         {
             return (c) =>
                 {
                     JetpackEnemy en;
+                    //scale up or down based on difficulty, etc
                     float sizeMultiplier = (float)(rgen.NextDouble() * 3.0 + 0.5);
                     if (rgen.NextDouble() < 0.5)
                     {
-                        en = robots.Create(c, "robot", 2, leftToRight, 0, (int)(16 * sizeMultiplier), (int)(21 * sizeMultiplier), (float)((rgen.NextDouble() * 1.0) + 0.25), (int)(3 * sizeMultiplier), (int)(3 * sizeMultiplier), (int)(10 * sizeMultiplier), (int)(18 * sizeMultiplier));
+                        en = robots.Create(c, "robot", 2, leftToRight, 0, (int)(16 * sizeMultiplier), (int)(21 * sizeMultiplier), (float)((rgen.NextDouble() * 1.0) + 0.25), (int)(3 * sizeMultiplier), (int)(3 * sizeMultiplier), (int)(10 * sizeMultiplier), (int)(18 * sizeMultiplier), difficulty);
                     }
                     else
                     {
-                        en = spiders.Create(c, "spider", 3, leftToRight, (int)(View.Height / 2 - 34 * sizeMultiplier), (int)(sizeMultiplier * 102 / 3), (int)(sizeMultiplier * 17), (float)(rgen.NextDouble() * 1.0) + 0.25f, (int)(sizeMultiplier * 5), (int)(sizeMultiplier * 4), (int)(sizeMultiplier * ((102 / 3) - 10)), (int)(sizeMultiplier * 11));
+                        en = spiders.Create(c, "spider", 3, leftToRight, (int)(View.Height / 2 - 34 * sizeMultiplier), (int)(sizeMultiplier * 102 / 3), (int)(sizeMultiplier * 17), (float)(rgen.NextDouble() * 1.0) + 0.25f, (int)(sizeMultiplier * 5), (int)(sizeMultiplier * 4), (int)(sizeMultiplier * ((102 / 3) - 10)), (int)(sizeMultiplier * 11), difficulty);
                     }
                     en.Target = jg;
                     return en;
@@ -69,8 +75,8 @@ namespace Cyclyc.JetpackGirl
         protected override void SetupChallenges()
         {
             Challenge testChallenge = new Challenge(this, Game, 4);
-            testChallenge.AddBeat(new ChallengeBeat(0, new EnemyMaker[] { MakeRandomEnemy(false, 0), MakeRandomEnemy(false, 0) }));
-            testChallenge.AddBeat(new ChallengeBeat(2, new EnemyMaker[] { MakeRandomEnemy(true, 0), MakeRandomEnemy(true, 0) }));
+            testChallenge.AddBeat(new ChallengeBeat(0, new EnemyMaker[] { MakeEnemy(false, 0), MakeEnemy(false, 0) }));
+            testChallenge.AddBeat(new ChallengeBeat(2, new EnemyMaker[] { MakeEnemy(true, 0), MakeEnemy(true, 0) }));
             TriggerChallenge(0, testChallenge);
         }
 
@@ -139,16 +145,16 @@ namespace Cyclyc.JetpackGirl
             {
                 if (en.Alive && ((JetpackEnemy)en).KnockedOffScreen)
                 {
+                    NextGame.DeliverEnemy(en.Position.X < 0 ? true : false, en.Difficulty);
                     en.Die();
-                    NextGame.DeliverRandomEnemy(en.Position.X < 0 ? true : false, 0);
                 }
             }
             foreach (CycEnemy en in spiders.Enemies)
             {
                 if (en.Alive && ((JetpackEnemy)en).KnockedOffScreen)
                 {
+                    NextGame.DeliverEnemy(en.Position.X < 0 ? true : false, en.Difficulty);
                     en.Die();
-                    NextGame.DeliverRandomEnemy(en.Position.X < 0 ? true : false, 0);
                 }
             }
             if (jg.Dying)

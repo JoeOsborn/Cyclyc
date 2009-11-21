@@ -67,40 +67,46 @@ namespace Cyclyc.ShipGirl
             }
         }
 
-        public override EnemyMaker MakeRandomEnemy(bool leftToRight, int difficulty)
+        protected override void CoalesceChallengeBeats(Challenge c)
+        {
+            base.CoalesceChallengeBeats(c);
+        }
+
+        public override EnemyMaker MakeEnemy(bool leftToRight, int difficulty)
         {
             return (c) => 
+                //make a different monster based on difficulty
                 enemyBatch.Create(c, "wrench", 2, CollisionStyle.Circle, "wave", 
                     leftToRight, (int)(rgen.NextDouble()*(View.Height)), 22, 22, 
-                    1.0);
+                    1.0, difficulty);
         }
 
         protected EnemyMaker MakeJerkEnemy(int y)
         {
             return (c) => 
                 enemyBatch.Create(c, "spider robot space creepy", 1, CollisionStyle.Circle, "jerk", true,
-                    y, 14, 14, 1.0);
+                    y, 14, 14, 1.0, 1);
         }
 
         protected EnemyMaker MakeLoopEnemy(int y)
         {
             return (c) =>
                 enemyBatch.Create(c, "walking robot space creepy", 1, CollisionStyle.Circle, "loop", true,
-                    y, 28, 28, 1.0);
+                    y, 28, 28, 1.0, 1);
         }
 
         protected EnemyMaker MakeZigzagEnemy(int y)
         {
             return (c) =>
                 enemyBatch.Create(c, "walking robot space creepy", 1, CollisionStyle.Circle, "zigzag", true,
-                    y, 28, 28, 1.0);
+                    y, 28, 28, 1.0, 1);
         }
 
         protected override void SetupChallenges()
         {
             Challenge testChallenge = new Challenge(this, Game, 0);
-            testChallenge.AddBeat(new ChallengeBeat(0, new EnemyMaker[] { MakeRandomEnemy(true, 0), MakeRandomEnemy(true, 0) }));
-            testChallenge.AddBeat(new ChallengeBeat(2, new EnemyMaker[] { MakeRandomEnemy(true, 0), MakeRandomEnemy(true, 0) }));
+            testChallenge.AddBeat(new ChallengeBeat(0, new EnemyMaker[] { MakeEnemy(true, 0), MakeEnemy(true, 0) }));
+            testChallenge.AddBeat(new ChallengeBeat(2, new EnemyMaker[] { MakeEnemy(true, 0), MakeEnemy(true, 0) }));
             TriggerChallenge(0, testChallenge);
 
             Challenge wave0_0 = new Challenge(this, Game, 2);
@@ -199,9 +205,9 @@ namespace Cyclyc.ShipGirl
                     List<CycEnemy> crushCollided = enemyBatch.Collide(crush);
                     foreach (CycEnemy crushed in crushCollided)
                     {
-                        crushed.Die();
                         bool leftOfCenter = (ship.Position.X >= crushed.Position.X);
-                        NextGame.DeliverRandomEnemy(leftOfCenter, 0);
+                        NextGame.DeliverEnemy(leftOfCenter, crushed.Difficulty);
+                        crushed.Die();
                     }
                     crushRecovery -= (float)(gameTime.ElapsedGameTime.TotalSeconds);
                 }

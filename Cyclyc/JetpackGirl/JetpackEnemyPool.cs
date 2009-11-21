@@ -29,16 +29,16 @@ namespace Cyclyc.JetpackGirl
             return new JetpackEnemy(CycGame.Game, this);
         }
 
-        public JetpackEnemy Create(Challenge c, string img, int fc, bool left, int y, int w, int h, float speed, int bx, int by, int bw, int bh)
+        public JetpackEnemy Create(Challenge c, string img, int fc, bool left, int y, int w, int h, float speed, int bx, int by, int bw, int bh, int diff)
         {
             JetpackEnemy enemy = (JetpackEnemy)FindOrMakeEnemy();
-            enemy.Reset(c, img, fc, left, (int)(left ? (0 - (rgen.NextDouble() * 32)) : (400 + (rgen.NextDouble()*32))), y, w, h, speed, bx, by, bw, bh);
+            enemy.Reset(c, img, fc, left, (int)(left ? (0 - (rgen.NextDouble() * 32)) : (400 + (rgen.NextDouble()*32))), y, w, h, speed, bx, by, bw, bh, diff);
             return enemy;
         }
-        public JetpackEnemy Create(Challenge c, string img, int fc, bool left, int y, int w, int h, float speed, int rad)
+        public JetpackEnemy Create(Challenge c, string img, int fc, bool left, int y, int w, int h, float speed, int rad, int diff)
         {
             JetpackEnemy enemy = (JetpackEnemy)FindOrMakeEnemy();
-            enemy.Reset(c, img, fc, left, (int)(left ? (0 - (rgen.NextDouble() * 32)) : (400 + (rgen.NextDouble() * 32))), y, w, h, speed, rad);
+            enemy.Reset(c, img, fc, left, (int)(left ? (0 - (rgen.NextDouble() * 32)) : (400 + (rgen.NextDouble() * 32))), y, w, h, speed, rad, diff);
             return enemy;
         }
     }

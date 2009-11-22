@@ -78,6 +78,8 @@ namespace Cyclyc.Framework
         public int NextMeasureLeftDifficulty { get; set; }
         public int NextMeasureRightDifficulty { get; set; }
 
+        Curve g1Expectations, g2Expectations;
+
         protected string SongName { get; set; }
 
         int lastMeasure;
@@ -159,6 +161,9 @@ namespace Cyclyc.Framework
 
         public virtual void LoadContent()
         {
+            g1Expectations = Game.Content.Load<Curve>(SongName + "-g1");
+            g2Expectations = Game.Content.Load<Curve>(SongName + "-g2");
+
             Songs = new SongTrack[3];
             Songs[0] = new SongTrack(Game, SongName + "-0", true);
             Songs[1] = new SongTrack(Game, SongName + "-1", false);
@@ -228,49 +233,33 @@ namespace Cyclyc.Framework
                 c.Process(gradeLevel, Grade, true);
             }
         }
-        protected double ComputePlayerChallenges(List<Challenge> cs)
-        {   
-            if (cs.Count > 0)
-            {
-                double avgGrade = 0.0;
-                //average per-challenge grade of otherPlayerChallenges - this is wrong and makes small challenges abusable
-                foreach (Challenge c in cs)
-                {
-                    if (c.EnemyCount > 0)
-                    {
-                        avgGrade += ((double)c.EnemiesKilled / (2.0*(double)c.EnemyCount/4.0));
-                    }
-                }
-                avgGrade /= cs.Count;
-                return avgGrade * GradeWeights[3];
-            }
-            return 0.0;
-        }
         protected virtual void CalculateGrade()
         {
             //later, should grade be a function of difficulty as well?
-            
-            double prospectiveGrade = 0.0;
-            double avgGrade = 0.0;
-            prospectiveGrade += ComputePlayerChallenges(leftChallenges);            
-            prospectiveGrade += ComputePlayerChallenges(rightChallenges);
-            for (int i = 0; i < 3; i++)
+            int killed = 0;
+            foreach (Challenge c in leftChallenges.Concat(rightChallenges))
             {
-                if (challenges[i].Count == 0) { continue; }
-                avgGrade = 0.0;
-                //average per-challenge grade of each challenge
-                foreach (Challenge c in challenges[i])
-                {
-                    if (c.EnemyCount > 0)
-                    {
-                        avgGrade += ((double)c.EnemiesKilled / (double)c.EnemyCount);
-                    }
-                }
-                avgGrade /= challenges[i].Count;
-                prospectiveGrade += avgGrade * GradeWeights[i];
+                killed += c.EnemiesKilled;
             }
-            grade = (float)Math.Min(2.9, (prospectiveGrade * GradeModifier));
-            Console.WriteLine("new grade: " + grade);
+            foreach (List<Challenge> cl in challenges)
+            {
+                foreach (Challenge c in cl)
+                {
+                    killed += c.EnemiesKilled;
+                }
+            }
+            float gradeOneExpectation = g1Expectations.Evaluate((float)Game.CurrentMeasure);
+            float gradeTwoExpectation = g2Expectations.Evaluate((float)Game.CurrentMeasure);
+            int grade = 0;
+            if (killed >= gradeOneExpectation)
+            {
+                grade++;
+            }
+            if (killed >= gradeTwoExpectation)
+            {
+                grade++;
+            }
+            Console.WriteLine("killed " + killed + ", expected " + gradeOneExpectation + " : " + gradeTwoExpectation + "; new grade: " + grade);
         }
 
         public virtual void Update(GameTime gameTime)

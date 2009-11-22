@@ -19,6 +19,12 @@ namespace Cyclyc
     /// <summary>
     /// This is the main type for your game
     /// </summary>
+    enum GameState
+    {
+        Splash,
+        Instructions,
+        Playing
+    }
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
@@ -31,7 +37,11 @@ namespace Cyclyc
 
         ShipGame shipGame;
         JetGame jetGame;
-        public bool playing;
+        GameState State { get; set; }
+        public bool Playing
+        {
+            get { return State == GameState.Playing; }
+        }
 
         EnemyPipe leftPipe;
         EnemyPipe rightPipe;
@@ -40,10 +50,18 @@ namespace Cyclyc
 
         public double timePlayed;
 
+        protected float splashTimer = 0;
+        protected float SplashDuration
+        {
+            get { return 3.0f; }
+        }
+
+        ScreenComponent splash1, splash2, splash3, p1Instructions, p2Instructions;
+
         public Game1()
         {
             Random = new Random();
-            playing = false;
+            State = GameState.Splash;
             //400 beats in ; seconds = (bpm * mps)
             //timePlayed = (SongOutro * 4.0) / ((float)Tempo * (1.0/60.0));
             timePlayed = 0;
@@ -68,6 +86,8 @@ namespace Cyclyc
             shipGame.RightPipe = rightPipe;
             jetGame.LeftPipe = leftPipe;
             jetGame.RightPipe = rightPipe;
+
+            splashTimer = 0;
         }
         public double SongEnd
         {
@@ -133,6 +153,16 @@ namespace Cyclyc
             jetGame.Initialize();
             leftPipe.Initialize();
             rightPipe.Initialize();
+
+            p1Instructions = new ScreenComponent(this, "sgIntro");
+            p2Instructions = new ScreenComponent(this, "rpgIntro");
+
+            splash1 = new ScreenComponent(this, "splash1");
+            splash2 = new ScreenComponent(this, "splash2");
+            splash3 = new ScreenComponent(this, "splash3");
+
+            Components.Add(splash1);
+            splashTimer = SplashDuration;
             base.Initialize();
         }
 
@@ -165,17 +195,6 @@ namespace Cyclyc
             rightPipe.Height = leftPipe.Height;
             //add a couple of pipes!
 
-
-
-            foreach (SongTrack s in shipGame.Songs)
-            {
-                s.Play();
-            }
-            foreach (SongTrack s in jetGame.Songs)
-            {
-                s.Play();
-            }
-            playing = true;
             leftPipe.LoadContent();
             rightPipe.LoadContent();
             base.LoadContent();
@@ -191,6 +210,19 @@ namespace Cyclyc
             base.UnloadContent();
         }
 
+        protected void StartPlaying()
+        {
+            foreach (SongTrack s in shipGame.Songs)
+            {
+                s.Play();
+            }
+            foreach (SongTrack s in jetGame.Songs)
+            {
+                s.Play();
+            }
+            State = GameState.Playing;
+        }
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -204,15 +236,71 @@ namespace Cyclyc
                 this.Exit();
             }
             //update beat and measure counters
-            if (playing)
+            if (Playing)
             {
                 timePlayed += gameTime.ElapsedGameTime.TotalSeconds;
             }
-            shipGame.Update(gameTime);
-            jetGame.Update(gameTime);
-            leftPipe.Update(gameTime);
-            rightPipe.Update(gameTime);
-            // TODO: Add your update logic here
+            if (State == GameState.Playing || State == GameState.Instructions)
+            {
+                shipGame.Update(gameTime);
+                jetGame.Update(gameTime);
+                leftPipe.Update(gameTime);
+                rightPipe.Update(gameTime);
+            }
+            if (State == GameState.Instructions)
+            {
+                if ((p1Instructions != null) && (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.A) || Keyboard.GetState().IsKeyDown(Keys.RightShift)))
+                {
+                    Components.Remove(p1Instructions);
+                    p1Instructions = null;
+                }
+                if ((p2Instructions != null) && (GamePad.GetState(PlayerIndex.Two).IsButtonDown(Buttons.A) || Keyboard.GetState().IsKeyDown(Keys.LeftShift)))
+                {
+                    Components.Remove(p2Instructions);
+                    p2Instructions = null;
+                }
+                if ((p1Instructions == null) && (p2Instructions == null))
+                {
+                    StartPlaying();
+                }
+            }
+            if (State == GameState.Splash)
+            {
+                //update splash
+                if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Start) || GamePad.GetState(PlayerIndex.Two).IsButtonDown(Buttons.Start) || Keyboard.GetState().IsKeyDown(Keys.Space))
+                {
+                    if (Components.Contains(splash1))
+                    {
+                        Components.Remove(splash1);
+                    }
+                    if (Components.Contains(splash2))
+                    {
+                        Components.Remove(splash2);
+                    }
+                    if (Components.Contains(splash3))
+                    {
+                        Components.Remove(splash3);
+                    }
+                    Components.Add(p1Instructions);
+                    Components.Add(p2Instructions);
+                    State = GameState.Instructions;
+                }
+                splashTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (splashTimer <= 0)
+                {
+                    if (Components.Contains(splash1))
+                    {
+                        Components.Remove(splash1);
+                        Components.Add(splash2);
+                        splashTimer = SplashDuration;
+                    }
+                    else if (Components.Contains(splash2))
+                    {
+                        Components.Remove(splash2);
+                        Components.Add(splash3);
+                    }
+                }
+            }
             base.Update(gameTime);
         }
 
@@ -224,12 +312,15 @@ namespace Cyclyc
         {
             Viewport defaultVP = GraphicsDevice.Viewport;
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            shipGame.Draw(gameTime);
-            jetGame.Draw(gameTime);
-            SpriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
-            leftPipe.Draw(gameTime);
-            rightPipe.Draw(gameTime);
-            SpriteBatch.End();
+            if (State == GameState.Playing || State == GameState.Instructions)
+            {
+                shipGame.Draw(gameTime);
+                jetGame.Draw(gameTime);
+                SpriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
+                leftPipe.Draw(gameTime);
+                rightPipe.Draw(gameTime);
+                SpriteBatch.End();
+            }
             base.Draw(gameTime);
             GraphicsDevice.Viewport = defaultVP;
         }

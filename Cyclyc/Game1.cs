@@ -58,6 +58,7 @@ namespace Cyclyc
 
         ScreenComponent splash1, splash2, splash3, p1Instructions, p2Instructions;
         ScoreComponent p1Score, p2Score;
+        ScreenComponent endingScreen;
         protected Dictionary<string, SoundEffect> sfx;
         public Game1()
         {
@@ -68,7 +69,7 @@ namespace Cyclyc
             //timePlayed = (SongOutro * 4.0) / ((float)Tempo * (1.0 / 60.0));
             timePlayed = 0;
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = true;
+            //graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
 
             leftPipe = new EnemyPipe(this);
@@ -93,6 +94,10 @@ namespace Cyclyc
             jetGame.PlayerIndex = PlayerIndex.Two;
 
             splashTimer = 0;
+        }
+        public double SongTotalEnding
+        {
+            get { return 108; }
         }
         public double SongEnd
         {
@@ -175,6 +180,8 @@ namespace Cyclyc
             splash1 = new ScreenComponent(this, "splash1");
             splash2 = new ScreenComponent(this, "splash2");
             splash3 = new ScreenComponent(this, "splash3");
+
+            endingScreen = new ScreenComponent(this, "ending");
 
             Components.Add(splash1);
             splashTimer = SplashDuration;
@@ -331,7 +338,7 @@ namespace Cyclyc
                     }
                 }
             }
-            if (SongIsOver)
+            if (State == GameState.Playing && SongIsOver)
             {
                 if (!Components.Contains(p1Score))
                 {
@@ -343,6 +350,10 @@ namespace Cyclyc
                 }
                 p1Score.Score = shipGame.Score;
                 p2Score.Score = jetGame.Score;
+                if (CurrentMeasure >= SongTotalEnding && !Components.Contains(endingScreen))
+                {
+                    Components.Add(endingScreen);
+                }
             }
             base.Update(gameTime);
         }

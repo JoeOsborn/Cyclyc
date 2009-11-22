@@ -40,20 +40,20 @@ namespace Cyclyc.ShipGirl
             enemyBatch = new ShipEnemyPool(this);
         }
 
-        protected float[] ParallaxSpeeds = new float[] { -0.05f, -0.1f, -0.1f, -0.3f };
+        protected float[] ParallaxSpeeds = new float[] { -0.05f, -0.05f, -0.05f, -0.1f, -0.1f, -0.3f };
 
         protected int MID = 150;
 
         public override void Initialize()
         {
             AddBackground("space background", ParallaxSpeeds[0]);
-            whiteZodiac = AddBackground("zodiac", ParallaxSpeeds[0]);
-            superZodiac = AddBackground("zodiacSuper", ParallaxSpeeds[0]);
+            whiteZodiac = AddBackground("zodiac", ParallaxSpeeds[1]);
+            superZodiac = AddBackground("zodiacSuper", ParallaxSpeeds[2]);
             superZodiac.TargetAlpha = 0.0f;
             superZodiac.BlendDuration = 0.0f;
-            AddBackground("galaxy", ParallaxSpeeds[1]);
-            AddBackground("nebula", ParallaxSpeeds[2]);
-            AddBackground("stars", ParallaxSpeeds[3]);
+            AddBackground("galaxy", ParallaxSpeeds[3]);
+            AddBackground("nebula", ParallaxSpeeds[4]);
+            AddBackground("stars", ParallaxSpeeds[5]);
 
 
             ship = new Ship(Game, this);

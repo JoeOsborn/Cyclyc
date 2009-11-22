@@ -102,6 +102,23 @@ namespace Cyclyc.JetpackGirl
                 };
         }
 
+        #region enemyTypes
+        //   DEFINE SPECIFIC ENEMY TYPES
+
+        protected EnemyMaker MakeJerkEnemy(int y)
+        {
+            return (c) =>
+                enemyBatch.Create(c, "spider robot space creepy", 1, CollisionStyle.Circle, "jerk", true,
+                    y, 21, 21, 1.0, 1);
+        }
+
+
+
+
+
+
+        #endregion
+
         protected override void SetupChallenges()
         {
             Challenge testChallenge = new Challenge(this, Game, 4);

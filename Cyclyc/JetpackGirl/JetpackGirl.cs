@@ -17,6 +17,7 @@ namespace Cyclyc.JetpackGirl
     public class JetpackGirl : CycSprite, JetpackOwner
     {
         KeyboardState kb, oldKB;
+        GamePadState gp, oldGP;
         protected bool jumpReleased;
         public bool Attacking { get; set; }
         protected double attackCounter;
@@ -313,6 +314,7 @@ namespace Cyclyc.JetpackGirl
                 Dying = false;
                 position = StartPosition;
             }
+            //INPUT
             oldKB = kb;
             kb = Keyboard.GetState();
             if (!jumpReleased && oldKB.IsKeyDown(Keys.W) && !kb.IsKeyDown(Keys.W))
@@ -335,6 +337,7 @@ namespace Cyclyc.JetpackGirl
                     Attacking = true;
                 }
             } 
+
             if (Attacking && attackCounter > 0)
             {
                 Wrench.Visible = true;

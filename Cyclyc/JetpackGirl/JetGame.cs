@@ -41,14 +41,16 @@ namespace Cyclyc.JetpackGirl
             Backgrounds.Last().ScaleFactor = 2.0f;
         }
 
+        protected float[] ParallaxSpeeds = new float[] { 0.1f, 0.1f, 0.2f, 0.4f, 0.6f, 0.6f };
+
         public override void Initialize()
         {
-            AddBackground("pixel city sky", 0.1f);
-            AddBackground("pixel city sunset", 0.1f);
-            AddBackground("pixel city skyline", 0.2f);
-            AddBackground("pixel city middleground", 0.4f);
-            AddBackground("pixel city foreground", 0.6f);
-            AddBackground("pixel city road", 0.6f);
+            AddBackground("pixel city sky", ParallaxSpeeds[0]);
+            AddBackground("pixel city sunset", ParallaxSpeeds[1]);
+            AddBackground("pixel city skyline", ParallaxSpeeds[2]);
+            AddBackground("pixel city middleground", ParallaxSpeeds[3]);
+            AddBackground("pixel city foreground", ParallaxSpeeds[4]);
+            AddBackground("pixel city road", ParallaxSpeeds[5]);
 
             jg = new JetpackGirl((Game1)Game);
             AddSprite(jg);
@@ -137,6 +139,16 @@ namespace Cyclyc.JetpackGirl
 
         public override void Update(GameTime gameTime)
         {
+            if (Game.SongIsEnding)
+            {
+                float r = (float)Game.OutroRatio;
+                for (int i = 0; i < backgrounds.Count; i++)
+                {
+                    CycBackground bg = backgrounds[i];
+                    bg.ScrollSpeed = ParallaxSpeeds[i] * (1 - r);
+                }
+                jg.GroundLoss = jg.DefaultGroundLoss * (1 - r);
+            }
             foreach (EnemyPool ep in enemyPools)
             {
                 ep.Update(gameTime);

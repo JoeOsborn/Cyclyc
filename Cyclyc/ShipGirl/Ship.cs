@@ -97,11 +97,11 @@ namespace Cyclyc.ShipGirl
         public float CrushMaxPower { get { return 30.0f; } }
         public float CrushPowerUpRate
         {
-            get { return 0.25f; }
+            get { return 0.15f; }
         }
         public float CrushPowerDownRate
         {
-            get { return 1.0f; }
+            get { return 0.8f; }
         }
 
         public void Skim(int enemyCount)
@@ -114,20 +114,44 @@ namespace Cyclyc.ShipGirl
         {
             get
             {
-                if (CrushPower > (3 * CrushMaxPower / 4.0))
-                {
-                    return 0.1f;
-                }
-                else if (CrushPower > (CrushMaxPower / 2.0))
-                {
-                    return 0.5f;
-                }
-                else
-                {
-                    return 0.8f;
-                }
+                return (float)0.8 * (CrushMaxPower / (CrushMaxPower + 10 * (CrushPower * gp.Triggers.Right)));
             }
         }
+        //        if ((CrushPower * gp.Triggers.Right) > (7 * CrushMaxPower / 8.0))
+        //        {
+        //            return 0.05f;
+        //        }
+        //        else if ((CrushPower * gp.Triggers.Right) > (6 * CrushMaxPower / 8.0))
+        //        {
+        //            return 0.1f;
+        //        }
+        //        else if ((CrushPower * gp.Triggers.Right) > (5 * CrushMaxPower / 8.0))
+        //        {
+        //            return 0.2f;
+        //        }
+        //        else if ((CrushPower * gp.Triggers.Right) > (4 * CrushMaxPower / 8.0))
+        //        {
+        //            return 0.35f;
+        //        }
+        //        else if ((CrushPower * gp.Triggers.Right) > (3 * CrushMaxPower / 8.0))
+        //        {
+        //            return 0.5f;
+        //        }
+        //        else if ((CrushPower * gp.Triggers.Right) > (2 * CrushMaxPower / 8.0))
+        //        {
+        //            return 0.6f;
+        //        }
+        //        else if ((CrushPower * gp.Triggers.Right) > (1 * CrushMaxPower / 8.0))
+        //        {
+        //            return 0.7f;
+        //        }
+        //        else
+        //        {
+        //            return 0.8f;
+        //        }
+        //    }
+        //}
+
         protected float ShotMaxSpeed
         {
             get { return super ? 10.0f : 6.0f; }
@@ -163,7 +187,7 @@ namespace Cyclyc.ShipGirl
             {
                 FireShot();
                 ShotCooldown = super ? ShotCooldownMax / 2 : ShotCooldownMax;
-                CrushPower = Math.Max(CrushPower - CrushPowerDownRate, 0);
+                CrushPower = Math.Max(CrushPower - (gp.Triggers.Right * CrushPowerDownRate), 0);
             }
 
         }
@@ -208,7 +232,7 @@ namespace Cyclyc.ShipGirl
 
         public bool PlayerWantFire
         {
-            get { return kb.IsKeyDown(Keys.Space) || (gp.Buttons.X == ButtonState.Pressed); }
+            get { return kb.IsKeyDown(Keys.Space) || (gp.Triggers.Right > 0); }
         }
 
         public override void Update(GameTime gameTime)

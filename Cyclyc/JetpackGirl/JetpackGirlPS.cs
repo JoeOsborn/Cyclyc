@@ -24,11 +24,11 @@ namespace Cyclyc.JetpackGirl
         }
         protected override void InitializeConstants()
         {
-            textureFilename = "wrench";
+            textureFilename = "jetParticleMulti";
 
             // less initial speed than the explosion itself
             minInitialSpeed = 0.5f;
-            maxInitialSpeed = 2.0f;
+            maxInitialSpeed = 1.5f;
 
             // acceleration is negative, so particles will accelerate away from the
             // initial velocity.  this will make them slow down, as if from wind
@@ -40,11 +40,11 @@ namespace Cyclyc.JetpackGirl
 
             // explosion smoke lasts for longer than the explosion itself, but not
             // as long as the plumes do.
-            minLifetime = 0.25f;
-            maxLifetime = 0.35f;
+            minLifetime = 0.15f;
+            maxLifetime = 0.2f;
 
-            minScale = 0.5f;
-            maxScale = 1.5f;
+            minScale = 3.5f;
+            maxScale = 6.5f;
 
             minNumParticles = 0;
             maxNumParticles = 2;
@@ -54,24 +54,26 @@ namespace Cyclyc.JetpackGirl
 
             spriteBlendMode = SpriteBlendMode.AlphaBlend;
 
-            ColorBlend(0.0f);
+            SetFuelRatio(1.0f);
 
             DrawOrder = AlphaBlendDrawOrder;
         }
-        public void ColorBlend(float ratio)
+        public void SetFuelRatio(float ratio)
         {
-            Color red = Color.Red;
-            Color smoke = Color.Gray;
+            Color red = new Color(0.6f, 0.2f, 0.1f);
+            Color smoke = Color.White;
 
-            Color current = Color.Lerp(red, smoke, ratio);
+            Color current = Color.Lerp(smoke, red, ratio);
 
-            minRed = current.R;
+            Vector3 floatCol = current.ToVector3();
+
+            minRed = floatCol.X;
             maxRed = minRed;
 
-            minGreen = current.G;
+            minGreen = floatCol.Y;
             maxGreen = minGreen;
 
-            minBlue = current.B;
+            minBlue = floatCol.Z;
             maxBlue = minBlue;
         }
     }

@@ -158,8 +158,8 @@ namespace Cyclyc.JetpackGirl
             {
                 Play("jet", false);
             }
+            particles.SetFuelRatio(jetpack.JPFuel / jetpack.MaxJPFuel);
             particles.AddParticles(new Vector2((position.X + View.X) * ScaleFactor, (position.Y + 8 + View.Y) * ScaleFactor));
-            particles.ColorBlend(jetpack.JPFuel / jetpack.MaxJPFuel);
         }
         public void FizzleJet()
         {

@@ -163,8 +163,9 @@ namespace Cyclyc.ShipGirl
             {
                 FireShot();
                 ShotCooldown = super ? ShotCooldownMax / 2 : ShotCooldownMax;
+                CrushPower = Math.Max(CrushPower - CrushPowerDownRate, 0);
             }
-            CrushPower = Math.Max(CrushPower - CrushPowerDownRate, 0);
+
         }
 
         public void Superize(bool sup)

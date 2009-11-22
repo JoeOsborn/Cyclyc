@@ -496,6 +496,10 @@ namespace Cyclyc.Framework
                 }
             }
         }
+        protected virtual Color DrawColor(GameTime gt)
+        {
+            return Color.White;
+        }
 
         public virtual void Draw(GameTime gameTime)
         {
@@ -519,7 +523,7 @@ namespace Cyclyc.Framework
             }
             dstRect.Width = (int)(VisualWidth * ScaleFactor);
             dstRect.Height = (int)(VisualHeight * ScaleFactor);
-            SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White, Rotation, rotOrigin, FlipImage ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            SpriteBatch.Draw(spriteSheet, dstRect, srcRect, DrawColor(gameTime), Rotation, rotOrigin, FlipImage ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
         }
     }
 }

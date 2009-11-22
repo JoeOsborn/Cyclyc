@@ -40,7 +40,7 @@ namespace Cyclyc.JetpackGirl
         }
         protected double MaxJetPeriod
         {
-            get { return 1.0; }
+            get { return 0.0; }
         }
         public override void Update(GameTime gameTime)
         {

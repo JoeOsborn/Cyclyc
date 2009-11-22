@@ -25,6 +25,8 @@ namespace Cyclyc.JetpackGirl
         protected double respawnTimer;
         public CycSprite Wrench { get; set; }
 
+        protected JetpackGirlPS particles;
+
         public bool Dying
         {
             get;
@@ -35,6 +37,8 @@ namespace Cyclyc.JetpackGirl
             : base(game)
         {
             Dying = false;
+            particles = new JetpackGirlPS(Game);
+            Game.Components.Add(particles);
             ScaleFactor = 2.0f;
             assetName = "rockGirl";
             collisionStyle = CollisionStyle.Box;
@@ -131,7 +135,7 @@ namespace Cyclyc.JetpackGirl
         public void BeginJet()
         {
             //later, might have 'begin jet' anims
-            if (Dying) { Play("death", false); }
+            if (Dying) { Play("death", false); return;  }
             else if (Attacking)
             {
                 Play("begin-jet-attacking", true);
@@ -140,6 +144,7 @@ namespace Cyclyc.JetpackGirl
             {
                 Play("begin-jet", true);
             }
+            //HACK ALERT
         }
         public void MaintainJet()
         {
@@ -152,6 +157,8 @@ namespace Cyclyc.JetpackGirl
             {
                 Play("jet", false);
             }
+            particles.AddParticles(new Vector2((position.X + View.X) * ScaleFactor, (position.Y + 8 + View.Y) * ScaleFactor));
+            particles.ColorBlend(jetpack.JPFuel / jetpack.MaxJPFuel);
         }
         public void FizzleJet()
         {

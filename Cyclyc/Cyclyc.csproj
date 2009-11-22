@@ -95,11 +95,14 @@
     <Compile Include="Framework\EnemyNotch.cs" />
     <Compile Include="Framework\EnemyPipe.cs" />
     <Compile Include="Framework\EnemyPool.cs" />
+    <Compile Include="Framework\Particle.cs" />
+    <Compile Include="Framework\ParticleSystem.cs" />
     <Compile Include="Framework\SongTrack.cs" />
     <Compile Include="JetpackGirl\HoverEnemy.cs" />
     <Compile Include="JetpackGirl\HoverEnemyPool.cs" />
     <Compile Include="JetpackGirl\JetpackEnemy.cs" />
     <Compile Include="JetpackGirl\JetpackEnemyPool.cs" />
+    <Compile Include="JetpackGirl\JetpackGirlPS.cs" />
     <Compile Include="JetpackGirl\JetpackOwner.cs" />
     <Compile Include="JetpackGirl\Jetpack.cs" />
     <Compile Include="JetpackGirl\JetGame.cs" />

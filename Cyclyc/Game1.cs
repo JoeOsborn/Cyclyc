@@ -36,10 +36,13 @@ namespace Cyclyc
         EnemyPipe leftPipe;
         EnemyPipe rightPipe;
 
+        public static Random Random;
+
         public double timePlayed;
 
         public Game1()
         {
+            Random = new Random();
             playing = false;
             timePlayed = 0;
             graphics = new GraphicsDeviceManager(this);
@@ -78,6 +81,11 @@ namespace Cyclyc
             get { return (int)(CurrentBeat / 4.0); }
         }
 
+        public static float RandomBetween(float min, float max)
+        {
+            return min + (float)Random.NextDouble() * (max - min);
+        }
+        
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic

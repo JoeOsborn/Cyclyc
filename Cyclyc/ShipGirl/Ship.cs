@@ -42,8 +42,9 @@ namespace Cyclyc.ShipGirl
             Dying = false;
             collisionStyle = CollisionStyle.Circle;
             AddAnimation("death", new int[] { 0 }, new int[] { 5 }, true);
+            LastInputVelocity = new Vector2(-1, 0);
+            Rotation = (float)Math.PI;
             TargetRotation = Rotation;
-            LastInputVelocity = velocity;
         }
 
         protected float TargetRotation { get; set; }
@@ -82,7 +83,7 @@ namespace Cyclyc.ShipGirl
         }
         public float CrushPowerDownRate
         {
-            get { return 1.0f; }
+            get { return 1.5f; }
         }
 
         public void Skim(int enemyCount)
@@ -153,6 +154,8 @@ namespace Cyclyc.ShipGirl
             respawnTimer = RespawnDelay;
             CrushPower = 0;
             ShotCooldown = 0;
+            Rotation = (float)Math.PI;
+            TargetRotation = Rotation; 
             Play("death", false);
         }
 
@@ -249,6 +252,11 @@ namespace Cyclyc.ShipGirl
                 Rotation += (float)(turnAmount * 0.1);
             }
             base.Update(gameTime);
+        }
+
+        protected override Color DrawColor(GameTime gt)
+        {
+            return Color.Lerp(Color.White, Color.Red, PowerRatio);
         }
 
         public override void Draw(GameTime gameTime)

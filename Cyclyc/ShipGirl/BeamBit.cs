@@ -32,7 +32,7 @@ namespace Cyclyc.ShipGirl
             SpriteWidth = 12;
             if (shotSnd == null)
             {
-                shotSnd = Game.SoundInstance("space-shot-click");
+                shotSnd = Game.SoundInstance("space-shot");
             }
             base.LoadContent();
         }

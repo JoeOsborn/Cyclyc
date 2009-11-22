@@ -98,6 +98,8 @@
     <Compile Include="Framework\Particle.cs" />
     <Compile Include="Framework\ParticleSystem.cs" />
     <Compile Include="Framework\SongTrack.cs" />
+    <Compile Include="JetpackGirl\FrogEnemy.cs" />
+    <Compile Include="JetpackGirl\FrogEnemyPool.cs" />
     <Compile Include="JetpackGirl\HoverEnemy.cs" />
     <Compile Include="JetpackGirl\HoverEnemyPool.cs" />
     <Compile Include="JetpackGirl\JetpackEnemy.cs" />

@@ -28,8 +28,8 @@ namespace Cyclyc.ShipGirl
 
         public override void LoadContent()
         {
+            SpriteWidth = 12;
             base.LoadContent();
-            SpriteWidth = spriteSheet.Width;
         }
 
         protected override bool StopAtRightEdge(GameTime gt)
@@ -91,12 +91,12 @@ namespace Cyclyc.ShipGirl
             Velocity = new Vector2(vx, vy);
             Position = new Vector2(x, y);
             CollisionStyle = CollisionStyle.Circle;
-            SpriteWidth = spriteSheet.Width / 2;
+            SpriteWidth = spriteSheet.Width;
             Play("shot");
-            VisualHeight = 8;
-            VisualWidth = 8;
-            VisualRadius = 8;
-            Radius = 8;
+            VisualRadius = 14;
+            VisualWidth = 14;
+            VisualHeight = 12;
+            Radius = 14;
             alive = true;
             visible = true;
         }

@@ -34,6 +34,8 @@ namespace Cyclyc.JetpackGirl
         SoundEffectInstance jumpSnd;
         SoundEffectInstance landSnd;
 
+        Texture2D normalTexture, superTexture;
+
         protected JetpackGirlPS particles;
 
         public bool Dying
@@ -130,6 +132,7 @@ namespace Cyclyc.JetpackGirl
             Wrench = new CycSprite(Game);
             Wrench.Initialize();
             Wrench.AddAnimation("default", new int[] { 0, 1 }, new int[] { 5, 5 }, true);
+            Wrench.AddAnimation("super", new int[] { 2, 3 }, new int[] { 5, 5 }, true);
             Wrench.Play("default");
             Wrench.AssetName = "wrench";
             Wrench.Visible = false;
@@ -149,6 +152,8 @@ namespace Cyclyc.JetpackGirl
             landSnd = Game.SoundInstance("rpg-land");
 
             base.LoadContent();
+            normalTexture = spriteSheet;
+            superTexture = Game.Content.Load<Texture2D>("rockGirlSuper");
         }
 
         public Vector2 StartPosition { get; set; }
@@ -166,6 +171,21 @@ namespace Cyclyc.JetpackGirl
                 Play("begin-jet", true);
             }
             //HACK ALERT
+        }
+        public void Superize(bool super)
+        {
+            if (super)
+            {
+                spriteSheet = superTexture;
+                Wrench.Play("super");
+                AttackRadius = AttackRadiusBonus;
+            }
+            else
+            {
+                spriteSheet = normalTexture;
+                Wrench.Play("default");
+                AttackRadius = AttackRadiusDefault;
+            }
         }
         public void MaintainJet()
         {
@@ -405,15 +425,6 @@ namespace Cyclyc.JetpackGirl
                 Flicker(3.0f);
                 Dying = false;
                 position = StartPosition;
-            }
-            //SUPER SAIYAN Jetpack Girl
-            if (CycGame.Grade >= 2)
-            {
-                AttackRadius = AttackRadiusBonus;
-            }
-            else
-            {
-                AttackRadius = AttackRadiusDefault;
             }
             
             //INPUT

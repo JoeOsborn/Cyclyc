@@ -84,11 +84,11 @@ namespace Cyclyc.ShipGirl
         public float CrushMaxPower { get { return 30.0f; } }
         public float CrushPowerUpRate
         {
-            get { return 0.5f; }
+            get { return 0.25f; }
         }
         public float CrushPowerDownRate
         {
-            get { return 1.5f; }
+            get { return 1.0f; }
         }
 
         public void Skim(int enemyCount)

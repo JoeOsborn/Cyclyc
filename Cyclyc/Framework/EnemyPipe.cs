@@ -32,7 +32,7 @@ namespace Cyclyc.Framework
 
         protected int PipeMargin
         {
-            get { return Width / 2; }
+            get { return 0; }
         }
 
         List<EnemyNotch> topNotches;
@@ -47,10 +47,10 @@ namespace Cyclyc.Framework
             bottomNotches = new List<EnemyNotch>();
         }
 
-        protected int UpPipeX { get { return X == 0 ? (X + 2) : (X + PipeMargin + 2); } }
-        protected int UpPipeStartY { get { return Height - 12; } }
-        protected int DownPipeX { get { return X == 0 ? (X + PipeMargin + 2) : (X + 2); } }
-        protected int DownPipeStartY { get { return PipeMargin; } }
+        protected int UpPipeX { get { return X; } }
+        protected int UpPipeStartY { get { return Height - 20; } }
+        protected int DownPipeX { get { return X; } }
+        protected int DownPipeStartY { get { return 0; } }
 
         public void RegisterDifficultyNotch(CycGame dst, int difficulty)
         {
@@ -59,7 +59,7 @@ namespace Cyclyc.Framework
             {
                 //send a notch to the upper edge of the pipe
                 //warning magic number
-                EnemyNotch n = new EnemyNotch(this, UpPipeX, UpPipeStartY, 12);
+                EnemyNotch n = new EnemyNotch(this, UpPipeX, UpPipeStartY, 20);
                 //assumption: notches have uniform height
                 n.TargetY = topNotches.Count() * n.Height;
                 if (topNotches.Count() == 0)
@@ -74,8 +74,8 @@ namespace Cyclyc.Framework
             else
             {
                 //send a notch to the bottom edge of the pipe
-                EnemyNotch n = new EnemyNotch(this, DownPipeX, DownPipeStartY, 12);
-                n.TargetY = Height - bottomNotches.Count() * n.Height - 12 - PipeMargin;
+                EnemyNotch n = new EnemyNotch(this, DownPipeX, DownPipeStartY, 20);
+                n.TargetY = Height - bottomNotches.Count() * n.Height - 20 - PipeMargin;
                 n.TargetX = DownPipeX;
                 n.Duration = (float)((triggerTime - Game.CurrentMeasure) * (4.0 / 3.0));
                 bottomNotches.Add(n);

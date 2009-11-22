@@ -17,46 +17,47 @@ namespace Cyclyc.JetpackGirl
 {
     class RobotEnemy : JetpackEnemy
     {
-        float jetTime;
         public RobotEnemy(Game1 game, EnemyPool p)
             : base(game, p)
         {
-            jetTime = 0;
-            jetpack.MaxJPFuel = 2f;
-        }
-        public override bool ShouldJet
+        } 
+        public override bool ShouldMoveLeft
         {
-            get 
+            get
             {
-                return (jetTime > 0);
+                if (CloseToTarget)
+                {
+                    if (Math.Abs(TargetDistance) < 16)
+                    {
+                        //are we close and already moving left?  let's keep going
+                        return Velocity.X < 0 ? true : false;
+                    }
+                    return TargetIsLeft;
+                }
+                else
+                {
+                    return !leftToRight;
+                }
             }
         }
-        public override bool ShouldJump
+        public override bool ShouldMoveRight
         {
-            get 
-            { 
-                return !IsHit && (rgen.NextDouble() < 0.001 || (Target.Position.Y < position.Y && rgen.NextDouble() < 0.005)); 
-            }
-        }
-        protected double MaxJetPeriod
-        {
-            get { return 0.0; }
-        }
-        public override void Update(GameTime gameTime)
-        {
-            if (jetTime > 0)
+            get
             {
-                jetTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (CloseToTarget)
+                {
+                    if (Math.Abs(TargetDistance) < 16)
+                    {
+                        //are we close and already moving right?  let's keep going
+                        return Velocity.X < 0 ? false : true;
+                    }
+                    return !TargetIsLeft;
+                }
+                else
+                {
+                    return leftToRight;
+                }
             }
-            else if (!IsHit && (Target.Position.Y < position.Y && rgen.NextDouble() < 0.05))
-            {
-                jetTime = (float)(rgen.NextDouble() * MaxJetPeriod);
-            }
-            if (IsHit)
-            {
-                jetTime = 0;
-            }
-            base.Update(gameTime);
         }
     }
 }

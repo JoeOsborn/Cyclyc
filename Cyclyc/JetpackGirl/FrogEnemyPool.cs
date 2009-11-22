@@ -15,12 +15,17 @@ using Cyclyc.Framework;
 
 namespace Cyclyc.JetpackGirl
 {
-    class SpiderEnemy : JetpackEnemy
+    public class FrogEnemyPool : JetpackEnemyPool
     {
-        public SpiderEnemy(Game1 game, EnemyPool p)
-            : base(game, p)
+        public FrogEnemyPool(CycGame game)
+            : base(game)
         {
 
+        }
+
+        public override CycSprite MakeEnemy()
+        {
+            return new FrogEnemy(CycGame.Game, this);
         }
     }
 }

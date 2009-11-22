@@ -105,6 +105,11 @@ namespace Cyclyc.JetpackGirl
         #region enemyTypes
         //   DEFINE SPECIFIC ENEMY TYPES
 
+        //protected EnemyMaker MakeRobotEnemy(int y, float sizeMultiplier)
+        //{
+        //    return (c) =>
+        //        enemyPools[0].Create(c, "robot", 2, false, y, (int)(16 * sizeMultiplier), (int)(21 * sizeMultiplier), (float)((rgen.NextDouble() * 1.0) + 0.25), (int)(3 * sizeMultiplier), (int)(3 * sizeMultiplier), (int)(10 * sizeMultiplier), (int)(18 * sizeMultiplier), difficulty);
+        //}
 
 
 

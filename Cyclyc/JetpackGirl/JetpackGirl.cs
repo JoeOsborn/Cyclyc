@@ -288,7 +288,7 @@ namespace Cyclyc.JetpackGirl
         }
         public bool OnGround
         {
-            get { return BottomEdge == FloorY; }
+            get { return BottomEdge >= FloorY; }
         }
         public bool PlayerWantRight
         {
@@ -353,6 +353,12 @@ namespace Cyclyc.JetpackGirl
                 BottomEdge = FloorY;
             }
         }
+
+        public override float FloorY
+        {
+            get { return base.FloorY - 10; }
+        }
+
 
         public override void Update(GameTime gameTime)
         {

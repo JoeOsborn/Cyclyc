@@ -105,7 +105,7 @@ namespace Cyclyc.Framework
             }
         }
 
-        public float FloorY
+        public virtual float FloorY
         {
             get { return view.Height; }
         }

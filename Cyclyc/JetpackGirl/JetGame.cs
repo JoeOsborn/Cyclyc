@@ -108,19 +108,37 @@ namespace Cyclyc.JetpackGirl
                 };
         }
 
+
         #region enemyTypes
-        //   DEFINE SPECIFIC ENEMY TYPES
+// -----------------DEFINE SPECIFIC ENEMY TYPES------------------------------------------------
 
-        //protected EnemyMaker MakeRobotEnemy(int y, float sizeMultiplier)
-        //{
-        //    return (c) =>
-        //        enemyPools[0].Create(c, "robot", 2, false, y, (int)(16 * sizeMultiplier), (int)(21 * sizeMultiplier), (float)((rgen.NextDouble() * 1.0) + 0.25), (int)(3 * sizeMultiplier), (int)(3 * sizeMultiplier), (int)(10 * sizeMultiplier), (int)(18 * sizeMultiplier), difficulty);
-        //}
+        protected EnemyMaker MakeRobotEnemy(float sizeMultiplier, float speedMultiplier)
+        {
+            return (c) =>
+                enemyPools[0].Create(c, "robot", 2, false, 0, (int)(16 * sizeMultiplier), (int)(21 * sizeMultiplier), (float)((speedMultiplier * 1.0) + 0.25), (int)(3 * sizeMultiplier), (int)(3 * sizeMultiplier), (int)(10 * sizeMultiplier), (int)(18 * sizeMultiplier), 1);
+        }
 
+        protected EnemyMaker MakeSpiderEnemy(float sizeMultiplier, float speedMultiplier)
+        {
+            return (c) =>
+                enemyPools[1].Create(c, "spider", 3, false, 0, (int)(sizeMultiplier * 102 / 3), (int)(sizeMultiplier * 17), (float)(speedMultiplier * 1.0) + 0.25f, (int)(sizeMultiplier * 5), (int)(sizeMultiplier * 4), (int)(sizeMultiplier * ((102 / 3) - 10)), (int)(sizeMultiplier * 11), 1);
+        }
 
+        protected EnemyMaker MakeHoverEnemy(int y, float sizeMultiplier, float speedMultiplier)
+        {
+            return (c) =>
+                enemyPools[2].Create(c, "hover", 3, false, y, (int)(16 * sizeMultiplier), (int)(21 * sizeMultiplier), (float)((sizeMultiplier * 1.0) + 0.25), (int)(3 * sizeMultiplier), (int)(3 * sizeMultiplier), (int)(10 * sizeMultiplier), (int)(18 * sizeMultiplier), 1);
+        }
 
-
+        protected EnemyMaker MakeFrogEnemy(float sizeMultiplier, float speedMultiplier)
+        {
+            return (c) =>
+                enemyPools[3].Create(c, "frog", 2, false, 0, (int)(16 * sizeMultiplier), (int)(25 * sizeMultiplier), (float)((speedMultiplier * 1.0) + 0.25), (int)(0 * sizeMultiplier), (int)(5 * sizeMultiplier), (int)(16 * sizeMultiplier), (int)(25 * sizeMultiplier), 1);
+        }
+        
+// --------------------------------------------------------------------------------------
         #endregion
+
 
         protected override void SetupChallenges()
         {

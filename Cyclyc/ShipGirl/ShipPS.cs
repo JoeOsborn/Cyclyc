@@ -20,7 +20,7 @@ namespace Cyclyc.ShipGirl
         public ShipPS(Game1 game)
             : base(game, 16)
         {
-
+            PoweredColor = new Color(1.0f, 0.7f, 0.7f);
         }
         public float Rotation { get; set; }
         protected override float PickRandomAngle()
@@ -64,12 +64,12 @@ namespace Cyclyc.ShipGirl
 
             DrawOrder = AlphaBlendDrawOrder;
         }
+        public Color PoweredColor { get; set; }
         public void SetPowerRatio(float ratio)
         {
             Color white = Color.White;
-            Color red = new Color(1.0f, 0.7f, 0.7f);
 
-            Color current = Color.Lerp(white, red, ratio);
+            Color current = Color.Lerp(white, PoweredColor, ratio);
 
             Vector3 floatCol = current.ToVector3();
 

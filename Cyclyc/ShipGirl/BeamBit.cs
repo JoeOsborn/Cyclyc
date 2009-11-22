@@ -90,8 +90,10 @@ namespace Cyclyc.ShipGirl
             shotSnd.Stop();
         }
 
-        public void Reset(float x, float y, float vx, float vy)
+        public void Reset(string img, float x, float y, float vx, float vy, float sz)
         {
+            AssetName = img;
+            LoadContent();
             Game.PlayIfNotPlaying(shotSnd);
             //orient to the direction of motion
             Rotation = (float)(Math.Atan2(vy, vx));
@@ -100,10 +102,10 @@ namespace Cyclyc.ShipGirl
             CollisionStyle = CollisionStyle.Circle;
             SpriteWidth = spriteSheet.Width;
             Play("shot");
-            VisualRadius = 14;
-            VisualWidth = 14;
-            VisualHeight = 12;
-            Radius = 14;
+            VisualRadius = sz;
+            VisualWidth = sz;
+            VisualHeight = (float)((sz / 12.0) * 8);
+            Radius = sz;
             alive = true;
             visible = true;
         }

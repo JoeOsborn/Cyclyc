@@ -60,6 +60,12 @@ namespace Cyclyc
         ScoreComponent p1Score, p2Score;
         ScreenComponent endingScreen;
         protected Dictionary<string, SoundEffect> sfx;
+
+        SoundEffectInstance endingSong;
+        SoundEffectInstance titleSong;
+
+
+
         public Game1()
         {
             sfx = new Dictionary<string, SoundEffect>();
@@ -138,7 +144,8 @@ namespace Cyclyc
         }
         public double CurrentBeat
         {
-            get { return (timePlayed / 60.0) * Tempo; }
+            //hack to line up song
+            get { return ((timePlayed / 60.0) * Tempo) + 2; }
         }
         public double CurrentMeasure
         {
@@ -224,6 +231,9 @@ namespace Cyclyc
             p2Score.Width = GraphicsDevice.Viewport.Width;
             p2Score.Y = 316;
 
+            endingSong = SoundInstance("moogle");
+            titleSong = SoundInstance("jet-2");
+            PlayIfNotPlaying(titleSong);
             leftPipe.LoadContent();
             rightPipe.LoadContent();
             base.LoadContent();
@@ -318,6 +328,7 @@ namespace Cyclyc
                     {
                         Components.Remove(splash3);
                     }
+                    titleSong.Stop();
                     Components.Add(p1Instructions);
                     Components.Add(p2Instructions);
                     State = GameState.Instructions;
@@ -353,6 +364,8 @@ namespace Cyclyc
                 if (CurrentMeasure >= SongTotalEnding && !Components.Contains(endingScreen))
                 {
                     Components.Add(endingScreen);
+                    endingSong.IsLooped = true;
+                    PlayIfNotPlaying(endingSong);
                 }
             }
             base.Update(gameTime);

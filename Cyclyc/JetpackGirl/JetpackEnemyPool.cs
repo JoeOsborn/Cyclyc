@@ -29,14 +29,14 @@ namespace Cyclyc.JetpackGirl
         {
             JetpackEnemy enemy = (JetpackEnemy)FindOrMakeEnemy();
             enemy.ForceFeedback = ForceFeedback;
-            enemy.Reset(c, img, fc, left, (int)(left ? (0 - (rgen.NextDouble() * 32)) : (CycGame.View.Width/2 + (rgen.NextDouble()*32))), y, w, h, speed, bx, by, bw, bh, diff);
+            enemy.Reset(c, img, fc, left, (int)(left ? (CycGame.View.X - (rgen.NextDouble() * 32)) : (CycGame.View.Width/2 + (rgen.NextDouble()*32))), y, w, h, speed, bx, by, bw, bh, diff);
             return enemy;
         }
         public JetpackEnemy Create(Challenge c, string img, int fc, bool left, int y, int w, int h, float speed, int rad, int diff)
         {
             JetpackEnemy enemy = (JetpackEnemy)FindOrMakeEnemy();
             enemy.ForceFeedback = ForceFeedback;
-            enemy.Reset(c, img, fc, left, (int)(left ? (0 - (rgen.NextDouble() * 32)) : (CycGame.View.Width / 2 + (rgen.NextDouble() * 32))), y, w, h, speed, rad, diff);
+            enemy.Reset(c, img, fc, left, (int)(left ? (CycGame.View.X - (rgen.NextDouble() * 32)) : (CycGame.View.Width / 2 + (rgen.NextDouble() * 32))), y, w, h, speed, rad, diff);
             return enemy;
         }
     }

@@ -28,8 +28,8 @@ namespace Cyclyc.JetpackGirl
         public JetGame(Game1 game)
             : base(game)
         {
-            Grade1Expectation = 10;
-            Grade2Expectation = 20;
+            Grade1Expectation = 5;
+            Grade2Expectation = 15;
 
 
             SongName = "jet";
@@ -48,16 +48,25 @@ namespace Cyclyc.JetpackGirl
             return bg;
         }
 
-        protected float[] ParallaxSpeeds = new float[] { 0.1f, 0.1f, 0.2f, 0.4f, 0.6f, 0.6f };
+        protected float[] ParallaxSpeeds = new float[] { 0.1f, 0.1f, 0.1f, 0.1f, 0.2f, 0.4f, 0.6f, 0.6f };
+        protected CycBackground lowSunset;
+        protected CycBackground midSunset;
+        protected CycBackground highSunset;
 
         public override void Initialize()
         {
             AddBackground("pixel city sky", ParallaxSpeeds[0]);
-            AddBackground("pixel city sunset", ParallaxSpeeds[1]);
-            AddBackground("pixel city skyline", ParallaxSpeeds[2]);
-            AddBackground("pixel city middleground", ParallaxSpeeds[3]);
-            AddBackground("pixel city foreground", ParallaxSpeeds[4]);
-            AddBackground("pixel city road", ParallaxSpeeds[5]);
+            lowSunset = AddBackground("pixel city sunset low saturation", ParallaxSpeeds[1]);
+            midSunset = AddBackground("pixel city sunset med saturation", ParallaxSpeeds[2]);
+            midSunset.TargetAlpha = 0.0f;
+            midSunset.BlendDuration = 0.0f;
+            highSunset = AddBackground("pixel city sunset high saturation", ParallaxSpeeds[3]);
+            highSunset.TargetAlpha = 0.0f;
+            highSunset.BlendDuration = 0.0f;
+            AddBackground("pixel city skyline", ParallaxSpeeds[4]);
+            AddBackground("pixel city middleground", ParallaxSpeeds[5]);
+            AddBackground("pixel city foreground", ParallaxSpeeds[6]);
+            AddBackground("pixel city road", ParallaxSpeeds[7]);
 
             jg = new JetpackGirl((Game1)Game, this);
             AddSprite(jg);
@@ -82,6 +91,33 @@ namespace Cyclyc.JetpackGirl
         {
             base.CalculateGrade();
             jg.Superize(Grade >= 2);
+            if (Grade >= 2)
+            {
+                lowSunset.TargetAlpha = 0.0f;
+                lowSunset.BlendDuration = 1.0f;
+                midSunset.TargetAlpha = 0.0f;
+                midSunset.BlendDuration = 1.0f;
+                highSunset.TargetAlpha = 1.0f;
+                highSunset.BlendDuration = 1.0f;
+            }
+            else if (Grade >= 1)
+            {
+                lowSunset.TargetAlpha = 0.0f;
+                lowSunset.BlendDuration = 1.0f;
+                midSunset.TargetAlpha = 1.0f;
+                midSunset.BlendDuration = 1.0f;
+                highSunset.TargetAlpha = 0.0f;
+                highSunset.BlendDuration = 1.0f;
+            }
+            else
+            {
+                lowSunset.TargetAlpha = 1.0f;
+                lowSunset.BlendDuration = 1.0f;
+                midSunset.TargetAlpha = 0.0f;
+                midSunset.BlendDuration = 1.0f;
+                highSunset.TargetAlpha = 0.0f;
+                highSunset.BlendDuration = 1.0f;
+            }
         }
 
         public override int Score

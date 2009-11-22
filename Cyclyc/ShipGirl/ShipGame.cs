@@ -31,8 +31,8 @@ namespace Cyclyc.ShipGirl
         public ShipGame(Game1 game)
             : base(game)
         {
-            Grade1Expectation = 15;
-            Grade2Expectation = 30;
+            Grade1Expectation = 6;
+            Grade2Expectation = 20;
 
 
             SongName = "ship";
@@ -730,9 +730,16 @@ namespace Cyclyc.ShipGirl
                 superZodiac.TargetAlpha = 1.0f;
                 superZodiac.BlendDuration = 1.0f;
             }
-            else
+            else if (Grade >= 1)
             {
                 whiteZodiac.TargetAlpha = 1.0f;
+                whiteZodiac.BlendDuration = 1.0f;
+                superZodiac.TargetAlpha = 0.0f;
+                superZodiac.BlendDuration = 1.0f;
+            }
+            else
+            {
+                whiteZodiac.TargetAlpha = 0.0f;
                 whiteZodiac.BlendDuration = 1.0f;
                 superZodiac.TargetAlpha = 0.0f;
                 superZodiac.BlendDuration = 1.0f;

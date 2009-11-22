@@ -110,7 +110,7 @@ namespace Cyclyc.ShipGirl
         {
             CrushPower = (float)Math.Min(CrushMaxPower, CrushPower+CrushPowerUpRate * enemyCount);
             //later: vibrate on the side the enemy is on
-            ForceFeedback.AddVibration(0f*enemyCount, 5f*enemyCount, 60f); 
+            ForceFeedback.AddVibration(0.0f*enemyCount, .5f*enemyCount, 60f); 
             Game.PlayIfNotPlaying(skimSnd);
         }
 
@@ -190,7 +190,7 @@ namespace Cyclyc.ShipGirl
             Vector2 vel = new Vector2((float)(Math.Cos(dir) * mag), (float)(Math.Sin(dir) * mag));
             Vector2 pos = Position + new Vector2((float)(Radius * Math.Cos(dir)), (float)(Radius * Math.Sin(dir)));
             CrushPool.Create(super ? "shipBulletSuper" : "shipBullet", pos.X, pos.Y, vel.X, vel.Y, super ? 20 : 14);
-            ForceFeedback.AddVibration(50f, 0f, 100f);
+            ForceFeedback.AddVibration(.5f, 0f, 100f);
         }
 
         protected void Crush(GameTime gt)
@@ -219,7 +219,7 @@ namespace Cyclyc.ShipGirl
         public void Die()
         {
             if (Dying) { return; }
-            ForceFeedback.AddVibration(800f, 800f, 400f);
+            ForceFeedback.AddVibration(1f, 1f, 400f);
             Dying = true;
             respawnTimer = RespawnDelay;
             CrushPower = 0;

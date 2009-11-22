@@ -52,6 +52,7 @@ namespace Cyclyc.JetpackGirl
             attackCounter = 0;
             attackCooldown = 0;
             Attacking = false;
+            GroundLoss = DefaultGroundLoss;
             bounds = new Rectangle(0, 0, 14, 16);
         }
 
@@ -238,6 +239,16 @@ namespace Cyclyc.JetpackGirl
                 Play("run", false);
             }
         }
+        public float DefaultGroundLoss
+        {
+            get { return -0.25f; }
+        }
+        public float GroundLoss 
+        {
+            get { return jetpack.DefaultSpeedX; }
+            set { jetpack.DefaultSpeedX = value; }
+        }
+
         protected double RespawnDelay
         {
             get { return 1.0; }

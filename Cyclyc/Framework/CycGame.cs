@@ -120,6 +120,7 @@ namespace Cyclyc.Framework
         }
         public void DeliverEnemy(bool leftSide, int difficulty)
         {
+            if (Game.SongIsEndingSoon) { return; }
             if (leftSide)
             {
                 NextMeasureLeftDifficulty += difficulty;

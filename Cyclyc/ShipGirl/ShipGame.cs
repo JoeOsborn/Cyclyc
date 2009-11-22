@@ -21,6 +21,8 @@ namespace Cyclyc.ShipGirl
         ShipCircle skim;
         ShipEnemyPool enemyBatch;
         protected float crushRecovery;
+        protected CycSprite earth;
+
         public BeamPool CrushBeams { get; set; }
 
         public ShipGame(Game1 game)
@@ -31,13 +33,14 @@ namespace Cyclyc.ShipGirl
             enemyBatch = new ShipEnemyPool(this);
         }
 
+        protected float[] ParallaxSpeeds = new float[] { -0.05f, -0.1f, -0.1f, -0.3f };
+
         public override void Initialize()
         {
-            AddBackground("space background", -0.05f);
-            AddBackground("galaxy", -0.1f);
-            AddBackground("nebula", -0.1f);
-            AddBackground("zodiac", -0.2f);
-            AddBackground("stars", -0.3f);
+            AddBackground("space background", ParallaxSpeeds[0]);
+            AddBackground("galaxy", ParallaxSpeeds[1]);
+            AddBackground("nebula", ParallaxSpeeds[2]);
+            AddBackground("stars", ParallaxSpeeds[3]);
 
             ship = new Ship(Game, this);
             ship.CrushPool = CrushBeams;
@@ -301,6 +304,11 @@ namespace Cyclyc.ShipGirl
         //--------------------------------------------------------------------------------
         #endregion
 
+        protected float EarthSpeed
+        {
+            get { return 0.6f; }
+        }
+
         public override void LoadContent()
         {
             ship.StartPosition = StartPosition;
@@ -335,6 +343,23 @@ namespace Cyclyc.ShipGirl
         }
         public override void Update(GameTime gameTime)
         {
+            if (Game.SongIsEnding)
+            {
+                float r = (float)Game.OutroRatio;
+                for (int i = 0; i < backgrounds.Count; i++)
+                {
+                    CycBackground bg = backgrounds[i];
+                    bg.ScrollSpeed = ParallaxSpeeds[i] * (1 - r);
+                }
+                if (earth == null)
+                {
+                    earth = new EndingSprite(Game, "earth", new Vector2(-400, 90), 301);
+                    earth.Initialize();
+                    earth.LoadContent();
+                    AddSprite(earth);
+                }
+                earth.Velocity = new Vector2(EarthSpeed * (1 - r), earth.Velocity.Y);
+            }
             CrushBeams.Update(gameTime);
             List<CollisionGroup> crushCollided = enemyBatch.CollidePool(CrushBeams);
             foreach (CollisionGroup crushed in crushCollided)

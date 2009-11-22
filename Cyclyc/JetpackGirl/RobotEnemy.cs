@@ -25,7 +25,7 @@ namespace Cyclyc.JetpackGirl
         {
             get
             {
-                if (CloseToTarget)
+                if (CloseToTarget && !Game.SongIsEndingSoon)
                 {
                     if (Math.Abs(TargetDistance) < 16)
                     {
@@ -44,7 +44,7 @@ namespace Cyclyc.JetpackGirl
         {
             get
             {
-                if (CloseToTarget)
+                if (CloseToTarget && !Game.SongIsEndingSoon)
                 {
                     if (Math.Abs(TargetDistance) < 16)
                     {

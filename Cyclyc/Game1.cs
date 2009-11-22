@@ -44,6 +44,8 @@ namespace Cyclyc
         {
             Random = new Random();
             playing = false;
+            //400 beats in ; seconds = (bpm * mps)
+            //timePlayed = (SongOutro * 4.0) / ((float)Tempo * (1.0/60.0));
             timePlayed = 0;
             graphics = new GraphicsDeviceManager(this);
             //graphics.IsFullScreen = true;
@@ -67,7 +69,39 @@ namespace Cyclyc
             jetGame.LeftPipe = leftPipe;
             jetGame.RightPipe = rightPipe;
         }
-
+        public double SongEnd
+        {
+            get { return 110; }
+        }
+        public bool SongIsOver
+        {
+            get { return CurrentMeasure >= SongEnd; }
+        }
+        public double SongOutro
+        {
+            get { return 100; }
+        }
+        public bool SongIsEnding
+        {
+            get { return CurrentMeasure >= SongOutro; }
+        }
+        public double SongDenouement
+        {
+            get { return 88; }
+        }
+        public bool SongIsEndingSoon
+        {
+            get { return CurrentMeasure >= SongDenouement; }
+        }
+        public double OutroRatio
+        {
+            get
+            {
+                double measuresOut = (CurrentMeasure - SongOutro);
+                double outroLength = SongEnd - SongOutro;
+                return Math.Min(1.0, measuresOut / outroLength);
+            }
+        }
         public int Tempo
         {
             get { return 180; }

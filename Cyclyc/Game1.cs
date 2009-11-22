@@ -75,7 +75,7 @@ namespace Cyclyc
             //timePlayed = (SongOutro * 4.0) / ((float)Tempo * (1.0 / 60.0));
             timePlayed = 0;
             graphics = new GraphicsDeviceManager(this);
-            //graphics.IsFullScreen = true;
+            graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
 
             leftPipe = new EnemyPipe(this);

@@ -39,7 +39,7 @@ namespace Cyclyc.ShipGirl
             AddBackground("zodiac", -0.2f);
             AddBackground("stars", -0.3f);
 
-            ship = new Ship(Game);
+            ship = new Ship(Game, this);
             ship.CrushPool = CrushBeams;
             skim = new ShipCircle(Game, ship, "skimRing");
             AddSprite(skim);
@@ -298,7 +298,6 @@ namespace Cyclyc.ShipGirl
 
         }
 
-        //--------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------
         #endregion
 

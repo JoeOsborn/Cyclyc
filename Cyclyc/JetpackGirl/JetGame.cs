@@ -50,7 +50,7 @@ namespace Cyclyc.JetpackGirl
             AddBackground("pixel city foreground", 0.6f);
             AddBackground("pixel city road", 0.6f);
 
-            jg = new JetpackGirl((Game1)Game);
+            jg = new JetpackGirl((Game1)Game, this);
             AddSprite(jg);
 
             base.Initialize();

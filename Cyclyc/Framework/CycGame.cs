@@ -59,6 +59,7 @@ namespace Cyclyc.Framework
         public float Grade
         {
             get { return grade; }
+            set { grade = value; }
         }
 
         protected List<CycBackground> backgrounds;

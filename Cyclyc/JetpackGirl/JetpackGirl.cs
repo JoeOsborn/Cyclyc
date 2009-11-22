@@ -16,6 +16,7 @@ namespace Cyclyc.JetpackGirl
 {
     public class JetpackGirl : CycSprite, JetpackOwner
     {
+        protected CycGame CycGame { get; set; }
         KeyboardState kb, oldKB;
         GamePadState gp, oldGP;
         protected bool jumpReleased;
@@ -34,10 +35,12 @@ namespace Cyclyc.JetpackGirl
             set;
         }
 
-        public JetpackGirl(Game1 game)
+        public JetpackGirl(Game1 game, CycGame cg)
             : base(game)
         {
+            CycGame = cg;
             Dying = false;
+            AttackRadius = 10;
             particles = new JetpackGirlPS(Game);
             Game.Components.Add(particles);
             ScaleFactor = 2.0f;
@@ -253,7 +256,8 @@ namespace Cyclyc.JetpackGirl
         }
         protected double AttackRadius
         {
-            get { return 10.0; }
+            get;
+            set;
         }
         protected double AttackRadiusDefault
         {
@@ -261,7 +265,7 @@ namespace Cyclyc.JetpackGirl
         }
         protected double AttackRadiusBonus
         {
-            get { return 10.0; }
+            get { return 20.0; }
         }
         public bool IsInAir
         {
@@ -353,6 +357,16 @@ namespace Cyclyc.JetpackGirl
                 Dying = false;
                 position = StartPosition;
             }
+            //ATTACK RADIUS BONUS
+            if (CycGame.Grade >= 0.1)
+            {
+                AttackRadius = AttackRadiusBonus;
+            }
+            else
+            {
+                AttackRadius = AttackRadiusDefault;
+            }
+            
             //INPUT
             oldKB = kb;
             oldGP = gp;

@@ -260,23 +260,54 @@ namespace Cyclyc.JetpackGirl
         {
             get { return BottomEdge == FloorY; }
         }
+        public bool PlayerWantRight
+        {
+            get { return kb.IsKeyDown(Keys.D) || (gp.ThumbSticks.Left.X > 0); }
+        }
+        public bool oldPlayerWantRight
+        {
+            get { return oldKB.IsKeyDown(Keys.D) || (oldGP.ThumbSticks.Left.X > 0); }
+        }
+        public bool PlayerWantLeft
+        {
+            get { return kb.IsKeyDown(Keys.A) || (gp.ThumbSticks.Left.X < 0); }
+        }
+        public bool oldPlayerWantLeft
+        {
+            get { return oldKB.IsKeyDown(Keys.A) || (oldGP.ThumbSticks.Left.X < 0); }
+        }
+        public bool PlayerWantUp
+        {
+            get { return kb.IsKeyDown(Keys.W) || (gp.Buttons.A == ButtonState.Pressed); }
+        }
+        public bool oldPlayerWantUp
+        {
+            get { return oldKB.IsKeyDown(Keys.W) || (oldGP.Buttons.A == ButtonState.Pressed); }
+        }
+        public bool PlayerWantAttack
+        {
+            get { return kb.IsKeyDown(Keys.Q) || (gp.Buttons.X == ButtonState.Pressed); }
+        }
+        public bool oldPlayerWantAttack
+        {
+            get { return oldKB.IsKeyDown(Keys.Q) || (oldGP.Buttons.X == ButtonState.Pressed); }
+        }
         public bool ShouldMoveRight
         {
-            get { return !Dying && kb.IsKeyDown(Keys.D); }
+            get { return !Dying && PlayerWantRight; }
         }
         public bool ShouldMoveLeft
         {
-            get { return !Dying && kb.IsKeyDown(Keys.A); }
+            get { return !Dying && PlayerWantLeft; }
         }
         public bool ShouldJet
         {
-            get { return !Dying && jumpReleased && kb.IsKeyDown(Keys.W); }
+            get { return !Dying && jumpReleased && PlayerWantUp; }
         }
         public bool ShouldJump
         {
-            get { return !Dying && !oldKB.IsKeyDown(Keys.W) && kb.IsKeyDown(Keys.W); }
+            get { return !Dying && !oldPlayerWantUp && PlayerWantUp; }
         }
-
         protected override bool StopAtBottomEdge(GameTime gt)
         {
             return Dying ? false : true;
@@ -309,8 +340,10 @@ namespace Cyclyc.JetpackGirl
             }
             //INPUT
             oldKB = kb;
+            oldGP = gp;
             kb = Keyboard.GetState();
-            if (!jumpReleased && oldKB.IsKeyDown(Keys.W) && !kb.IsKeyDown(Keys.W))
+            gp = GamePad.GetState(PlayerIndex.Two);
+            if (!jumpReleased && oldPlayerWantUp && !PlayerWantUp)
             {
                 jumpReleased = true;
             }
@@ -324,7 +357,7 @@ namespace Cyclyc.JetpackGirl
             }
             if (attackCooldown == 0 && attackCounter <= 0 && !Attacking)
             {
-                if (kb.IsKeyDown(Keys.Q) && oldKB.IsKeyUp(Keys.Q))
+                if (PlayerWantAttack && !oldPlayerWantAttack)
                 {
                     attackCounter = AttackDuration;
                     Attacking = true;

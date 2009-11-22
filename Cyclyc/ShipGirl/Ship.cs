@@ -17,6 +17,7 @@ namespace Cyclyc.ShipGirl
     public class Ship : CycSprite
     {
         protected KeyboardState kb;
+        protected GamePadState gp;
 
         protected Vector2 LastInputVelocity { get; set; }
 
@@ -67,11 +68,11 @@ namespace Cyclyc.ShipGirl
 
         protected float MaxSpeedX
         {
-            get { return 2.5f; }
+            get { return 3f; }
         }
         protected float MaxSpeedY
         {
-            get { return 2.5f; }
+            get { return 3f; }
         }
 
         public float CrushPower { get; set; }
@@ -160,13 +161,24 @@ namespace Cyclyc.ShipGirl
         {
             get { return 0.25f; }
         }
+        protected float AnalogSpeedMultiplier
+        {
+            get { return 0.10f; }
+        }
         protected float InertiaSpeedStep
         {
             get { return 0.125f; }
         }
 
+        public bool PlayerWantFire
+        {
+            get { return kb.IsKeyDown(Keys.Space) || (gp.Buttons.X == ButtonState.Pressed); }
+        }
+
         public override void Update(GameTime gameTime)
         {
+            kb = Keyboard.GetState();
+            gp = GamePad.GetState(PlayerIndex.One);
             Console.WriteLine("Crush power: " + CrushPower);
             if (ShotCooldown > ShotCooldownMax)
             {
@@ -176,7 +188,7 @@ namespace Cyclyc.ShipGirl
             {
                 ShotCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
-            if (!Dying && Keyboard.GetState().IsKeyDown(Keys.Space) && ShotCooldown <= 0)
+            if (!Dying && PlayerWantFire && ShotCooldown <= 0)
             {
                 Crush(gameTime);
             }
@@ -196,7 +208,7 @@ namespace Cyclyc.ShipGirl
                 position = StartPosition;
             }
             // TODO: Add your update code here
-            kb = Keyboard.GetState();
+            // VERTICAL VELOCITY
             if (kb.IsKeyDown(Keys.Up) && kb.IsKeyUp(Keys.Down) && TopEdge > CeilY)
             {
                 velocity.Y = MathHelper.Clamp(velocity.Y - ManualSpeedStep, -MaxSpeedY, MaxSpeedY);
@@ -207,17 +219,23 @@ namespace Cyclyc.ShipGirl
                 velocity.Y = MathHelper.Clamp(velocity.Y + ManualSpeedStep, -MaxSpeedY, MaxSpeedY);
                 LastInputVelocity = Velocity;
             }
+            else if ((gp.ThumbSticks.Left.Y > 0 && TopEdge > CeilY) || (gp.ThumbSticks.Left.Y < 0 && BottomEdge < FloorY))
+            {
+                velocity.Y = MathHelper.Clamp(velocity.Y - (gp.ThumbSticks.Left.Y * AnalogSpeedMultiplier), -MaxSpeedY, MaxSpeedY);
+                LastInputVelocity = Velocity;
+            }
             else
             {
-                if (velocity.Y > 0) 
+                if (velocity.Y > 0)
                 {
                     velocity.Y = MathHelper.Max(velocity.Y - InertiaSpeedStep, 0);
                 }
-                else if (velocity.Y < 0) 
+                else if (velocity.Y < 0)
                 {
                     velocity.Y = MathHelper.Min(velocity.Y + InertiaSpeedStep, 0);
                 }
             }
+            //HORIZONTAL VELOCITY
             if (kb.IsKeyDown(Keys.Right) && kb.IsKeyUp(Keys.Left) && RightEdge < RightX)
             {
                 velocity.X = MathHelper.Clamp(velocity.X + ManualSpeedStep, -MaxSpeedX, MaxSpeedX);
@@ -226,6 +244,11 @@ namespace Cyclyc.ShipGirl
             else if (kb.IsKeyDown(Keys.Left) && kb.IsKeyUp(Keys.Right) && LeftEdge > LeftX)
             {
                 velocity.X = MathHelper.Clamp(velocity.X - ManualSpeedStep, -MaxSpeedX, MaxSpeedX);
+                LastInputVelocity = Velocity;
+            }
+            else if ((gp.ThumbSticks.Left.X > 0 && RightEdge < RightX) || (gp.ThumbSticks.Left.X < 0 && LeftEdge > LeftX))
+            {
+                velocity.X = MathHelper.Clamp(velocity.X + (gp.ThumbSticks.Left.X * AnalogSpeedMultiplier), -MaxSpeedX, MaxSpeedX);
                 LastInputVelocity = Velocity;
             }
             else
@@ -239,9 +262,14 @@ namespace Cyclyc.ShipGirl
                     velocity.X = MathHelper.Min(velocity.X + InertiaSpeedStep, 0);
                 }
             }
-            if (LastInputVelocity.X != 0 || LastInputVelocity.Y != 0)
+            //ROTATION
+            if ((LastInputVelocity.X != 0 && gp.ThumbSticks.Left.X == 0)|| (LastInputVelocity.Y != 0 && gp.ThumbSticks.Left.Y == 0))
             {
                 TargetRotation = (float)Math.Atan2(LastInputVelocity.Y, LastInputVelocity.X);
+            }
+            else if ((LastInputVelocity.X != 0 && gp.ThumbSticks.Left.X != 0) || (LastInputVelocity.Y != 0 && gp.ThumbSticks.Left.Y != 0))
+            {
+                TargetRotation = (float)Math.Atan2(-(gp.ThumbSticks.Left.Y), gp.ThumbSticks.Left.X);
             }
             if (Math.Abs(Rotation - TargetRotation) > float.Epsilon)
             {

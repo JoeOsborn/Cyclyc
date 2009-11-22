@@ -22,6 +22,8 @@ namespace Cyclyc.Framework
         SoundEffect soundEffect;
         SoundEffectInstance soundInstance;
 
+        protected double MaxVolume { get { return 0.2; } }
+
         public SongTrack(Game1 game, string songName, bool playNow)
         {
             Game = game;
@@ -32,9 +34,9 @@ namespace Cyclyc.Framework
             shouldPlay = playNow;
             if (playNow)
             {
-                TargetVolume = 1.0;
-                SrcVolume = 1.0;
-                Volume = 1.0;
+                TargetVolume = MaxVolume;
+                SrcVolume = MaxVolume;
+                Volume = MaxVolume;
             }
             else
             {
@@ -60,7 +62,7 @@ namespace Cyclyc.Framework
                 if (!shouldPlay && value)
                 {
                     SrcVolume = Volume;
-                    TargetVolume = 1.0;
+                    TargetVolume = MaxVolume;
                     TargetMeasure = Math.Floor(Game.CurrentMeasure) + 1;
                 }
                 else if (shouldPlay && !value)

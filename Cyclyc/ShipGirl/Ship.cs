@@ -66,8 +66,8 @@ namespace Cyclyc.ShipGirl
         public override void LoadContent()
         {
             base.LoadContent();
-            spriteWidth = spriteSheet.Width;
-            VisualWidth = spriteWidth/2;
+            SpriteWidth = 438 / 3;
+            VisualWidth = SpriteWidth / 2;
             VisualHeight = spriteSheet.Height/2;
             Radius = 15;
             CrushPower = 0;
@@ -214,10 +214,11 @@ namespace Cyclyc.ShipGirl
                     return;
                 }
                 respawnTimer = 0;
+                Play("default");
                 Flicker(3.0f);
-                Dying = false;
                 //check to make sure no enemies are here
                 position = StartPosition;
+                Dying = false;
             }
             // TODO: Add your update code here
             // VERTICAL VELOCITY

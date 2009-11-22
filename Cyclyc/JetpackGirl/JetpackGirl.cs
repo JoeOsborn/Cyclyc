@@ -27,6 +27,13 @@ namespace Cyclyc.JetpackGirl
         protected double respawnTimer;
         public CycSprite Wrench { get; set; }
 
+        SoundEffectInstance deathSnd;
+        SoundEffectInstance jetHighSnd;
+        SoundEffectInstance jetMidSnd;
+        SoundEffectInstance jetLowSnd;
+        SoundEffectInstance jumpSnd;
+        SoundEffectInstance landSnd;
+
         protected JetpackGirlPS particles;
 
         public bool Dying
@@ -66,6 +73,7 @@ namespace Cyclyc.JetpackGirl
             if (Dying) { return; }
             Dying = true;
             Play("death", false);
+            Game.PlayIfNotPlaying(deathSnd);
             Attacking = false;
             attackCooldown = 0;
             attackCounter = 0;
@@ -132,6 +140,14 @@ namespace Cyclyc.JetpackGirl
             Wrench.Radius = 14;
             Wrench.VisualRadius = 14;
             Wrench.LoadContent();
+
+            deathSnd = Game.SoundInstance("rpg-die");
+            jetHighSnd = Game.SoundInstance("rpg-jet-high");
+            jetMidSnd = Game.SoundInstance("rpg-jet-mid");
+            jetLowSnd = Game.SoundInstance("rpg-jet-low");
+            jumpSnd = Game.SoundInstance("rpg-jump");
+            landSnd = Game.SoundInstance("rpg-land");
+
             base.LoadContent();
         }
 
@@ -162,7 +178,20 @@ namespace Cyclyc.JetpackGirl
             {
                 Play("jet", false);
             }
-            particles.SetFuelRatio(jetpack.JPFuel / jetpack.MaxJPFuel);
+            float fr = jetpack.JPFuel / jetpack.MaxJPFuel;
+            if (fr > 0.5)
+            {
+                Game.PlayIfNotPlaying(jetHighSnd);
+            }
+            else if (fr > 0.2)
+            {
+                Game.PlayIfNotPlaying(jetMidSnd);
+            }
+            else
+            {
+                Game.PlayIfNotPlaying(jetLowSnd);
+            }
+            particles.SetFuelRatio(fr);
             particles.AddParticles(new Vector2((position.X + View.X) * ScaleFactor, (position.Y + 8 + View.Y) * ScaleFactor));
         }
         public void FizzleJet()
@@ -202,6 +231,7 @@ namespace Cyclyc.JetpackGirl
             {
                 Play("jump", false);
             }
+            Game.PlayIfNotPlaying(jumpSnd);
         }
         public void Fall()
         {
@@ -226,6 +256,7 @@ namespace Cyclyc.JetpackGirl
             {
                 Play("land", true);
             }
+            Game.PlayIfNotPlaying(landSnd);
         }
         public void Run()
         {

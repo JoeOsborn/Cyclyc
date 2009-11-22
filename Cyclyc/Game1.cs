@@ -57,9 +57,10 @@ namespace Cyclyc
         }
 
         ScreenComponent splash1, splash2, splash3, p1Instructions, p2Instructions;
-
+        protected Dictionary<string, SoundEffect> sfx;
         public Game1()
         {
+            sfx = new Dictionary<string, SoundEffect>();
             Random = new Random();
             State = GameState.Splash;
             //400 beats in ; seconds = (bpm * mps)
@@ -139,6 +140,16 @@ namespace Cyclyc
         {
             return min + (float)Random.NextDouble() * (max - min);
         }
+
+        public SoundEffectInstance SoundInstance(string n)
+        {
+            if (sfx.ContainsKey(n))
+            {
+                return sfx[n].CreateInstance();
+            }
+            sfx[n] = Content.Load<SoundEffect>(n);
+            return sfx[n].CreateInstance();
+        }
         
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -208,6 +219,14 @@ namespace Cyclyc
         {
             // TODO: Unload any non ContentManager content here
             base.UnloadContent();
+        }
+
+        public void PlayIfNotPlaying(SoundEffectInstance snd)
+        {
+            if (snd.State == SoundState.Stopped)
+            {
+                snd.Play();
+            }
         }
 
         protected void StartPlaying()

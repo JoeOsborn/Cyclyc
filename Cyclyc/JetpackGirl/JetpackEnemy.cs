@@ -33,6 +33,8 @@ namespace Cyclyc.JetpackGirl
             get { return IsHit ? leftToRight : velocity.X > 0; }
         }
 
+        protected SoundEffectInstance smHit, mdHit, lgHit;
+
         public JetpackEnemy(Game1 game, EnemyPool p)
             : base(game, p)
         {
@@ -52,6 +54,9 @@ namespace Cyclyc.JetpackGirl
         {
             base.LoadContent();
             LoadAnimations();
+            smHit = Game.SoundInstance("rpg-hit-high");
+            mdHit = Game.SoundInstance("rpg-hit-mid");
+            lgHit = Game.SoundInstance("rpg-hit-low");
             Play("default");
         }
 
@@ -64,6 +69,19 @@ namespace Cyclyc.JetpackGirl
         {
             hitFromLeft = (x < position.X);
             hitTimer = rgen.NextDouble() * (1.0 / Mass) + (0.25 / Mass);
+            Console.WriteLine("mass:"+Mass);
+            if (Mass > 1.2)
+            {
+                Game.PlayIfNotPlaying(lgHit);
+            }
+            else if (Mass > 0.8)
+            {
+                Game.PlayIfNotPlaying(mdHit);
+            }
+            else
+            {
+                Game.PlayIfNotPlaying(smHit);
+            }
         }
 
         public void Reset(Challenge c, string img, int fc, bool left, int xp, int yp, int w, int h, float speed, int radius, int diff)

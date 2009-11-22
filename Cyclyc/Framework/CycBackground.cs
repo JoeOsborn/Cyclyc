@@ -69,7 +69,7 @@ namespace Cyclyc.Framework
             dstRect.Width = (int)(VisualWidth * ScaleFactor);
             dstRect.Height = (int)(VisualHeight * ScaleFactor);
             SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White);
-            dstRect.X = (int)(dstRect.X + ((scrollSpeed > 0) ? dstRect.Width : -dstRect.Width));
+            dstRect.X = (int)(dstRect.X + ((scrollSpeed >= 0) ? dstRect.Width : -dstRect.Width));
             SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White);
         }
     }

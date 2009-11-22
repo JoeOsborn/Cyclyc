@@ -73,7 +73,7 @@ namespace Cyclyc.ShipGirl
             VisualHeight = spriteSheet.Height/2;
             Radius = 15;
             CrushPower = 0;
-            deathSnd = Game.SoundInstance("space-die-explode");
+            deathSnd = Game.SoundInstance("space-die");
             shotSnd = Game.SoundInstance("space-shot-click");
             skimSnd = Game.SoundInstance("space-skim-bloop");
         }

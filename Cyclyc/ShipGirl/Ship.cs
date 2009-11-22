@@ -245,7 +245,7 @@ namespace Cyclyc.ShipGirl
         {
             kb = Keyboard.GetState();
             gp = GamePad.GetState(PlayerIndex.One);
-            Console.WriteLine("Crush power: " + CrushPower);
+//            Console.WriteLine("Crush power: " + CrushPower);
             particles.SetPowerRatio(PowerRatio);
 
             if (ShotCooldown > ShotCooldownMax)

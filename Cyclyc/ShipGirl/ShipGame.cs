@@ -28,6 +28,10 @@ namespace Cyclyc.ShipGirl
         public ShipGame(Game1 game)
             : base(game)
         {
+            Grade1Expectation = 15;
+            Grade2Expectation = 30;
+
+
             SongName = "ship";
             CrushBeams = new BeamPool(this);
             enemyBatch = new ShipEnemyPool(this);
@@ -699,6 +703,7 @@ namespace Cyclyc.ShipGirl
         }
         public void KillPlayer()
         {
+            Combo = 0;
             ship.Die();
         }
         public void Skim(int enemyCount)
@@ -737,6 +742,7 @@ namespace Cyclyc.ShipGirl
                 CycEnemy deadEnemy = (CycEnemy)crushed.collider;
                 if (!deadEnemy.Alive) { continue; }
                 bool leftOfCenter = (ship.Position.X >= deadEnemy.Position.X);
+                Combo += deadEnemy.Difficulty;
                 NextGame.DeliverEnemy(leftOfCenter, deadEnemy.Difficulty);
                 deadEnemy.Die();
                 foreach (BeamBit beam in crushed.collided)

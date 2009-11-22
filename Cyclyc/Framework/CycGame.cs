@@ -68,9 +68,6 @@ namespace Cyclyc.Framework
         List<Challenge> leftChallenges;
         List<Challenge> rightChallenges;
 
-        double[] GradeWeights { get; set; }
-        double GradeModifier { get; set; }
-
         public SongTrack[] Songs { get; set; }
 
         protected Random rgen;
@@ -78,7 +75,8 @@ namespace Cyclyc.Framework
         public int NextMeasureLeftDifficulty { get; set; }
         public int NextMeasureRightDifficulty { get; set; }
 
-        Curve g1Expectations, g2Expectations;
+        public int Grade1Expectation { get; set; }
+        public int Grade2Expectation { get; set; }
 
         protected string SongName { get; set; }
 
@@ -86,8 +84,6 @@ namespace Cyclyc.Framework
         public CycGame(Game1 g)
         {
             lastMeasure = -1;
-            GradeWeights = new double[] { 1.0, 1.0, 1.0,     0.6 };
-            GradeModifier = 2.0;
             rgen = new Random();
             game = g;
             backgrounds = new List<CycBackground>();
@@ -161,9 +157,6 @@ namespace Cyclyc.Framework
 
         public virtual void LoadContent()
         {
-            g1Expectations = Game.Content.Load<Curve>(SongName + "-g1");
-            g2Expectations = Game.Content.Load<Curve>(SongName + "-g2");
-
             Songs = new SongTrack[3];
             Songs[0] = new SongTrack(Game, SongName + "-0", true);
             Songs[1] = new SongTrack(Game, SongName + "-1", false);
@@ -233,6 +226,7 @@ namespace Cyclyc.Framework
                 c.Process(gradeLevel, Grade, true);
             }
         }
+        public int Combo { get; set; }
         public int KillCount
         {
             get
@@ -262,19 +256,17 @@ namespace Cyclyc.Framework
         protected virtual void CalculateGrade()
         {
             //later, should grade be a function of difficulty as well?
-            int killed = Score;
-            float gradeOneExpectation = g1Expectations.Evaluate((float)Game.CurrentMeasure);
-            float gradeTwoExpectation = g2Expectations.Evaluate((float)Game.CurrentMeasure);
-            int grade = 0;
-            if (killed >= gradeOneExpectation)
+            int killed = Combo;
+            grade = 0;
+            if (killed >= Grade1Expectation)
             {
                 grade++;
             }
-            if (killed >= gradeTwoExpectation)
+            if (killed >= Grade2Expectation)
             {
                 grade++;
             }
-            Console.WriteLine("killed " + killed + ", expected " + gradeOneExpectation + " : " + gradeTwoExpectation + "; new grade: " + grade);
+            Console.WriteLine("killed " + killed + ", expected " + Grade1Expectation + " : " + Grade2Expectation + "; new grade: " + grade);
         }
 
         public virtual void Update(GameTime gameTime)

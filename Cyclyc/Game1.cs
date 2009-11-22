@@ -65,8 +65,8 @@ namespace Cyclyc
             Random = new Random();
             State = GameState.Splash;
             //400 beats in; seconds = (bpm * mps)
-            timePlayed = (SongOutro * 4.0) / ((float)Tempo * (1.0 / 60.0));
-            //timePlayed = 0;
+            //timePlayed = (SongOutro * 4.0) / ((float)Tempo * (1.0 / 60.0));
+            timePlayed = 0;
             graphics = new GraphicsDeviceManager(this);
             //graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";

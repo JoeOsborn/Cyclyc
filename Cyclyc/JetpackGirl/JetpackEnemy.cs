@@ -68,7 +68,7 @@ namespace Cyclyc.JetpackGirl
         public void Hit(float x)
         {
             hitFromLeft = (x < position.X);
-            hitTimer = rgen.NextDouble() * (1.0 / Mass) + (0.25 / Mass);
+            hitTimer = rgen.NextDouble() * (2.0 / Mass) + (0.25 / Mass);
             Console.WriteLine("mass:"+Mass);
             if (Mass > 1.2)
             {
@@ -245,12 +245,12 @@ namespace Cyclyc.JetpackGirl
                 hitTimer -= gameTime.ElapsedGameTime.TotalSeconds;
                 if (hitFromLeft)
                 {
-                    velocity.X = 3;
+                    velocity.X = 4;
                     leftToRight = false;
                 }
                 else
                 {
-                    velocity.X = -3;
+                    velocity.X = -4;
                     leftToRight = true;
                 }
             }

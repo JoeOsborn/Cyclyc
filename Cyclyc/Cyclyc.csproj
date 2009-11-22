@@ -98,6 +98,7 @@
     <Compile Include="Framework\EnemyPool.cs" />
     <Compile Include="Framework\Particle.cs" />
     <Compile Include="Framework\ParticleSystem.cs" />
+    <Compile Include="Framework\ScoreComponent.cs" />
     <Compile Include="Framework\ScreenComponent.cs" />
     <Compile Include="Framework\SongTrack.cs" />
     <Compile Include="JetpackGirl\FrogEnemy.cs" />

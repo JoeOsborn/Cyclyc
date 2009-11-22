@@ -471,6 +471,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content.contentproj" />
+    <Compile Include="ScoreFont.spritefont">
+      <Name>ScoreFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="rockGirlSuper.png">

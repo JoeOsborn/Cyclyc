@@ -17,6 +17,7 @@ namespace Cyclyc.ShipGirl
 {
     public class BeamBit : CycSprite
     {
+        SoundEffectInstance shotSnd;
         protected BeamPool Pool { get; set; }
         public BeamBit(Game1 game, BeamPool pool)
             : base(game)
@@ -29,6 +30,10 @@ namespace Cyclyc.ShipGirl
         public override void LoadContent()
         {
             SpriteWidth = 12;
+            if (shotSnd == null)
+            {
+                shotSnd = Game.SoundInstance("space-shot-click");
+            }
             base.LoadContent();
         }
 
@@ -86,6 +91,7 @@ namespace Cyclyc.ShipGirl
 
         public void Reset(float x, float y, float vx, float vy)
         {
+            Game.PlayIfNotPlaying(shotSnd);
             //orient to the direction of motion
             Rotation = (float)(Math.Atan2(vy, vx));
             Velocity = new Vector2(vx, vy);

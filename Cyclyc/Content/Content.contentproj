@@ -488,11 +488,6 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
-    <Compile Include="space-hit-explode.wav">
-      <Name>space-hit-explode</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
     <Compile Include="space-hit-melody-high.wav">
       <Name>space-hit-melody-high</Name>
       <Importer>WavImporter</Importer>
@@ -510,31 +505,6 @@
     </Compile>
     <Compile Include="space-hit-melody-octave.wav">
       <Name>space-hit-melody-octave</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="space-shot-blat.wav">
-      <Name>space-shot-blat</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="space-shot-bop.wav">
-      <Name>space-shot-bop</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="space-shot-click.wav">
-      <Name>space-shot-click</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="space-shot-hat.wav">
-      <Name>space-shot-hat</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="space-shot-quiet.wav">
-      <Name>space-shot-quiet</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
@@ -568,6 +538,13 @@
   <ItemGroup>
     <Compile Include="space-skim.wav">
       <Name>space-skim</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="space-shot.wav">
+      <Name>space-shot</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>

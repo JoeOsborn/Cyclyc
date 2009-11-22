@@ -17,6 +17,7 @@ namespace Cyclyc.ShipGirl
     public class ShipGame : Cyclyc.Framework.CycGame
     {
         Ship ship;
+        SkimPS skimParticles;
         ShipCircle skim;
         ShipEnemyPool enemyBatch;
         protected float crushRecovery;
@@ -45,6 +46,8 @@ namespace Cyclyc.ShipGirl
             crushRecovery = 0;
             skim.ResizeTo(DefaultSkimRadius, 0);
             AddSprite(ship);
+            skimParticles = new SkimPS(Game);
+            Game.Components.Add(skimParticles);
 //            debugRadius = new ShipCircle(Game, ship, "crushRing");
 //            AddSprite(debugRadius);
             base.Initialize();
@@ -359,6 +362,10 @@ namespace Cyclyc.ShipGirl
                 List<CycSprite> skimCollided = enemyBatch.Collide(skim);
                 if (skimCollided.Count() != 0)
                 {
+                    foreach (CycSprite s in skimCollided)
+                    {
+                        skimParticles.AddParticles(s.Center);
+                    }
                     Skim(skimCollided.Count());
                 }
             }

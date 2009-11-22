@@ -122,6 +122,7 @@
     <Compile Include="ShipGirl\ShipEnemyPool.cs" />
     <Compile Include="ShipGirl\ShipGame.cs" />
     <Compile Include="ShipGirl\ShipPS.cs" />
+    <Compile Include="ShipGirl\SkimPS.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

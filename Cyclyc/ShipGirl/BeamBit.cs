@@ -22,8 +22,14 @@ namespace Cyclyc.ShipGirl
             : base(game)
         {
             Pool = pool;
-            AssetName = "wrench";
-            AddAnimation("shot", FrameSequence(0, 2), TimingSequence(5, 2), true);
+            AssetName = "shipBullet";
+            AddAnimation("shot", FrameSequence(0, 1), TimingSequence(5, 1), true);
+        }
+
+        public override void LoadContent()
+        {
+            base.LoadContent();
+            SpriteWidth = spriteSheet.Width;
         }
 
         protected override bool StopAtRightEdge(GameTime gt)

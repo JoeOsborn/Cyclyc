@@ -602,16 +602,6 @@
     <None Include="Content.contentproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="explosion.png">
-      <Name>explosion</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="explosion2.png">
-      <Name>explosion2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="rockGirlSuper.png">
       <Name>rockGirlSuper</Name>
       <Importer>TextureImporter</Importer>

@@ -79,6 +79,9 @@ namespace Cyclyc.JetpackGirl
             jg.Superize(Grade >= 2);
         }
 
+
+        #region Random Enemy Maker
+
         public override EnemyMaker MakeEnemy(bool leftToRight, int difficulty)
         {
             double r = rgen.NextDouble();
@@ -107,10 +110,11 @@ namespace Cyclyc.JetpackGirl
                     return en;
                 };
         }
+        #endregion
 
 
         #region enemyTypes
-// -----------------DEFINE SPECIFIC ENEMY TYPES------------------------------------------------
+        // -----------------DEFINE SPECIFIC ENEMY TYPES------------------------------------------------
 
         protected EnemyMaker MakeRobotEnemy(float sizeMultiplier, float speedMultiplier)
         {
@@ -140,6 +144,7 @@ namespace Cyclyc.JetpackGirl
         #endregion
 
 
+        #region Level Design
         protected override void SetupChallenges()
         {
             Challenge testChallenge = new Challenge(this, Game, 4);
@@ -147,6 +152,9 @@ namespace Cyclyc.JetpackGirl
             testChallenge.AddBeat(new ChallengeBeat(2, new EnemyMaker[] { MakeEnemy(true, 1), MakeEnemy(true, 1) }));
             TriggerChallenge(0, testChallenge);
         }
+
+        #endregion
+
 
         public override void LoadContent()
         {

@@ -114,7 +114,14 @@ namespace Cyclyc.ShipGirl
         {
             get
             {
-                return (float)0.8 * (CrushMaxPower / (CrushMaxPower + 10 * (CrushPower * gp.Triggers.Right)));
+                if (kb.IsKeyDown(Keys.Space))
+                {
+                    return (float)0.8 * (CrushMaxPower / (CrushMaxPower + 10 * (CrushPower)));
+                }
+                else
+                {
+                    return (float)0.8 * (CrushMaxPower / (CrushMaxPower + 10 * (CrushPower * gp.Triggers.Right)));
+                }
             }
         }
         //        if ((CrushPower * gp.Triggers.Right) > (7 * CrushMaxPower / 8.0))
@@ -255,7 +262,14 @@ namespace Cyclyc.ShipGirl
             }
             if (!Dying && PlayerWantFire)
             {
-                CrushPower = Math.Max(CrushPower - (gp.Triggers.Right * CrushPowerDownRate), 0);
+                if (kb.IsKeyDown(Keys.Space))
+                {
+                    CrushPower = Math.Max(CrushPower - CrushPowerDownRate, 0);
+                }
+                else
+                {
+                    CrushPower = Math.Max(CrushPower - (gp.Triggers.Right * CrushPowerDownRate), 0);
+                }
             }
             if (Dying)
             {

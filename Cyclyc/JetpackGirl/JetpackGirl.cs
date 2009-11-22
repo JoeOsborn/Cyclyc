@@ -266,6 +266,14 @@ namespace Cyclyc.JetpackGirl
         {
             get { return 10.0; }
         }
+        protected double AttackRadiusDefault
+        {
+            get { return 10.0; }
+        }
+        protected double AttackRadiusBonus
+        {
+            get { return 10.0; }
+        }
         public bool IsInAir
         {
             get { return BottomEdge < FloorY; }

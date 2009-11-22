@@ -170,7 +170,7 @@ namespace Cyclyc.ShipGirl
         }
         protected float AnalogSpeedMultiplier
         {
-            get { return 0.10f; }
+            get { return 3f; }
         }
         protected float InertiaSpeedStep
         {
@@ -220,17 +220,17 @@ namespace Cyclyc.ShipGirl
             // VERTICAL VELOCITY
             if (kb.IsKeyDown(Keys.Up) && kb.IsKeyUp(Keys.Down) && TopEdge > CeilY)
             {
-                velocity.Y = MathHelper.Clamp(velocity.Y - ManualSpeedStep, -MaxSpeedY, MaxSpeedY);
+                velocity.Y = -MaxSpeedY;
                 LastInputVelocity = Velocity;
             }
             else if (kb.IsKeyDown(Keys.Down) && kb.IsKeyUp(Keys.Up) && BottomEdge < FloorY)
             {
-                velocity.Y = MathHelper.Clamp(velocity.Y + ManualSpeedStep, -MaxSpeedY, MaxSpeedY);
+                velocity.Y = MaxSpeedY;
                 LastInputVelocity = Velocity;
             }
             else if ((gp.ThumbSticks.Left.Y > 0 && TopEdge > CeilY) || (gp.ThumbSticks.Left.Y < 0 && BottomEdge < FloorY))
             {
-                velocity.Y = MathHelper.Clamp(velocity.Y - (gp.ThumbSticks.Left.Y * AnalogSpeedMultiplier), -MaxSpeedY, MaxSpeedY);
+                velocity.Y = -(gp.ThumbSticks.Left.Y * AnalogSpeedMultiplier);
                 LastInputVelocity = Velocity;
             }
             else
@@ -247,17 +247,17 @@ namespace Cyclyc.ShipGirl
             //HORIZONTAL VELOCITY
             if (kb.IsKeyDown(Keys.Right) && kb.IsKeyUp(Keys.Left) && RightEdge < RightX)
             {
-                velocity.X = MathHelper.Clamp(velocity.X + ManualSpeedStep, -MaxSpeedX, MaxSpeedX);
+                velocity.X = MaxSpeedX;
                 LastInputVelocity = Velocity;
             }
             else if (kb.IsKeyDown(Keys.Left) && kb.IsKeyUp(Keys.Right) && LeftEdge > LeftX)
             {
-                velocity.X = MathHelper.Clamp(velocity.X - ManualSpeedStep, -MaxSpeedX, MaxSpeedX);
+                velocity.X = -MaxSpeedX;
                 LastInputVelocity = Velocity;
             }
             else if ((gp.ThumbSticks.Left.X > 0 && RightEdge < RightX) || (gp.ThumbSticks.Left.X < 0 && LeftEdge > LeftX))
             {
-                velocity.X = MathHelper.Clamp(velocity.X + (gp.ThumbSticks.Left.X * AnalogSpeedMultiplier), -MaxSpeedX, MaxSpeedX);
+                velocity.X = (gp.ThumbSticks.Left.X * AnalogSpeedMultiplier);
                 LastInputVelocity = Velocity;
             }
             else

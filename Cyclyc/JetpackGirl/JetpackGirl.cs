@@ -75,7 +75,7 @@ namespace Cyclyc.JetpackGirl
         public void Die()
         {
             if (Dying) { return; }
-            ForceFeedback.AddVibration(700f, 700f, (float)RespawnDelay);
+            ForceFeedback.AddVibration(800f, 800f, 400f);
             Dying = true;
             Play("death", false);
             Game.PlayIfNotPlaying(deathSnd);
@@ -176,7 +176,7 @@ namespace Cyclyc.JetpackGirl
             {
                 Play("begin-jet", true);
             }
-            ForceFeedback.AddVibration(300f, 300f, 800f);
+            ForceFeedback.AddVibration(0f, 50f, 600f);
         }
         public void Superize(bool super)
         {

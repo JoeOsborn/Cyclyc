@@ -87,11 +87,11 @@ namespace Cyclyc.ShipGirl
         {
             alive = false;
             visible = false;
+            shotSnd.Stop();
         }
 
         public void Reset(float x, float y, float vx, float vy)
         {
-            shotSnd.Stop();
             Game.PlayIfNotPlaying(shotSnd);
             //orient to the direction of motion
             Rotation = (float)(Math.Atan2(vy, vx));

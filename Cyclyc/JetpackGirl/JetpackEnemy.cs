@@ -179,6 +179,10 @@ namespace Cyclyc.JetpackGirl
         {
             Play("run", false);
         }
+        public override float FloorY
+        {
+            get { return base.FloorY - 10; }
+        }
         public bool IsInAir
         {
             get { return BottomEdge < FloorY; }
@@ -189,7 +193,7 @@ namespace Cyclyc.JetpackGirl
         }
         public bool OnGround
         {
-            get { return BottomEdge == FloorY; }
+            get { return BottomEdge >= FloorY; }
         }
         protected float TargetDistance
         {

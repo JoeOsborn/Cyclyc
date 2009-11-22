@@ -74,12 +74,7 @@ namespace Cyclyc.ShipGirl
             Radius = 15;
             CrushPower = 0;
             deathSnd = Game.SoundInstance("space-die");
-<<<<<<< HEAD
-            shotSnd = Game.SoundInstance("space-shot-click");
             skimSnd = Game.SoundInstance("space-skim");
-=======
-            skimSnd = Game.SoundInstance("space-skim-bloop");
->>>>>>> 485c6c2624c1044fe3f6ad65b0a9efb0a9cbf2b2
         }
 
         protected float MaxSpeedX

@@ -538,26 +538,6 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
-    <Compile Include="space-skim-bloop.wav">
-      <Name>space-skim-bloop</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="space-skim-rock-high.wav">
-      <Name>space-skim-rock-high</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="space-skim-rock-low.wav">
-      <Name>space-skim-rock-low</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="space-skim-rock-mid.wav">
-      <Name>space-skim-rock-mid</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
     <Compile Include="wrenchSuper.png">
       <Name>wrenchSuper</Name>
       <Importer>TextureImporter</Importer>
@@ -581,6 +561,13 @@
   <ItemGroup>
     <Compile Include="space-die.wav">
       <Name>space-die</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="space-skim.wav">
+      <Name>space-skim</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>

@@ -91,7 +91,7 @@ namespace Cyclyc
         }
         public double SongEnd
         {
-            get { return 110; }
+            get { return 105; }
         }
         public bool SongIsOver
         {
@@ -99,7 +99,7 @@ namespace Cyclyc
         }
         public double SongOutro
         {
-            get { return 100; }
+            get { return 95; }
         }
         public bool SongIsEnding
         {
@@ -107,7 +107,7 @@ namespace Cyclyc
         }
         public double SongDenouement
         {
-            get { return 88; }
+            get { return 80; }
         }
         public bool SongIsEndingSoon
         {

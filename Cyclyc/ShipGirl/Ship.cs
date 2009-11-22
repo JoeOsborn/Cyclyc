@@ -48,7 +48,7 @@ namespace Cyclyc.ShipGirl
             respawnTimer = 0;
             Dying = false;
             collisionStyle = CollisionStyle.Circle;
-            AddAnimation("death", new int[] { 0 }, new int[] { 5 }, true);
+            AddAnimation("death", new int[] { 1, 2 }, new int[] { 5, 5 }, true);
             LastInputVelocity = new Vector2(-1, 0);
             Rotation = (float)Math.PI;
             TargetRotation = Rotation;
@@ -214,6 +214,7 @@ namespace Cyclyc.ShipGirl
                     return;
                 }
                 respawnTimer = 0;
+                Flicker(3.0f);
                 Dying = false;
                 //check to make sure no enemies are here
                 position = StartPosition;

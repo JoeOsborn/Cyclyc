@@ -365,6 +365,7 @@ namespace Cyclyc.JetpackGirl
                     base.Update(gameTime);
                     return;
                 }
+                Flicker(3.0f);
                 Dying = false;
                 position = StartPosition;
             }

@@ -218,9 +218,12 @@ namespace Cyclyc.Framework
         public float Rotation { get; set; }
         #endregion
 
+        float flickerTimer;
+
         public CycSprite(Game1 game)
         {
             Game = game;
+            flickerTimer = 0;
             Rotation = 0.0f;
             ScaleFactor = 1.0f;
             assetName = "placeholder";
@@ -235,6 +238,12 @@ namespace Cyclyc.Framework
             AddAnimation("default", new int[]{0}, new int[]{0}, false);
             Play("default");
         }
+        public bool Flickering { get { return flickerTimer > 0; } }
+        public void Flicker(float duration)
+        {
+            flickerTimer = duration;
+        }
+
         public virtual void Initialize()
         {
 
@@ -298,7 +307,7 @@ namespace Cyclyc.Framework
 
         public bool Collide(CycSprite other)
         {
-            if (!Alive) { return false; }
+            if (!Alive || Flickering || !other.Alive || other.Flickering) { return false; }
             Vector2 myBoxPos = new Vector2(bounds.X+position.X, bounds.Y+position.Y);
             Vector2 myBoxSz = new Vector2(bounds.Width, bounds.Height);
             Vector2 otherBoxPos = new Vector2(other.bounds.X + other.position.X, other.bounds.Y + other.position.Y);
@@ -428,6 +437,10 @@ namespace Cyclyc.Framework
         public virtual void Update(GameTime gameTime)
         {
             if (!Alive) { return; }
+            if (Flickering)
+            {
+                flickerTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
             currentAnimation.Tick();
             bool onLeft = IsOnLeftEdge(gameTime);
             bool onRight = IsOnRightEdge(gameTime);
@@ -503,7 +516,7 @@ namespace Cyclyc.Framework
 
         public virtual void Draw(GameTime gameTime)
         {
-            if (!Visible) { return; }
+            if (!Visible || (flickerTimer > 0 && ((flickerTimer % 0.5) < 0.25))) { return; }
             Rectangle srcRect = new Rectangle(XForSprite(currentAnimation.CurrentFrame), 0, SpriteWidth, spriteSheet.Height);
             //modify srcRect.X for animation frame
             Rectangle dstRect = new Rectangle();

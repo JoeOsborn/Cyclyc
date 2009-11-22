@@ -105,6 +105,10 @@ namespace Cyclyc.JetpackGirl
         #region enemyTypes
         //   DEFINE SPECIFIC ENEMY TYPES
 
+
+
+
+
         #endregion
 
         protected override void SetupChallenges()

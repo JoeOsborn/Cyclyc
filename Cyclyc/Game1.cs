@@ -57,15 +57,16 @@ namespace Cyclyc
         }
 
         ScreenComponent splash1, splash2, splash3, p1Instructions, p2Instructions;
+        ScoreComponent p1Score, p2Score;
         protected Dictionary<string, SoundEffect> sfx;
         public Game1()
         {
             sfx = new Dictionary<string, SoundEffect>();
             Random = new Random();
             State = GameState.Splash;
-            //400 beats in ; seconds = (bpm * mps)
-            //timePlayed = (SongOutro * 4.0) / ((float)Tempo * (1.0/60.0));
-            timePlayed = 0;
+            //400 beats in; seconds = (bpm * mps)
+            timePlayed = (SongOutro * 4.0) / ((float)Tempo * (1.0 / 60.0));
+            //timePlayed = 0;
             graphics = new GraphicsDeviceManager(this);
             //graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
@@ -206,6 +207,13 @@ namespace Cyclyc
             rightPipe.Height = leftPipe.Height;
             //add a couple of pipes!
 
+            p1Score = new ScoreComponent(this);
+            p1Score.Width = GraphicsDevice.Viewport.Width;
+            p1Score.Y = 16;
+            p2Score = new ScoreComponent(this);
+            p2Score.Width = GraphicsDevice.Viewport.Width;
+            p2Score.Y = 316;
+
             leftPipe.LoadContent();
             rightPipe.LoadContent();
             base.LoadContent();
@@ -319,6 +327,19 @@ namespace Cyclyc
                         Components.Add(splash3);
                     }
                 }
+            }
+            if (SongIsOver)
+            {
+                if (!Components.Contains(p1Score))
+                {
+                    Components.Add(p1Score);
+                }
+                if (!Components.Contains(p2Score))
+                {
+                    Components.Add(p2Score);
+                }
+                p1Score.Score = shipGame.Score;
+                p2Score.Score = jetGame.Score;
             }
             base.Update(gameTime);
         }

@@ -233,21 +233,36 @@ namespace Cyclyc.Framework
                 c.Process(gradeLevel, Grade, true);
             }
         }
-        protected virtual void CalculateGrade()
+        public int KillCount
         {
-            //later, should grade be a function of difficulty as well?
-            int killed = 0;
-            foreach (Challenge c in leftChallenges.Concat(rightChallenges))
+            get
             {
-                killed += c.EnemiesKilled;
-            }
-            foreach (List<Challenge> cl in challenges)
-            {
-                foreach (Challenge c in cl)
+                int killed = 0;
+                foreach (Challenge c in leftChallenges.Concat(rightChallenges))
                 {
                     killed += c.EnemiesKilled;
                 }
+                foreach (List<Challenge> cl in challenges)
+                {
+                    foreach (Challenge c in cl)
+                    {
+                        killed += c.EnemiesKilled;
+                    }
+                }
+                return killed;
             }
+        }
+        public int Score
+        {
+            get
+            {
+                return KillCount * 897643;
+            }
+        }
+        protected virtual void CalculateGrade()
+        {
+            //later, should grade be a function of difficulty as well?
+            int killed = Score;
             float gradeOneExpectation = g1Expectations.Evaluate((float)Game.CurrentMeasure);
             float gradeTwoExpectation = g2Expectations.Evaluate((float)Game.CurrentMeasure);
             int grade = 0;

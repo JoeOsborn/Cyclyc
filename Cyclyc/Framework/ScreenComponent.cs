@@ -17,7 +17,7 @@ namespace Cyclyc.Framework
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class ScreenComponent : Microsoft.Xna.Framework.DrawableGameComponent
+    public class ScreenComponent : DrawableGameComponent
     {
         string assetName;
         Texture2D texture;

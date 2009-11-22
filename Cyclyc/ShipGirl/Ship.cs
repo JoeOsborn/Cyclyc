@@ -16,6 +16,7 @@ namespace Cyclyc.ShipGirl
 {
     public class Ship : CycSprite
     {
+        protected CycGame CycGame { get; set; }
         protected KeyboardState kb;
         protected GamePadState gp;
 
@@ -36,9 +37,10 @@ namespace Cyclyc.ShipGirl
 
         protected ShipPS particles;
 
-        public Ship(Game1 game)
+        public Ship(Game1 game, CycGame cg)
             : base(game)
         {
+            CycGame = cg;
             particles = new ShipPS(Game);
             Game.Components.Add(particles);
             rgen = new Random();

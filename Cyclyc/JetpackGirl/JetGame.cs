@@ -52,7 +52,7 @@ namespace Cyclyc.JetpackGirl
             AddBackground("pixel city foreground", ParallaxSpeeds[4]);
             AddBackground("pixel city road", ParallaxSpeeds[5]);
 
-            jg = new JetpackGirl((Game1)Game);
+            jg = new JetpackGirl((Game1)Game, this);
             AddSprite(jg);
 
             base.Initialize();

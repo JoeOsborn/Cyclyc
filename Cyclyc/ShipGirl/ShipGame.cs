@@ -683,6 +683,7 @@ namespace Cyclyc.ShipGirl
             ship.StartPosition = StartPosition;
             ship.Position = StartPosition;
             base.LoadContent();
+            ship.ForceFeedback = ff;
 //            debugRadius.ResizeTo(ship.Radius, 0);
         }
         public float SkimShrinkRate

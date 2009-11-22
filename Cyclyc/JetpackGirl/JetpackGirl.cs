@@ -36,6 +36,8 @@ namespace Cyclyc.JetpackGirl
 
         Texture2D normalTexture, superTexture;
 
+        public ForceFeedbackManager ForceFeedback { get; set; }
+
         protected JetpackGirlPS particles;
 
         public bool Dying
@@ -73,6 +75,7 @@ namespace Cyclyc.JetpackGirl
         public void Die()
         {
             if (Dying) { return; }
+            ForceFeedback.AddVibration(0.7f, 0.7f, (float)RespawnDelay);
             Dying = true;
             Play("death", false);
             Game.PlayIfNotPlaying(deathSnd);
@@ -173,7 +176,7 @@ namespace Cyclyc.JetpackGirl
             {
                 Play("begin-jet", true);
             }
-            //HACK ALERT
+            ForceFeedback.AddVibration(0.3f, 0.3f, 0.8f);
         }
         public void Superize(bool super)
         {
@@ -303,7 +306,7 @@ namespace Cyclyc.JetpackGirl
             set { jetpack.DefaultSpeedX = value; }
         }
 
-        protected double RespawnDelay
+        public double RespawnDelay
         {
             get { return 2.0; }
         }

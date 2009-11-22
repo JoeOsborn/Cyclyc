@@ -29,6 +29,8 @@ namespace Cyclyc.ShipGirl
             get { return 2.0; }
         }
 
+        public ForceFeedbackManager ForceFeedback;
+
         protected float ShotCooldown { get; set; }
 
         Random rgen;
@@ -107,6 +109,8 @@ namespace Cyclyc.ShipGirl
         public void Skim(int enemyCount)
         {
             CrushPower = (float)Math.Min(CrushMaxPower, CrushPower+CrushPowerUpRate * enemyCount);
+            //later: vibrate on the side the enemy is on
+            ForceFeedback.AddVibration(0.2f*enemyCount, 0.2f*enemyCount, 0.1f); 
             Game.PlayIfNotPlaying(skimSnd);
         }
 
@@ -186,6 +190,7 @@ namespace Cyclyc.ShipGirl
             Vector2 vel = new Vector2((float)(Math.Cos(dir) * mag), (float)(Math.Sin(dir) * mag));
             Vector2 pos = Position + new Vector2((float)(Radius * Math.Cos(dir)), (float)(Radius * Math.Sin(dir)));
             CrushPool.Create(super ? "shipBulletSuper" : "shipBullet", pos.X, pos.Y, vel.X, vel.Y, super ? 20 : 14);
+            ForceFeedback.AddVibration(0.1f, 0.1f, 0.3f);
         }
 
         protected void Crush(GameTime gt)
@@ -213,6 +218,8 @@ namespace Cyclyc.ShipGirl
 
         public void Die()
         {
+            if (Dying) { return; }
+            ForceFeedback.AddVibration(0.8f, 0.8f, (float)RespawnDelay);
             Dying = true;
             respawnTimer = RespawnDelay;
             CrushPower = 0;

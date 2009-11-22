@@ -96,6 +96,7 @@
     <Compile Include="Framework\EnemyNotch.cs" />
     <Compile Include="Framework\EnemyPipe.cs" />
     <Compile Include="Framework\EnemyPool.cs" />
+    <Compile Include="Framework\ForceFeedbackManager.cs" />
     <Compile Include="Framework\Particle.cs" />
     <Compile Include="Framework\ParticleSystem.cs" />
     <Compile Include="Framework\ScoreComponent.cs" />

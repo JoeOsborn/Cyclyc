@@ -165,6 +165,11 @@ namespace Cyclyc.JetpackGirl
             jg.StartPosition = StartPosition;
             jg.Position = StartPosition;
             base.LoadContent();
+            jg.ForceFeedback = ff;
+            foreach (JetpackEnemyPool ep in enemyPools)
+            {
+                ep.ForceFeedback = ff;
+            }
         }
 
         protected Vector2 StartPosition

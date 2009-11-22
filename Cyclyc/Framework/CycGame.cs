@@ -62,6 +62,8 @@ namespace Cyclyc.Framework
             set { grade = value; }
         }
 
+        public ForceFeedbackManager ff;
+
         protected List<CycBackground> backgrounds;
         public List<CycBackground> Backgrounds { get { return backgrounds; } }
         List<Challenge>[] challenges;
@@ -80,7 +82,9 @@ namespace Cyclyc.Framework
 
         protected string SongName { get; set; }
 
-        int lastMeasure;
+        public PlayerIndex PlayerIndex { get; set; }
+
+        protected int lastMeasure;
         public CycGame(Game1 g)
         {
             lastMeasure = -1;
@@ -157,6 +161,7 @@ namespace Cyclyc.Framework
 
         public virtual void LoadContent()
         {
+            ff = new ForceFeedbackManager(PlayerIndex);
             Songs = new SongTrack[3];
             Songs[0] = new SongTrack(Game, SongName + "-0", true);
             Songs[1] = new SongTrack(Game, SongName + "-1", false);
@@ -279,6 +284,10 @@ namespace Cyclyc.Framework
                 {
                     TriggerOtherPlayerChallenge();
                 }
+                if (!Game.SongIsOver)
+                {
+                    ff.AddVibration(0.2f, 0.2f, 0.3f);
+                }
             }
             for (int i = 0; i < 3; i++)
             {
@@ -312,6 +321,7 @@ namespace Cyclyc.Framework
             {
                 sprite.Update(gameTime);
             }
+            ff.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
         }
         protected virtual void SetupFilters()
         {

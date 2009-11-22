@@ -37,11 +37,16 @@ namespace Cyclyc.ShipGirl
 
         protected ShipPS particles;
 
-        SoundEffectInstance skimSnd, deathSnd; 
-        
+        SoundEffectInstance skimSnd, deathSnd;
+
+        bool super;
+
+        Texture2D normalTexture, superTexture;
+
         public Ship(Game1 game, CycGame cg)
             : base(game)
         {
+            super = false;
             CycGame = cg;
             particles = new ShipPS(Game);
             Game.Components.Add(particles);
@@ -75,6 +80,8 @@ namespace Cyclyc.ShipGirl
             CrushPower = 0;
             deathSnd = Game.SoundInstance("space-die");
             skimSnd = Game.SoundInstance("space-skim");
+            normalTexture = spriteSheet;
+            superTexture = Game.Content.Load<Texture2D>("shipGirl");
         }
 
         protected float MaxSpeedX
@@ -123,15 +130,15 @@ namespace Cyclyc.ShipGirl
         }
         protected float ShotMaxSpeed
         {
-            get { return 6.0f; }
+            get { return super ? 10.0f : 6.0f; }
         }
         protected float ShotMinSpeed
         {
-            get { return 5.0f; }
+            get { return super ? 7.0f : 5.0f; }
         }
         protected float MaxRotationVariance
         {
-            get { return (float)(Math.PI / 64); }
+            get { return (float)(Math.PI / (super ? 32 : 64)); }
         }
         public float PowerRatio
         {
@@ -147,7 +154,7 @@ namespace Cyclyc.ShipGirl
             float dir = (float)(Rotation + ((rotVar * 2 * rgen.NextDouble()) - rotVar));
             Vector2 vel = new Vector2((float)(Math.Cos(dir) * mag), (float)(Math.Sin(dir) * mag));
             Vector2 pos = Position + new Vector2((float)(Radius * Math.Cos(dir)), (float)(Radius * Math.Sin(dir)));
-            CrushPool.Create(pos.X, pos.Y, vel.X, vel.Y);
+            CrushPool.Create(super ? "shipBullet" : "shipBullet", pos.X, pos.Y, vel.X, vel.Y, super ? 20 : 14);
         }
 
         protected void Crush(GameTime gt)
@@ -155,10 +162,23 @@ namespace Cyclyc.ShipGirl
             if (ShotCooldown <= 0)
             {
                 FireShot();
-                ShotCooldown = ShotCooldownMax;
+                ShotCooldown = super ? ShotCooldownMax / 2 : ShotCooldownMax;
                 CrushPower = Math.Max(CrushPower - CrushPowerDownRate, 0);
             }
 
+        }
+
+        public void Superize(bool sup)
+        {
+            super = sup;
+            if (super)
+            {
+                spriteSheet = superTexture;
+            }
+            else
+            {
+                spriteSheet = normalTexture;
+            }
         }
 
         public void Die()

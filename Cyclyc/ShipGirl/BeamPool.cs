@@ -28,12 +28,12 @@ namespace Cyclyc.ShipGirl
         {
             return new BeamBit(CycGame.Game, this);
         }
-        public BeamBit Create(float x, float y, float vx, float vy)
+        public BeamBit Create(string img, float x, float y, float vx, float vy, float sz)
         {
             BeamBit bit = (BeamBit)FindOrMakeEnemy();
             bit.Initialize();
             bit.LoadContent();
-            bit.Reset(x, y, vx, vy);
+            bit.Reset(img, x, y, vx, vy, sz);
             return bit;
         }
     }

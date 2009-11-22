@@ -167,7 +167,6 @@ namespace Cyclyc.JetpackGirl
 
             #region Intro
 
-
             Challenge wave1_0 = new Challenge(this, Game, 3);
             wave1_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
                 MakeSpiderEnemy(1,1)
@@ -243,50 +242,212 @@ namespace Cyclyc.JetpackGirl
             }));
             TriggerChallenge(0, wave6_0);
 
-        
-        
-        
-        
-        }    
             #endregion
 
             #region verse1
 
-            //Challenge wave7_0 = new Challenge(this, Game, 34);
-            //wave7_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
-            //    MakePongEnemy(0), MakeStaticEnemy(MID-30), MakeStaticEnemy(MID+30)
-            //}));
-            //wave7_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
-            //    MakeStaticEnemy(MID-60), MakeStaticEnemy(MID+60)
-            //}));
-            //TriggerChallenge(0, wave7_0);
+            Challenge wave7_0 = new Challenge(this, Game, 34);
+            wave7_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeHoverEnemy(0,1,2), MakeHoverEnemy(30,1,2), MakeHoverEnemy(60,1,2),                 MakeHoverEnemy(90,1,2), MakeHoverEnemy(120,1,2), MakeHoverEnemy(150,1,                 2), MakeHoverEnemy(180,1,2), MakeHoverEnemy(210,1,2), MakeHoverEnemy                   (240,1,2)
+            }));
+            wave7_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
+                MakeRobotEnemy(2,1)
+            }));
+            TriggerChallenge(0, wave7_0);
 
-            //Challenge wave8_0 = new Challenge(this, Game, 38);
-            //AddSpread(wave8_0, 3, 90, 4, 0);
-            //AddSpread(wave8_0, 3, 60, 4, 4);
-            //AddSpread(wave8_0, 3, 30, 4, 8);
-            //AddSpread(wave8_0, 1, 60, 4, 12);
-            ////AddEssBeats(wave6_0, MID - 90, 5, 32);
-            //TriggerChallenge(0, wave8_0);
+            Challenge wave8_0 = new Challenge(this, Game, 38);
+            wave8_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeHoverEnemy(260,1,2)
+            }));
+            wave8_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
+                MakeHoverEnemy(230,1,2)
+            }));
+            wave8_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
+                MakeHoverEnemy(200,1,2)
+            }));
+            wave8_0.AddBeat(new ChallengeBeat(12, new EnemyMaker[] {
+                MakeSpiderEnemy(1,1)
+            }));
+            wave8_0.AddBeat(new ChallengeBeat(16, new EnemyMaker[] {
+                MakeHoverEnemy(170,1,2)
+            }));
+            wave8_0.AddBeat(new ChallengeBeat(20, new EnemyMaker[] {
+                MakeHoverEnemy(140,1,2)
+            }));
+            TriggerChallenge(0, wave8_0);
 
-            //Challenge wave9_0 = new Challenge(this, Game, 42);
-            //wave9_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
-            //    MakeJerkEnemy(MID-60), MakeJerkEnemy(MID+60)
-            //}));
-            //AddEssBeats(wave9_0, MID, 5, 8);
-            //TriggerChallenge(0, wave9_0);
+            Challenge wave9_0 = new Challenge(this, Game, 42);
+            wave9_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeHoverEnemy(0,1,1), MakeHoverEnemy(30,1,1), MakeFrogEnemy(1,1)
+            }));
+            wave9_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeHoverEnemy(0,1,1), MakeHoverEnemy(30,1,1), MakeRobotEnemy(1,1)
+            }));
+            TriggerChallenge(0, wave9_0);
 
-            //Challenge wave10_0 = new Challenge(this, Game, 46);
-            //AddStaticBlock(wave10_0, 60, 5, 5, 0);
-            //wave10_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
-            //    MakePongEnemy(0)
-            //}));
-            //TriggerChallenge(0, wave10_0);
+            Challenge wave10_0 = new Challenge(this, Game, 46);
+            wave10_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeSpiderEnemy(1,1), MakeHoverEnemy(50, 1, 1)
+            }));
+            wave10_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
+                MakeSpiderEnemy(1,1), MakeHoverEnemy(50, 1, 1)
+            }));
+            wave10_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
+                MakeSpiderEnemy(1,1), MakeHoverEnemy(50, 1, 1)
+            }));
+            wave10_0.AddBeat(new ChallengeBeat(6, new EnemyMaker[] {
+                MakeSpiderEnemy(1,1), MakeHoverEnemy(50, 1, 1)
+            }));
+            TriggerChallenge(0, wave10_0);
+
+            #endregion
+
+            #region verse2
+
+            Challenge wave11_0 = new Challenge(this, Game, 50);
+            wave11_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeHoverEnemy(140,1,1)
+            }));
+            wave11_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
+                MakeHoverEnemy(170,1,1), MakeHoverEnemy(110,1,1)
+            }));
+            wave11_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
+                MakeHoverEnemy(200,1,1), MakeHoverEnemy(80,1,1)
+            }));
+            wave11_0.AddBeat(new ChallengeBeat(6, new EnemyMaker[] {
+                MakeHoverEnemy(230,1,1), MakeHoverEnemy(50,1,1)
+            }));
+            wave11_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
+                MakeHoverEnemy(260,1,1), MakeHoverEnemy(20,1,1)
+            }));
+            TriggerChallenge(0, wave11_0);
+
+            Challenge wave12_0 = new Challenge(this, Game, 54);
+            wave12_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeSpiderEnemy(1,2)
+            }));
+            TriggerChallenge(0, wave12_0);
+
+            Challenge wave13_0 = new Challenge(this, Game, 58);
+            wave13_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeRobotEnemy(2,1)
+            }));
+            TriggerChallenge(0, wave13_0);
+
+            Challenge wave14_0 = new Challenge(this, Game, 62);
+            wave14_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeFrogEnemy(1,1)
+            }));
+            wave14_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
+                MakeFrogEnemy(1,1)
+            }));
+            TriggerChallenge(0, wave14_0);
+
+            #endregion
+
+            #region bridge
+
+            Challenge wave15_0 = new Challenge(this, Game, 66);
+            wave15_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeHoverEnemy(180,1,1)
+            }));
+            wave15_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
+                MakeHoverEnemy(220,1,1)
+            }));
+            wave15_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
+                MakeHoverEnemy(180, 1,1)
+            }));
+            wave15_0.AddBeat(new ChallengeBeat(6, new EnemyMaker[] {
+                MakeHoverEnemy(220, 1,1)
+            }));
+            wave15_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
+                MakeHoverEnemy(180, 1,1)
+            }));
+            wave15_0.AddBeat(new ChallengeBeat(10, new EnemyMaker[] {
+                MakeHoverEnemy(220, 1,1)
+            }));
+            TriggerChallenge(0, wave15_0);
+
+            Challenge wave16_0 = new Challenge(this, Game, 70);
+            wave16_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeRobotEnemy(1,1), MakeHoverEnemy(80, 1,1)
+            }));
+            wave16_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
+                MakeRobotEnemy(1,1), MakeHoverEnemy(80, 1,1)
+            }));
+            wave16_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
+                MakeRobotEnemy(1,1), MakeHoverEnemy(80, 1,1)
+            }));
+            TriggerChallenge(0, wave16_0);
+
+            Challenge wave17_0 = new Challenge(this, Game, 73);
+            wave17_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeHoverEnemy(0,1,1), MakeHoverEnemy(30,1,1), MakeHoverEnemy(60,1,1),                 MakeHoverEnemy(90,1,1),MakeHoverEnemy(120,1,1),MakeHoverEnemy(150,1,1),                MakeHoverEnemy(180,1,1), MakeHoverEnemy(210,1,1), 
+                MakeHoverEnemy(240,1,1), MakeHoverEnemy(270,1,1), 
+            }));
+            wave17_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
+                MakeHoverEnemy(0,1,1), MakeHoverEnemy(30,1,1), MakeHoverEnemy(60,1,1),                 MakeHoverEnemy(90,1,1),MakeHoverEnemy(120,1,1),MakeHoverEnemy(150,1,1),                MakeHoverEnemy(180,1,1), MakeHoverEnemy(210,1,1), 
+                MakeHoverEnemy(240,1,1), MakeHoverEnemy(270,1,1), 
+            }));
+            TriggerChallenge(0, wave17_0);
+
+            Challenge wave18_0 = new Challenge(this, Game, 77);
+            wave18_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeSpiderEnemy(1,1), MakeFrogEnemy(1,1)
+            }));
+            wave18_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
+                MakeSpiderEnemy(1,1),
+            }));
+            wave18_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
+                MakeSpiderEnemy(1,1),
+            }));
+            wave18_0.AddBeat(new ChallengeBeat(6, new EnemyMaker[] {
+                MakeSpiderEnemy(1,1),
+            }));
+            wave18_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
+                MakeSpiderEnemy(1,1),
+            }));
+            wave18_0.AddBeat(new ChallengeBeat(10, new EnemyMaker[] {
+                MakeSpiderEnemy(1,1),
+            }));
+            TriggerChallenge(0, wave18_0);
 
             #endregion
 
 
+            #region verse3
 
+            Challenge wave19_0 = new Challenge(this, Game, 78);
+            wave19_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeHoverEnemy(0,1,1), MakeHoverEnemy(60,1,1), MakeHoverEnemy(120,1,1), MakeHoverEnemy(180,1,1), MakeHoverEnemy(240,1,1)
+            }));
+            wave19_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
+                MakeHoverEnemy(30,1,1), MakeHoverEnemy(90,1,1), MakeHoverEnemy(150,1,1), MakeHoverEnemy(210,1,1), MakeHoverEnemy(270,1,1)
+            }));
+            wave19_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
+                MakeHoverEnemy(0,1,1), MakeHoverEnemy(60,1,1), MakeHoverEnemy(120,1,1), MakeHoverEnemy(180,1,1), MakeHoverEnemy(240,1,1)
+            }));
+            wave19_0.AddBeat(new ChallengeBeat(6, new EnemyMaker[] {
+                MakeHoverEnemy(30,1,1), MakeHoverEnemy(90,1,1), MakeHoverEnemy(150,1,1), MakeHoverEnemy(210,1,1), MakeHoverEnemy(270,1,1)
+            }));
+            wave19_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
+                MakeHoverEnemy(0,1,1), MakeHoverEnemy(60,1,1), MakeHoverEnemy(120,1,1), MakeHoverEnemy(180,1,1), MakeHoverEnemy(240,1,1)
+            }));
+            wave19_0.AddBeat(new ChallengeBeat(12, new EnemyMaker[] {
+                MakeHoverEnemy(30,1,1), MakeHoverEnemy(90,1,1), MakeHoverEnemy(150,1,1), MakeHoverEnemy(210,1,1), MakeHoverEnemy(270,1,1)
+            }));
+            TriggerChallenge(0, wave19_0);
+
+            Challenge wave20_0 = new Challenge(this, Game, 79);
+            wave20_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeRobotEnemy(2,1)
+            }));
+            TriggerChallenge(0, wave20_0);
+
+            #endregion
+
+
+        }
         #endregion
 
 

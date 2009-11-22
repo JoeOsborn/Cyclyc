@@ -75,17 +75,17 @@ namespace Cyclyc.JetpackGirl
             if (Mass > 1.2)
             {
                 Game.PlayIfNotPlaying(lgHit);
-                ForceFeedback.AddVibration(0.8f, 0.8f, 0.5f);
+                ForceFeedback.AddVibration(800f, 800f, 500f);
             }
             else if (Mass > 0.8)
             {
                 Game.PlayIfNotPlaying(mdHit);
-                ForceFeedback.AddVibration(0.6f, 0.6f, 0.5f);
+                ForceFeedback.AddVibration(600f, 600f, 500f);
             }
             else
             {
                 Game.PlayIfNotPlaying(smHit);
-                ForceFeedback.AddVibration(0.3f, 0.3f, 0.5f);
+                ForceFeedback.AddVibration(300f, 300f, 500f);
             }
         }
 

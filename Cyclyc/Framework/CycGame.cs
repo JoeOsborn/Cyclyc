@@ -286,7 +286,7 @@ namespace Cyclyc.Framework
                 }
                 if (!Game.SongIsOver)
                 {
-                    ff.AddVibration(0.2f, 0.2f, 0.3f);
+//                    ff.AddVibration(200f, 200f, 300f);
                 }
             }
             for (int i = 0; i < 3; i++)

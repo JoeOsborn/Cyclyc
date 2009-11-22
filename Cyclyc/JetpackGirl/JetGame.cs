@@ -73,6 +73,12 @@ namespace Cyclyc.JetpackGirl
             return new ChallengeBeat[] { new ChallengeBeat(0, es) };
         }
 
+        protected override void CalculateGrade()
+        {
+            base.CalculateGrade();
+            jg.Superize(Grade >= 2);
+        }
+
         public override EnemyMaker MakeEnemy(bool leftToRight, int difficulty)
         {
             double r = rgen.NextDouble();

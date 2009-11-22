@@ -87,6 +87,7 @@ namespace Cyclyc.ShipGirl
         {
             alive = false;
             visible = false;
+            shotSnd.Stop();
         }
 
         public void Reset(float x, float y, float vx, float vy)

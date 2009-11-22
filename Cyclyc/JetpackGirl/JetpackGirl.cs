@@ -282,7 +282,7 @@ namespace Cyclyc.JetpackGirl
 
         protected double RespawnDelay
         {
-            get { return 1.0; }
+            get { return 2.0; }
         }
         protected double AttackCooldownDuration
         {

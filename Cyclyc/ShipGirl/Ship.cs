@@ -156,8 +156,9 @@ namespace Cyclyc.ShipGirl
             {
                 FireShot();
                 ShotCooldown = ShotCooldownMax;
+                CrushPower = Math.Max(CrushPower - CrushPowerDownRate, 0);
             }
-            CrushPower = Math.Max(CrushPower - CrushPowerDownRate, 0);
+
         }
 
         public void Die()

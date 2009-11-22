@@ -368,8 +368,8 @@ namespace Cyclyc.JetpackGirl
                 Dying = false;
                 position = StartPosition;
             }
-            //ATTACK RADIUS BONUS
-            if (CycGame.Grade >= 0.1)
+            //SUPER SAIYAN Jetpack Girl
+            if (CycGame.Grade >= 2)
             {
                 AttackRadius = AttackRadiusBonus;
             }

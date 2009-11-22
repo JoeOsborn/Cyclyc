@@ -44,9 +44,11 @@ namespace Cyclyc.ShipGirl
         public override void Initialize()
         {
             AddBackground("space background", ParallaxSpeeds[0]);
+            //AddBackground("zodiac", ParallaxSpeeds[0]);
             AddBackground("galaxy", ParallaxSpeeds[1]);
             AddBackground("nebula", ParallaxSpeeds[2]);
             AddBackground("stars", ParallaxSpeeds[3]);
+
 
             ship = new Ship(Game, this);
             ship.CrushPool = CrushBeams;

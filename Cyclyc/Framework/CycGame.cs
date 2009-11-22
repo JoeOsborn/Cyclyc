@@ -255,21 +255,29 @@ namespace Cyclyc.Framework
         {
             get
             {
-                return KillCount * 897643;
+                return KillCount * 897;
             }
         }
         protected virtual void CalculateGrade()
         {
             //later, should grade be a function of difficulty as well?
             int killed = Combo;
-            grade = 0;
-            if (killed >= Grade1Expectation)
+            //hard set grade to max for end of game
+            if (Game.CurrentMeasure > 78)
             {
-                grade++;
+                grade = 2;
             }
-            if (killed >= Grade2Expectation)
+            else
             {
-                grade++;
+                grade = 0;
+                if (killed >= Grade1Expectation)
+                {
+                    grade++;
+                }
+                if (killed >= Grade2Expectation)
+                {
+                    grade++;
+                }
             }
             Console.WriteLine("killed " + killed + ", expected " + Grade1Expectation + " : " + Grade2Expectation + "; new grade: " + grade);
         }

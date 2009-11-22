@@ -382,12 +382,10 @@ namespace Cyclyc.JetpackGirl
 
             Challenge wave17_0 = new Challenge(this, Game, 73);
             wave17_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
-                MakeHoverEnemy(0,1,1), MakeHoverEnemy(30,1,1), MakeHoverEnemy(60,1,1),                 MakeHoverEnemy(90,1,1),MakeHoverEnemy(120,1,1),MakeHoverEnemy(150,1,1),                MakeHoverEnemy(180,1,1), MakeHoverEnemy(210,1,1), 
-                MakeHoverEnemy(240,1,1), MakeHoverEnemy(270,1,1), 
+                MakeHoverEnemy(0,1,1), MakeHoverEnemy(30,1,1), MakeHoverEnemy(60,1,1), MakeHoverEnemy(90,1,1),MakeHoverEnemy(120,1,1),MakeHoverEnemy(150,1,1), MakeHoverEnemy(180,1,1), MakeHoverEnemy(210,1,1), MakeHoverEnemy(240,1,1), MakeHoverEnemy(270,1,1), 
             }));
             wave17_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
-                MakeHoverEnemy(0,1,1), MakeHoverEnemy(30,1,1), MakeHoverEnemy(60,1,1),                 MakeHoverEnemy(90,1,1),MakeHoverEnemy(120,1,1),MakeHoverEnemy(150,1,1),                MakeHoverEnemy(180,1,1), MakeHoverEnemy(210,1,1), 
-                MakeHoverEnemy(240,1,1), MakeHoverEnemy(270,1,1), 
+                MakeHoverEnemy(0,1,1), MakeHoverEnemy(30,1,1), MakeHoverEnemy(60,1,1), MakeHoverEnemy(90,1,1),MakeHoverEnemy(120,1,1),MakeHoverEnemy(150,1,1), MakeHoverEnemy(180,1,1), MakeHoverEnemy(210,1,1), MakeHoverEnemy(240,1,1), MakeHoverEnemy(270,1,1), 
             }));
             TriggerChallenge(0, wave17_0);
 
@@ -414,10 +412,9 @@ namespace Cyclyc.JetpackGirl
 
             #endregion
 
-
             #region verse3
 
-            Challenge wave19_0 = new Challenge(this, Game, 78);
+            Challenge wave19_0 = new Challenge(this, Game, 77);
             wave19_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
                 MakeHoverEnemy(0,1,1), MakeHoverEnemy(60,1,1), MakeHoverEnemy(120,1,1), MakeHoverEnemy(180,1,1), MakeHoverEnemy(240,1,1)
             }));
@@ -438,14 +435,13 @@ namespace Cyclyc.JetpackGirl
             }));
             TriggerChallenge(0, wave19_0);
 
-            Challenge wave20_0 = new Challenge(this, Game, 79);
+            Challenge wave20_0 = new Challenge(this, Game, 78);
             wave20_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
-                MakeRobotEnemy(2,1)
+                MakeRobotEnemy(3,1), MakeRobotEnemy(3,2)
             }));
             TriggerChallenge(0, wave20_0);
 
             #endregion
-
 
         }
         #endregion

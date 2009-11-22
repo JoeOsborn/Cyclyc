@@ -26,7 +26,7 @@ namespace Cyclyc.ShipGirl
         protected double respawnTimer;
         protected double RespawnDelay
         {
-            get { return 1.0; }
+            get { return 2.0; }
         }
 
         protected float ShotCooldown { get; set; }

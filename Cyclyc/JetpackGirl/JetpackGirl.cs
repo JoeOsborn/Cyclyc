@@ -127,6 +127,9 @@ namespace Cyclyc.JetpackGirl
                 new Animation(FrameSequence(0, 2), timings, true);
             animations["run-attacking"] = 
                 new Animation(FrameSequence(4, 2), timings, true);
+
+            animations["stand-still"] =
+                new Animation(FrameSequence(1, 1), TimingSequence(5, 1), false);
             Play("default");
 
             Wrench = new CycSprite(Game);
@@ -302,7 +305,7 @@ namespace Cyclyc.JetpackGirl
 
         protected double RespawnDelay
         {
-            get { return 1.0; }
+            get { return 2.0; }
         }
         protected double AttackCooldownDuration
         {
@@ -425,6 +428,10 @@ namespace Cyclyc.JetpackGirl
                 Flicker(3.0f);
                 Dying = false;
                 position = StartPosition;
+            }
+            if (Game.SongIsOver)
+            {
+                Play("stand-still", false);
             }
             
             //INPUT

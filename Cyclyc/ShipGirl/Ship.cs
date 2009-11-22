@@ -34,17 +34,22 @@ namespace Cyclyc.ShipGirl
 
         public BeamPool CrushPool { get; set; }
 
+        protected ShipPS particles;
+
         public Ship(Game1 game)
             : base(game)
         {
+            particles = new ShipPS(Game);
+            Game.Components.Add(particles);
             rgen = new Random();
             assetName = "shipGirl";
             respawnTimer = 0;
             Dying = false;
             collisionStyle = CollisionStyle.Circle;
             AddAnimation("death", new int[] { 0 }, new int[] { 5 }, true);
+            LastInputVelocity = new Vector2(-1, 0);
+            Rotation = (float)Math.PI;
             TargetRotation = Rotation;
-            LastInputVelocity = velocity;
         }
 
         protected float TargetRotation { get; set; }
@@ -83,7 +88,7 @@ namespace Cyclyc.ShipGirl
         }
         public float CrushPowerDownRate
         {
-            get { return 1.0f; }
+            get { return 1.5f; }
         }
 
         public void Skim(int enemyCount)
@@ -154,6 +159,8 @@ namespace Cyclyc.ShipGirl
             respawnTimer = RespawnDelay;
             CrushPower = 0;
             ShotCooldown = 0;
+            Rotation = (float)Math.PI;
+            TargetRotation = Rotation; 
             Play("death", false);
         }
 
@@ -180,6 +187,8 @@ namespace Cyclyc.ShipGirl
             kb = Keyboard.GetState();
             gp = GamePad.GetState(PlayerIndex.One);
             Console.WriteLine("Crush power: " + CrushPower);
+            particles.SetPowerRatio(PowerRatio);
+
             if (ShotCooldown > ShotCooldownMax)
             {
                 ShotCooldown = ShotCooldownMax;
@@ -262,7 +271,14 @@ namespace Cyclyc.ShipGirl
                     velocity.X = MathHelper.Min(velocity.X + InertiaSpeedStep, 0);
                 }
             }
+
             //ROTATION
+            if (velocity.X != 0 || velocity.Y != 0)
+            {
+                Vector2 pos = Position - new Vector2((float)(VisualWidth/2 * Math.Cos(Rotation)), (float)(VisualHeight/2 * Math.Sin(Rotation)));
+                particles.Rotation = Rotation;
+                particles.AddParticles(pos);
+            }
             if ((LastInputVelocity.X != 0 && gp.ThumbSticks.Left.X == 0)|| (LastInputVelocity.Y != 0 && gp.ThumbSticks.Left.Y == 0))
             {
                 TargetRotation = (float)Math.Atan2(LastInputVelocity.Y, LastInputVelocity.X);
@@ -277,6 +293,11 @@ namespace Cyclyc.ShipGirl
                 Rotation += (float)(turnAmount * 0.1);
             }
             base.Update(gameTime);
+        }
+
+        protected override Color DrawColor(GameTime gt)
+        {
+            return Color.Lerp(Color.White, Color.Red, PowerRatio);
         }
 
         public override void Draw(GameTime gameTime)

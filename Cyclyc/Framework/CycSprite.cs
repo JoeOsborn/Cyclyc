@@ -135,7 +135,7 @@ namespace Cyclyc.Framework
         public float Radius
         {
             get { return radius; }
-            set { radius = value; bounds.Width = (int)value * 2; bounds.Height = (int)value * 2; }
+            set { radius = value; }
         }
         protected Vector2 position;
         public Vector2 Position
@@ -496,6 +496,10 @@ namespace Cyclyc.Framework
                 }
             }
         }
+        protected virtual Color DrawColor(GameTime gt)
+        {
+            return Color.White;
+        }
 
         public virtual void Draw(GameTime gameTime)
         {
@@ -515,11 +519,11 @@ namespace Cyclyc.Framework
             {
                 dstRect.X = (int)((position.X * ScaleFactor));
                 dstRect.Y = (int)((position.Y * ScaleFactor));
-                rotOrigin = new Vector2(SpriteWidth / 2.0f, srcRect.Height / 2.0f);
+                rotOrigin = new Vector2(srcRect.Width / 2.0f, srcRect.Height / 2.0f);
             }
             dstRect.Width = (int)(VisualWidth * ScaleFactor);
             dstRect.Height = (int)(VisualHeight * ScaleFactor);
-            SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White, Rotation, rotOrigin, FlipImage ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            SpriteBatch.Draw(spriteSheet, dstRect, srcRect, DrawColor(gameTime), Rotation, rotOrigin, FlipImage ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
         }
     }
 }

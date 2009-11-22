@@ -23,6 +23,8 @@ namespace Cyclyc.JetpackGirl
         //and maybe jetpack?
         JetpackEnemyPool[] enemyPools;
 
+        protected EndingSprite emptyShip;
+
         public JetGame(Game1 game)
             : base(game)
         {
@@ -136,7 +138,10 @@ namespace Cyclyc.JetpackGirl
             jg.Die();
             Console.WriteLine("jet killed player");
         }
-
+        protected float EmptyShipSpeed
+        {
+            get { return -0.6f; }
+        }
         public override void Update(GameTime gameTime)
         {
             if (Game.SongIsEnding)
@@ -148,6 +153,14 @@ namespace Cyclyc.JetpackGirl
                     bg.ScrollSpeed = ParallaxSpeeds[i] * (1 - r);
                 }
                 jg.GroundLoss = jg.DefaultGroundLoss * (1 - r);
+                if (emptyShip == null)
+                {
+                    emptyShip = new EndingSprite(Game, "emptyShip", new Vector2(View.Width + 125, View.Height - 79), 125);
+                    emptyShip.Initialize();
+                    emptyShip.LoadContent();
+                    AddSprite(emptyShip);
+                }
+                emptyShip.Velocity = new Vector2(EmptyShipSpeed * (1 - r), emptyShip.Velocity.Y);
             }
             foreach (EnemyPool ep in enemyPools)
             {

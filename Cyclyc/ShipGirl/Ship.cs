@@ -33,9 +33,13 @@ namespace Cyclyc.ShipGirl
 
         public BeamPool CrushPool { get; set; }
 
+        protected ShipPS particles;
+
         public Ship(Game1 game)
             : base(game)
         {
+            particles = new ShipPS(Game);
+            Game.Components.Add(particles);
             rgen = new Random();
             assetName = "shipGirl";
             respawnTimer = 0;
@@ -170,7 +174,7 @@ namespace Cyclyc.ShipGirl
 
         public override void Update(GameTime gameTime)
         {
-            Console.WriteLine("Crush power: " + CrushPower);
+            particles.SetPowerRatio(PowerRatio);
             if (ShotCooldown > ShotCooldownMax)
             {
                 ShotCooldown = ShotCooldownMax;
@@ -241,6 +245,12 @@ namespace Cyclyc.ShipGirl
                 {
                     velocity.X = MathHelper.Min(velocity.X + InertiaSpeedStep, 0);
                 }
+            }
+            if (velocity.X != 0 || velocity.Y != 0)
+            {
+                Vector2 pos = Position - new Vector2((float)(VisualWidth/2 * Math.Cos(Rotation)), (float)(VisualHeight/2 * Math.Sin(Rotation)));
+                particles.Rotation = Rotation;
+                particles.AddParticles(pos);
             }
             if (LastInputVelocity.X != 0 || LastInputVelocity.Y != 0)
             {

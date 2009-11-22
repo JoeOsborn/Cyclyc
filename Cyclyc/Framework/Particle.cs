@@ -86,7 +86,7 @@ namespace Cyclyc.Framework
         
         // initialize is called by ParticleSystem to set up the particle, and prepares
         // the particle for use.
-        public void Initialize(Vector2 position, Vector2 velocity, Vector2 acceleration,
+        public void Initialize(Vector2 position, float rotation, Vector2 velocity, Vector2 acceleration,
             float lifetime, float scale, float rotationSpeed, float r, float g, float b)
         {
             // set the values to the requested values
@@ -101,12 +101,11 @@ namespace Cyclyc.Framework
             // reused.
             this.TimeSinceStart = 0.0f;
 
-            // set rotation to some random value between 0 and 360 degrees.
-            this.Rotation = Game1.RandomBetween(0, MathHelper.TwoPi);
-
             Red = r;
             Green = g;
             Blue = b;
+
+            Rotation = rotation;
         }
 
         // update is called by the ParticleSystem on every frame. This is where the

@@ -13,22 +13,28 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using Cyclyc.Framework;
 
-namespace Cyclyc.JetpackGirl
+namespace Cyclyc.ShipGirl
 {
-    public class JetpackGirlPS : ParticleSystem
+    public class ShipPS : ParticleSystem
     {
-        public JetpackGirlPS(Game1 game)
-            : base(game, 8)
+        public ShipPS(Game1 game)
+            : base(game, 16)
         {
 
         }
+        public float Rotation { get; set; }
+        protected override float PickRandomAngle()
+        {
+            return Rotation;
+        }
+
         protected override void InitializeConstants()
         {
-            textureFilename = "jetParticleMulti";
+            textureFilename = "shipMove particle";
 
             // less initial speed than the explosion itself
-            minInitialSpeed = 0.5f;
-            maxInitialSpeed = 1.5f;
+            minInitialSpeed = 0.0f;
+            maxInitialSpeed = 0.0f;
 
             // acceleration is negative, so particles will accelerate away from the
             // initial velocity.  this will make them slow down, as if from wind
@@ -40,30 +46,30 @@ namespace Cyclyc.JetpackGirl
 
             // explosion smoke lasts for longer than the explosion itself, but not
             // as long as the plumes do.
-            minLifetime = 0.15f;
-            maxLifetime = 0.2f;
+            minLifetime = 0.6f;
+            maxLifetime = 0.6f;
 
-            minScale = 3.5f;
-            maxScale = 6.5f;
+            minScale = 0.6f;
+            maxScale = 0.8f;
 
             minNumParticles = 0;
-            maxNumParticles = 2;
+            maxNumParticles = 4;
 
-            minRotationSpeed = -MathHelper.PiOver4;
-            maxRotationSpeed = MathHelper.PiOver4;
+            minRotationSpeed = 0;
+            maxRotationSpeed = 0;
 
             spriteBlendMode = SpriteBlendMode.AlphaBlend;
 
-            SetFuelRatio(1.0f);
+            SetPowerRatio(1.0f);
 
             DrawOrder = AlphaBlendDrawOrder;
         }
-        public void SetFuelRatio(float ratio)
+        public void SetPowerRatio(float ratio)
         {
-            Color red = new Color(0.9f, 0.1f, 0.5f);
-            Color smoke = Color.White;
+            Color white = Color.White;
+            Color red = new Color(1.0f, 0.7f, 0.7f);
 
-            Color current = Color.Lerp(smoke, red, ratio);
+            Color current = Color.Lerp(white, red, ratio);
 
             Vector3 floatCol = current.ToVector3();
 

@@ -283,10 +283,12 @@ namespace Cyclyc.Framework
             float g = Game1.RandomBetween(minGreen, maxGreen);
             float b = Game1.RandomBetween(minBlue, maxBlue);
 
+            float rot = PickRandomAngle();
+
             // then initialize it with those random values. initialize will save those,
             // and make sure it is marked as active.
             p.Initialize(
-                where, velocity * direction, acceleration * direction,
+                where, rot, velocity * direction, acceleration * direction,
                 lifetime, scale, rotationSpeed, r, g, b);
         }
 
@@ -295,9 +297,13 @@ namespace Cyclyc.Framework
         /// particles will move. The default implementation is a random vector in a
         /// circular pattern.
         /// </summary>
+        protected virtual float PickRandomAngle()
+        {
+            return Game1.RandomBetween(0, MathHelper.TwoPi);
+        }
         protected virtual Vector2 PickRandomDirection()
         {
-            float angle = Game1.RandomBetween(0, MathHelper.TwoPi);
+            float angle = PickRandomAngle();
             return new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
         }
 

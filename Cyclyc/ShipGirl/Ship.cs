@@ -37,6 +37,8 @@ namespace Cyclyc.ShipGirl
 
         protected ShipPS particles;
 
+        SoundEffectInstance skimSnd, deathSnd; 
+        
         public Ship(Game1 game, CycGame cg)
             : base(game)
         {
@@ -71,6 +73,13 @@ namespace Cyclyc.ShipGirl
             VisualHeight = spriteSheet.Height/2;
             Radius = 15;
             CrushPower = 0;
+            deathSnd = Game.SoundInstance("space-die");
+<<<<<<< HEAD
+            shotSnd = Game.SoundInstance("space-shot-click");
+            skimSnd = Game.SoundInstance("space-skim");
+=======
+            skimSnd = Game.SoundInstance("space-skim-bloop");
+>>>>>>> 485c6c2624c1044fe3f6ad65b0a9efb0a9cbf2b2
         }
 
         protected float MaxSpeedX
@@ -96,6 +105,7 @@ namespace Cyclyc.ShipGirl
         public void Skim(int enemyCount)
         {
             CrushPower = (float)Math.Min(CrushMaxPower, CrushPower+CrushPowerUpRate * enemyCount);
+            Game.PlayIfNotPlaying(skimSnd);
         }
 
         protected float ShotCooldownMax
@@ -164,6 +174,7 @@ namespace Cyclyc.ShipGirl
             Rotation = (float)Math.PI;
             TargetRotation = Rotation; 
             Play("death", false);
+            Game.PlayIfNotPlaying(deathSnd);
         }
 
         protected float ManualSpeedStep

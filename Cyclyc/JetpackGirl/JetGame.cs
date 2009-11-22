@@ -41,10 +41,11 @@ namespace Cyclyc.JetpackGirl
             };
         }
 
-        protected override void AddBackground(string n, float spd)
+        protected override CycBackground AddBackground(string n, float spd)
         {
-            base.AddBackground(n, spd);
-            Backgrounds.Last().ScaleFactor = 2.0f;
+            CycBackground bg = base.AddBackground(n, spd);
+            bg.ScaleFactor = 2.0f;
+            return bg;
         }
 
         protected float[] ParallaxSpeeds = new float[] { 0.1f, 0.1f, 0.2f, 0.4f, 0.6f, 0.6f };
@@ -81,6 +82,11 @@ namespace Cyclyc.JetpackGirl
         {
             base.CalculateGrade();
             jg.Superize(Grade >= 2);
+        }
+
+        public override int Score
+        {
+            get { return base.Score * 2; }
         }
 
 
@@ -126,7 +132,7 @@ namespace Cyclyc.JetpackGirl
             return (c) =>
                 {
                     JetpackEnemy en;
-                    en = enemyPools[0].Create(c, "robot", 2, false, 200, (int)(16 * sizeMultiplier), (int)(21 * sizeMultiplier), (float)((speedMultiplier * 1.0) + 0.25), (int)(3 * sizeMultiplier), (int)(3 * sizeMultiplier), (int)(10 * sizeMultiplier), (int)(18 * sizeMultiplier), 1);
+                    en = enemyPools[0].Create(c, "robot", 2, false, 0, (int)(16 * sizeMultiplier), (int)(21 * sizeMultiplier), (float)((speedMultiplier * 1.0) + 0.25), (int)(3 * sizeMultiplier), (int)(3 * sizeMultiplier), (int)(10 * sizeMultiplier), (int)(18 * sizeMultiplier), 1);
                     en.Target = jg;
                     return en;
                 };
@@ -135,7 +141,7 @@ namespace Cyclyc.JetpackGirl
         protected EnemyMaker MakeSpiderEnemy(float sizeMultiplier, float speedMultiplier)
         {
             return (c) =>
-                enemyPools[1].Create(c, "spider", 3, false, 200, (int)(sizeMultiplier * 102 / 3), (int)(sizeMultiplier * 17), (float)(speedMultiplier * 1.0) + 0.25f, (int)(sizeMultiplier * 5), (int)(sizeMultiplier * 4), (int)(sizeMultiplier * ((102 / 3) - 10)), (int)(sizeMultiplier * 11), 1);
+                enemyPools[1].Create(c, "spider", 3, false, 0, (int)(sizeMultiplier * 102 / 3), (int)(sizeMultiplier * 17), (float)(speedMultiplier * 1.0) + 0.25f, (int)(sizeMultiplier * 5), (int)(sizeMultiplier * 4), (int)(sizeMultiplier * ((102 / 3) - 10)), (int)(sizeMultiplier * 11), 1);
         }
 
         protected EnemyMaker MakeHoverEnemy(int y, float sizeMultiplier, float speedMultiplier)
@@ -147,7 +153,7 @@ namespace Cyclyc.JetpackGirl
         protected EnemyMaker MakeFrogEnemy(float sizeMultiplier, float speedMultiplier)
         {
             return (c) =>
-                enemyPools[3].Create(c, "frog", 2, false, 100, (int)(16 * sizeMultiplier), (int)(25 * sizeMultiplier), (float)((speedMultiplier * 1.0) + 0.25), (int)(0 * sizeMultiplier), (int)(5 * sizeMultiplier), (int)(16 * sizeMultiplier), (int)(25 * sizeMultiplier), 1);
+                enemyPools[3].Create(c, "frog", 2, false, 0, (int)(16 * sizeMultiplier), (int)(25 * sizeMultiplier), (float)((speedMultiplier * 1.0) + 0.25), (int)(0 * sizeMultiplier), (int)(5 * sizeMultiplier), (int)(16 * sizeMultiplier), (int)(25 * sizeMultiplier), 1);
         }
         
 // --------------------------------------------------------------------------------------
@@ -175,22 +181,22 @@ namespace Cyclyc.JetpackGirl
                 MakeRobotEnemy(1,1)
             }));
             wave1_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
-                MakeHoverEnemy(20,1,1), MakeHoverEnemy(60,2,1),
+                MakeSpiderEnemy(1,1), MakeSpiderEnemy(1,1)
             }));
             TriggerChallenge(0, wave1_0);
 
             Challenge wave2_0 = new Challenge(this, Game, 9);
             wave2_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
-                MakeHoverEnemy(100,1,2)
+                MakeFrogEnemy(1,2)
             }));
             wave2_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
-                MakeHoverEnemy(130,1,2)
+                MakeFrogEnemy(1,2)
             }));
             wave2_0.AddBeat(new ChallengeBeat(6, new EnemyMaker[] {
-                MakeHoverEnemy(160,1,2)
+                MakeSpiderEnemy(1,2)
             }));
             wave2_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
-                MakeHoverEnemy(190,1,2)
+                MakeFrogEnemy(1,2)
             }));
             TriggerChallenge(0, wave2_0);
 
@@ -414,7 +420,7 @@ namespace Cyclyc.JetpackGirl
 
             #region verse3
 
-            Challenge wave19_0 = new Challenge(this, Game, 77);
+            Challenge wave19_0 = new Challenge(this, Game, 79);
             wave19_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
                 MakeHoverEnemy(0,1,1), MakeHoverEnemy(60,1,1), MakeHoverEnemy(120,1,1), MakeHoverEnemy(180,1,1), MakeHoverEnemy(240,1,1)
             }));
@@ -435,9 +441,9 @@ namespace Cyclyc.JetpackGirl
             }));
             TriggerChallenge(0, wave19_0);
 
-            Challenge wave20_0 = new Challenge(this, Game, 78);
+            Challenge wave20_0 = new Challenge(this, Game, 82);
             wave20_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
-                MakeRobotEnemy(3,1), MakeRobotEnemy(3,2)
+                MakeRobotEnemy(5,1), MakeRobotEnemy(3,2)
             }));
             TriggerChallenge(0, wave20_0);
 

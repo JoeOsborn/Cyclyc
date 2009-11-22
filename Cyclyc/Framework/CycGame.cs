@@ -102,12 +102,13 @@ namespace Cyclyc.Framework
             rightChallenges = new List<Challenge>();
         }
 
-        protected virtual void AddBackground(string bgName, float bgSpeed)
+        protected virtual CycBackground AddBackground(string bgName, float bgSpeed)
         {
             CycBackground bg = new CycBackground(Game, bgName);
             bg.ScrollSpeed = bgSpeed;
             bg.View = View;
             backgrounds.Add(bg);
+            return bg;
         }
 
         public void TriggerChallenge(int gradeLevel, Challenge c)
@@ -251,7 +252,7 @@ namespace Cyclyc.Framework
                 return killed;
             }
         }
-        public int Score
+        public virtual int Score
         {
             get
             {
@@ -263,23 +264,23 @@ namespace Cyclyc.Framework
             //later, should grade be a function of difficulty as well?
             int killed = Combo;
             //hard set grade to max for end of game
-            if (Game.CurrentMeasure > 78)
+            int newGrade = 0;
+            if (killed >= Grade1Expectation)
             {
-                grade = 2;
+                newGrade++;
             }
-            else
+            if (killed >= Grade2Expectation)
             {
-                grade = 0;
-                if (killed >= Grade1Expectation)
-                {
-                    grade++;
-                }
-                if (killed >= Grade2Expectation)
-                {
-                    grade++;
-                }
+                newGrade++;
             }
-            Console.WriteLine("killed " + killed + ", expected " + Grade1Expectation + " : " + Grade2Expectation + "; new grade: " + grade);
+            if (Game.CurrentMeasure < 78)
+            {
+                grade = newGrade;
+            }
+            else if (newGrade > grade)
+            {
+                grade = newGrade;
+            }
         }
 
         public virtual void Update(GameTime gameTime)

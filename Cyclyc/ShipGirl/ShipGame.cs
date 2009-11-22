@@ -23,6 +23,9 @@ namespace Cyclyc.ShipGirl
         protected float crushRecovery;
         protected CycSprite earth;
 
+        protected CycBackground whiteZodiac;
+        protected CycBackground superZodiac;
+
         public BeamPool CrushBeams { get; set; }
 
         public ShipGame(Game1 game)
@@ -44,7 +47,10 @@ namespace Cyclyc.ShipGirl
         public override void Initialize()
         {
             AddBackground("space background", ParallaxSpeeds[0]);
-            //AddBackground("zodiac", ParallaxSpeeds[0]);
+            whiteZodiac = AddBackground("zodiac", ParallaxSpeeds[0]);
+            superZodiac = AddBackground("zodiacSuper", ParallaxSpeeds[0]);
+            superZodiac.TargetAlpha = 0.0f;
+            superZodiac.BlendDuration = 0.0f;
             AddBackground("galaxy", ParallaxSpeeds[1]);
             AddBackground("nebula", ParallaxSpeeds[2]);
             AddBackground("stars", ParallaxSpeeds[3]);
@@ -717,6 +723,20 @@ namespace Cyclyc.ShipGirl
         protected override void CalculateGrade()
         {
             base.CalculateGrade();
+            if (Grade >= 2)
+            {
+                whiteZodiac.TargetAlpha = 0.0f;
+                whiteZodiac.BlendDuration = 1.0f;
+                superZodiac.TargetAlpha = 1.0f;
+                superZodiac.BlendDuration = 1.0f;
+            }
+            else
+            {
+                whiteZodiac.TargetAlpha = 1.0f;
+                whiteZodiac.BlendDuration = 1.0f;
+                superZodiac.TargetAlpha = 0.0f;
+                superZodiac.BlendDuration = 1.0f;
+            }
             ship.Superize(Grade >= 2);
         }
         public override void Update(GameTime gameTime)

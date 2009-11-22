@@ -24,12 +24,42 @@ namespace Cyclyc.Framework
             set { scrollSpeed = value; }
         }
 
+        float targetAlpha, oldAlpha;
+        public float TargetAlpha 
+        { 
+            get 
+            { 
+                return targetAlpha; 
+            } 
+            set
+            {
+                oldAlpha = targetAlpha; 
+                targetAlpha = value;
+            } 
+        }
+        float blendDuration;
+        public float BlendDuration 
+        {
+            get
+            {
+                return blendDuration;
+            }
+            set
+            {
+                blendDuration = value;
+            }
+        }
+        float blendTimer;
+
         public CycBackground(Game1 game, string img)
             : base(game)
         {
             ScaleFactor = 1.0f;
             assetName = img;
             scrollSpeed = 1.0f;
+            TargetAlpha = 1.0f;
+            blendTimer = 0.0f;
+            BlendDuration = 0.0f;
         }
 
         public override void Initialize()
@@ -55,6 +85,10 @@ namespace Cyclyc.Framework
             {
                 position.X -= VisualWidth;
             }
+            if (blendTimer > 0)
+            {
+                blendTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
             //base.Update(gameTime);
         }
         public override void Draw(GameTime gameTime)
@@ -68,9 +102,14 @@ namespace Cyclyc.Framework
             dstRect.Y = (int)(view.Height*ScaleFactor - (VisualHeight*ScaleFactor));
             dstRect.Width = (int)(VisualWidth * ScaleFactor);
             dstRect.Height = (int)(VisualHeight * ScaleFactor);
-            SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White);
+            float alpha = TargetAlpha;
+            if (blendTimer > 0)
+            {
+                alpha = MathHelper.Lerp(TargetAlpha, oldAlpha, blendTimer / BlendDuration);
+            }
+            SpriteBatch.Draw(spriteSheet, dstRect, srcRect, new Color(1.0f, 1.0f, 1.0f, alpha));
             dstRect.X = (int)(dstRect.X + ((position.X <= 0) ? dstRect.Width : -dstRect.Width));
-            SpriteBatch.Draw(spriteSheet, dstRect, srcRect, Color.White);
+            SpriteBatch.Draw(spriteSheet, dstRect, srcRect, new Color(1.0f, 1.0f, 1.0f, alpha));
         }
     }
 }

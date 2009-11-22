@@ -112,7 +112,7 @@ namespace Cyclyc
         }
         public double SongDenouement
         {
-            get { return 80; }
+            get { return 90; }
         }
         public bool SongIsEndingSoon
         {

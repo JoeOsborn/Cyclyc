@@ -101,7 +101,7 @@ namespace Cyclyc.Framework
             VisualHeight = h;
             c.EnemyCreated(this);
         }
-        public void Die()
+        public virtual void Die()
         {
             alive = false;
             visible = false;

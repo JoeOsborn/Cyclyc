@@ -29,6 +29,8 @@ namespace Cyclyc.ShipGirl
             set { timeScale = value; }
         }
 
+        SoundEffectInstance hitSndA, hitSndB, hitSndC, hitSndD;
+
         public ShipEnemy(Game1 game, EnemyPool p)
             : base(game, p)
         {
@@ -39,6 +41,10 @@ namespace Cyclyc.ShipGirl
         {
             xCurve = Game.Content.Load<Curve>(curveSet + "-X");
             yCurve = Game.Content.Load<Curve>(curveSet + "-Y");
+            hitSndA = Game.SoundInstance("space-hit-melody-low");
+            hitSndB = Game.SoundInstance("space-hit-melody-mid");
+            hitSndC = Game.SoundInstance("space-hit-melody-high");
+            hitSndD = Game.SoundInstance("space-hit-melody-octave");
             base.LoadContent();
         }
 
@@ -48,6 +54,29 @@ namespace Cyclyc.ShipGirl
             tick = 0;
             curveSet = curves;
             Reset(c, img, fc, col, left, xp, yp, w, h, diff);
+        }
+
+        public override void Die()
+        {
+            Random rg = new Random();
+            double r = rg.NextDouble();
+            if (r < 0.25)
+            {
+                Game.PlayIfNotPlaying(hitSndA);
+            }
+            else if (r < 0.5)
+            {
+                Game.PlayIfNotPlaying(hitSndB);
+            }
+            else if (r < 0.75)
+            {
+                Game.PlayIfNotPlaying(hitSndC);
+            }
+            else
+            {
+                Game.PlayIfNotPlaying(hitSndD);
+            }
+            base.Die();
         }
 
         public override void Draw(GameTime gameTime)

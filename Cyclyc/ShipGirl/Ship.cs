@@ -81,7 +81,7 @@ namespace Cyclyc.ShipGirl
             deathSnd = Game.SoundInstance("space-die");
             skimSnd = Game.SoundInstance("space-skim");
             normalTexture = spriteSheet;
-            superTexture = Game.Content.Load<Texture2D>("shipGirl");
+            superTexture = Game.Content.Load<Texture2D>("shipGirlSuper");
         }
 
         protected float MaxSpeedX
@@ -154,7 +154,7 @@ namespace Cyclyc.ShipGirl
             float dir = (float)(Rotation + ((rotVar * 2 * rgen.NextDouble()) - rotVar));
             Vector2 vel = new Vector2((float)(Math.Cos(dir) * mag), (float)(Math.Sin(dir) * mag));
             Vector2 pos = Position + new Vector2((float)(Radius * Math.Cos(dir)), (float)(Radius * Math.Sin(dir)));
-            CrushPool.Create(super ? "shipBullet" : "shipBullet", pos.X, pos.Y, vel.X, vel.Y, super ? 20 : 14);
+            CrushPool.Create(super ? "shipBulletSuper" : "shipBullet", pos.X, pos.Y, vel.X, vel.Y, super ? 20 : 14);
         }
 
         protected void Crush(GameTime gt)

@@ -35,6 +35,8 @@ namespace Cyclyc.ShipGirl
 
         protected float[] ParallaxSpeeds = new float[] { -0.05f, -0.1f, -0.1f, -0.3f };
 
+        protected int MID = 150;
+
         public override void Initialize()
         {
             AddBackground("space background", ParallaxSpeeds[0]);
@@ -176,20 +178,20 @@ namespace Cyclyc.ShipGirl
         //    makers.Concat(moreMakers);
         //}
 
-        protected void AddEssBeats(Challenge c, int y, int length)
+        protected void AddEssBeats(Challenge c, int y, int length, int beat)
         {
             int templength = length;
 
             while (length > 0)
             {
-                c.AddBeat(new ChallengeBeat((templength - length), new EnemyMaker[] {
+                c.AddBeat(new ChallengeBeat(beat+(templength - length), new EnemyMaker[] {
                 MakeEssEnemy(y)
                 }));
                 length--;
             }
         }
 
-        protected void AddStaticBlock(Challenge c, int y, int w, int h)
+        protected void AddStaticBlock(Challenge c, int y, int w, int h, int beat)
         {
             int tempy = y;
             int temph = h;
@@ -199,7 +201,7 @@ namespace Cyclyc.ShipGirl
             {
                 while (h > 0)
                 {
-                    c.AddBeat(new ChallengeBeat(((2 * tempw) - (2 * w)), new EnemyMaker[] {
+                    c.AddBeat(new ChallengeBeat(beat+((2 * tempw) - (2 * w)), new EnemyMaker[] {
                     MakeStaticEnemy(y)
                     }));
                     y += 30;
@@ -211,7 +213,7 @@ namespace Cyclyc.ShipGirl
             }
         }
 
-        protected void AddStaticWall(Challenge c, int y, int h, int gap)
+        protected void AddStaticWall(Challenge c, int y, int h, int gap, int beat)
         {
             int tempy = y;
             int temph = h;
@@ -220,7 +222,7 @@ namespace Cyclyc.ShipGirl
             {
                 if (h != gap)
                 {
-                    c.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                    c.AddBeat(new ChallengeBeat(beat, new EnemyMaker[] {
                     MakeStaticEnemy(y)
                     }));
                     y += 30;
@@ -230,6 +232,38 @@ namespace Cyclyc.ShipGirl
                 {
                     y += 40;
                     h--;
+                }
+            }
+        }
+
+        protected void AddSpread(Challenge c, int number, int interval, int gap, int beat)
+        {
+            int tempy = 0;
+            int temph = 0;
+
+            if (number % 2 == 1)
+            {
+                tempy = MID - (((number - 1) / 2)*interval);
+            }
+            else
+            {
+                tempy = (MID + interval / 2) - (interval*number/2);
+            }
+            
+            while (temph < number)
+            {
+                if (temph != gap)
+                {
+                    c.AddBeat(new ChallengeBeat(beat, new EnemyMaker[] {
+                        MakeStaticEnemy(tempy)
+                    }));
+                    tempy += interval;
+                    temph++;
+                }
+                else
+                {
+                    tempy += interval;
+                    temph ++;
                 }
             }
         }
@@ -249,6 +283,9 @@ namespace Cyclyc.ShipGirl
 
         protected override void SetupChallenges()
         {
+            
+            const int INT5 = 68;
+            const int MID = INT5*2;
 
             #region Demo Level
             /*
@@ -301,16 +338,331 @@ namespace Cyclyc.ShipGirl
 
 
 
-            #region Level One
+            #region Intro
 
 
+            Challenge wave1_0 = new Challenge(this, Game, 3);
+            AddSpread(wave1_0, 1, 0, 2, 0);
+            AddSpread(wave1_0, 1, INT5/2, 3, 4);
+            AddSpread(wave1_0, 1, INT5, 3, 8);
+            AddSpread(wave1_0, 1, 0, 3, 12);
+            TriggerChallenge(0, wave1_0);
 
+            Challenge wave2_0 = new Challenge(this, Game, 9);
+            AddSpread(wave2_0, 1, 0, 2, 2);
+            AddSpread(wave2_0, 2, INT5, 3, 4);
+            AddSpread(wave2_0, 2, INT5*2, 3, 6);
+            AddSpread(wave2_0, 1, 0, 3, 8);
+            TriggerChallenge(0, wave2_0);
 
+            Challenge wave3_0 = new Challenge(this, Game, 13);
+            wave3_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
+                MakeStaticEnemy(MID)
+            }));
+            wave3_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
+                MakeJerkEnemy(MID+INT5), MakeJerkEnemy(MID-INT5)
+            }));
+             
+            TriggerChallenge(0, wave3_0);
+            
+            
+            Challenge wave4_0 = new Challenge(this, Game, 19);
+            AddSpread(wave4_0, 3, INT5, 9, 0); 
+            wave4_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
+                MakePongEnemy(0), MakeStaticEnemy(MID+INT5/2), MakeStaticEnemy(MID-INT5/2)
+            }));
+            AddSpread(wave4_0, 3, INT5, 9, 8); 
+            //AddEssBeats(wave4_0, MID + 100, 8, 12);
+            AddSpread(wave4_0, 2, INT5, 9, 12); 
+            //AddEssBeats(wave4_0, MID - 100, 8, 12);
+            TriggerChallenge(0, wave4_0);
 
+            Challenge wave5_0 = new Challenge(this, Game, 25);
+            wave5_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
+                MakeLoopEnemy(MID)
+            }));
+            wave5_0.AddBeat(new ChallengeBeat(6, new EnemyMaker[] {
+                MakeLoopEnemy(MID+80), MakeLoopEnemy(MID-80)
+            }));
+            TriggerChallenge(0, wave5_0);
+            
+            Challenge wave6_0 = new Challenge(this, Game, 29); 
+            wave6_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
+                MakeStaticEnemy(MID-90), MakeStaticEnemy(MID+90)
+            }));
+            wave6_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
+                MakeStaticEnemy(MID-30), MakeStaticEnemy(MID+30)
+            }));
+            wave6_0.AddBeat(new ChallengeBeat(6, new EnemyMaker[] {
+                MakeStaticEnemy(MID+30), MakeStaticEnemy(MID-30)
+            }));
+            wave6_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
+                MakeStaticEnemy(MID-90), MakeStaticEnemy(MID+90)
+            }));
+            AddSpread(wave6_0, 3, 60, 4, 16);
+            AddSpread(wave6_0, 4, 60, 5, 24);
+            AddEssBeats(wave6_0, MID - 90, 5, 32);
+            AddEssBeats(wave6_0, MID + 90, 5, 32);
+            TriggerChallenge(0, wave6_0);
+            
+            #endregion
 
+            #region verse1
+
+            Challenge wave7_0 = new Challenge(this, Game, 34);
+            wave7_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakePongEnemy(0), MakeStaticEnemy(MID-30), MakeStaticEnemy(MID+30)
+            }));
+            wave7_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
+                MakeStaticEnemy(MID-60), MakeStaticEnemy(MID+60)
+            }));
+            TriggerChallenge(0, wave7_0);
+
+            Challenge wave8_0 = new Challenge(this, Game, 38);
+            AddSpread(wave8_0, 3, 90, 4, 0);
+            AddSpread(wave8_0, 3, 60, 4, 4);
+            AddSpread(wave8_0, 3, 30, 4, 8);
+            AddSpread(wave8_0, 1, 60, 4, 12);
+            //AddEssBeats(wave6_0, MID - 90, 5, 32);
+            TriggerChallenge(0, wave8_0);
+
+            Challenge wave9_0 = new Challenge(this, Game, 42);
+            wave9_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeJerkEnemy(MID-60), MakeJerkEnemy(MID+60)
+            }));
+            AddEssBeats(wave9_0, MID, 5, 8);
+            TriggerChallenge(0, wave9_0);
+
+            Challenge wave10_0 = new Challenge(this, Game, 46);
+            AddStaticBlock(wave10_0, 60, 5, 5, 0);
+            wave10_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakePongEnemy(0)
+            }));
+            TriggerChallenge(0, wave10_0);
 
             #endregion
 
+            #region verse2
+
+            Challenge wave11_0 = new Challenge(this, Game, 50);
+            wave11_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeLoopEnemy(MID+60), MakeLoopEnemy(MID-60)
+            }));
+            AddSpread(wave11_0, 6, 30, 7, 8);
+            wave11_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
+                MakeLoopEnemy(MID+60), MakeLoopEnemy(MID-60)
+            }));
+            TriggerChallenge(0, wave11_0);
+
+            Challenge wave12_0 = new Challenge(this, Game, 54);
+            wave12_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeStaticEnemy(MID-90), MakeJerkEnemy(MID+90)
+            }));
+            wave12_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
+                MakeStaticEnemy(MID-30), MakeJerkEnemy(MID+30)
+            }));
+            wave12_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
+                MakeStaticEnemy(MID+30), MakeJerkEnemy(MID-30)
+            }));
+            wave12_0.AddBeat(new ChallengeBeat(12, new EnemyMaker[] {
+                MakeJerkEnemy(MID-90), MakeStaticEnemy(MID+90)
+            }));
+            TriggerChallenge(0, wave12_0);
+
+            Challenge wave13_0 = new Challenge(this, Game, 58);
+            wave13_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeStaticEnemy(MID-105), MakePongEnemy(0)
+            }));
+            wave13_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
+                MakeStaticEnemy(MID-75)
+            }));
+            wave13_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
+                MakeStaticEnemy(MID-45), MakeStaticEnemy(MID+60)
+            }));
+            wave13_0.AddBeat(new ChallengeBeat(6, new EnemyMaker[] {
+                MakeStaticEnemy(MID-15)
+            }));
+            wave13_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
+                MakeStaticEnemy(MID+15)
+            }));
+            wave13_0.AddBeat(new ChallengeBeat(10, new EnemyMaker[] {
+                MakeStaticEnemy(MID+45), MakeStaticEnemy(MID-60)
+            }));
+            wave13_0.AddBeat(new ChallengeBeat(12, new EnemyMaker[] {
+                MakeStaticEnemy(MID+75)
+            }));
+            wave13_0.AddBeat(new ChallengeBeat(14, new EnemyMaker[] {
+                MakeStaticEnemy(MID+105)
+            }));
+            TriggerChallenge(0, wave13_0);
+
+            Challenge wave14_0 = new Challenge(this, Game, 62);
+            AddEssBeats(wave14_0, MID - 60, 5, 0);
+            AddEssBeats(wave14_0, MID + 60, 5, 0);
+            AddEssBeats(wave14_0, MID, 5, 4);
+            AddEssBeats(wave14_0, MID - 90, 5, 8);
+            AddEssBeats(wave14_0, MID + 90, 5, 8);
+            AddEssBeats(wave14_0, MID, 5, 12);
+            
+            TriggerChallenge(0, wave14_0);
+
+            #endregion
+
+            #region bridge
+
+            Challenge wave15_0 = new Challenge(this, Game, 66);
+            AddStaticWall(wave15_0, 15, 9, 0, 0);
+            AddStaticWall(wave15_0, 15, 9, 1, 4);
+            AddStaticWall(wave15_0, 15, 9, 2, 8);
+            AddStaticWall(wave15_0, 15, 9, 3, 12);
+            TriggerChallenge(0, wave15_0);
+
+            Challenge wave16_0 = new Challenge(this, Game, 70);
+            AddStaticWall(wave16_0, 15, 9, 4, 0);
+            AddStaticWall(wave16_0, 15, 9, 5, 4);
+            AddStaticWall(wave16_0, 15, 9, 4, 8);
+            AddStaticWall(wave16_0, 15, 9, 5, 9);
+            AddStaticWall(wave16_0, 15, 9, 6, 10);
+            AddStaticWall(wave16_0, 15, 9, 7, 11);
+            TriggerChallenge(0, wave16_0);
+
+            Challenge wave17_0 = new Challenge(this, Game, 73);
+            AddSpread(wave17_0, 5, 45, 2, 0);
+            wave17_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeJerkEnemy(MID-15)
+            }));
+            AddSpread(wave17_0, 5, 60, 2, 2);
+            wave17_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
+                MakeJerkEnemy(MID+15)
+            }));
+            AddSpread(wave17_0, 5, 45, 2, 4);
+            AddSpread(wave17_0, 5, 60, 2, 6);
+            
+            wave17_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
+                MakeLoopEnemy(MID+60), MakeLoopEnemy(MID-60), MakeJerkEnemy(MID+60), MakeJerkEnemy(MID-60), MakeStaticEnemy(15), MakeStaticEnemy(285)
+            }));
+            wave17_0.AddBeat(new ChallengeBeat(10, new EnemyMaker[] {
+                MakeLoopEnemy(MID+45), MakeLoopEnemy(MID-45)
+            }));
+            wave17_0.AddBeat(new ChallengeBeat(12, new EnemyMaker[] {
+                MakeLoopEnemy(MID+60), MakeLoopEnemy(MID-60), MakeJerkEnemy(MID), MakeStaticEnemy(15), MakeStaticEnemy(285)
+            }));
+            wave17_0.AddBeat(new ChallengeBeat(14, new EnemyMaker[] {
+                MakeLoopEnemy(MID+45), MakeLoopEnemy(MID-45)
+            }));
+            TriggerChallenge(0, wave17_0);
+
+            Challenge wave18_0 = new Challenge(this, Game, 77);
+            AddSpread(wave18_0, 1, 0, 9, 0);
+            wave18_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeLoopEnemy(MID-100), MakeLoopEnemy(MID+100)
+            }));
+            AddSpread(wave18_0, 2, 30, 9, 1);
+            AddSpread(wave18_0, 2, 60, 9, 2);
+            AddSpread(wave18_0, 2, 90, 9, 3);
+            wave18_0.AddBeat(new ChallengeBeat(3, new EnemyMaker[] {
+                MakeLoopEnemy(MID-100), MakeLoopEnemy(MID+100), MakeJerkEnemy(MID), MakeJerkEnemy(MID+15), MakeJerkEnemy(MID-15)
+            }));
+            AddSpread(wave18_0, 2, 60, 9, 4);
+            AddSpread(wave18_0, 2, 30, 9, 5);
+            AddSpread(wave18_0, 1, 0, 9, 6);
+            AddStaticBlock(wave18_0, 15, 3, 10, 7);
+            AddEssBeats(wave18_0, 30, 8, 8);
+            AddEssBeats(wave18_0, 270, 8, 8);
+            AddEssBeats(wave18_0, MID, 8, 8);
+            TriggerChallenge(0, wave18_0);
+
+            #endregion
+
+            #region verse3
+
+            Challenge wave19_0 = new Challenge(this, Game, 81);
+            wave19_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeLoopEnemy(MID-15), MakeLoopEnemy(MID+75), MakeLoopEnemy(MID-105), MakePongEnemy(0)
+            }));
+            wave19_0.AddBeat(new ChallengeBeat(2, new EnemyMaker[] {
+                MakeLoopEnemy(MID+15), MakeLoopEnemy(MID+105), MakeLoopEnemy(MID-75), MakePongEnemy(0)
+            }));
+            wave19_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
+                MakeJerkEnemy(MID+15), MakeJerkEnemy(MID+105), MakeJerkEnemy(MID-75), MakePongEnemy(0)
+            })); 
+            wave19_0.AddBeat(new ChallengeBeat(6, new EnemyMaker[] {
+                MakeJerkEnemy(MID+15), MakeJerkEnemy(MID+105), MakeJerkEnemy(MID-75), MakePongEnemy(0)
+            }));
+            AddStaticWall(wave19_0, 15, 10, 10, 8);
+            AddSpread(wave19_0, 9, 30, 4, 9);
+            AddStaticWall(wave19_0, 15, 10, 10, 10);
+            AddSpread(wave19_0, 9, 30, 4, 11);
+            TriggerChallenge(0, wave19_0);
+
+            Challenge wave20_0 = new Challenge(this, Game, 85);
+            wave20_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
+                MakeLoopEnemy(MID), MakeLoopEnemy(MID+90), MakeLoopEnemy(MID-90)
+            }));
+            AddStaticWall(wave20_0, 15, 10, 3, 0);
+            AddStaticWall(wave20_0, 15, 10, 4, 1);
+            AddStaticWall(wave20_0, 15, 10, 5, 2);
+            AddStaticWall(wave20_0, 15, 10, 6, 3);
+            wave20_0.AddBeat(new ChallengeBeat(3, new EnemyMaker[] {
+                MakePongEnemy(0)
+            }));
+            AddStaticWall(wave20_0, 15, 10, 7, 4);
+            wave20_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
+                MakeJerkEnemy(30), MakeJerkEnemy(60), MakeJerkEnemy(90), MakeJerkEnemy(120), MakeJerkEnemy(150), MakeJerkEnemy(180), MakeJerkEnemy(210), MakeJerkEnemy(240), MakeJerkEnemy(270)
+            }));
+
+            wave20_0.AddBeat(new ChallengeBeat(4, new EnemyMaker[] {
+                MakePongEnemy(0)
+            }));
+            AddStaticWall(wave20_0, 15, 10, 6, 5);
+            wave20_0.AddBeat(new ChallengeBeat(5, new EnemyMaker[] {
+                MakePongEnemy(0)
+            }));
+            AddStaticWall(wave20_0, 15, 10, 5, 6);
+            wave20_0.AddBeat(new ChallengeBeat(6, new EnemyMaker[] {
+                MakePongEnemy(0)
+            }));
+            AddStaticWall(wave20_0, 15, 10, 4, 7);
+            wave20_0.AddBeat(new ChallengeBeat(7, new EnemyMaker[] {
+                MakePongEnemy(0)
+            }));
+            AddStaticWall(wave20_0, 15, 10, 3, 8);
+            wave20_0.AddBeat(new ChallengeBeat(8, new EnemyMaker[] {
+                MakePongEnemy(0)
+            }));
+            AddStaticWall(wave20_0, 15, 10, 4, 9);
+            wave20_0.AddBeat(new ChallengeBeat(9, new EnemyMaker[] {
+                MakePongEnemy(0)
+            }));
+            AddStaticWall(wave20_0, 15, 10, 5, 10);
+            wave20_0.AddBeat(new ChallengeBeat(10, new EnemyMaker[] {
+                MakePongEnemy(0)
+            }));
+            AddStaticWall(wave20_0, 15, 10, 6, 11);
+            wave20_0.AddBeat(new ChallengeBeat(11, new EnemyMaker[] {
+                MakePongEnemy(0)
+            }));
+
+            wave20_0.AddBeat(new ChallengeBeat(12, new EnemyMaker[] {
+                MakeJerkEnemy(30), MakeJerkEnemy(60), MakeJerkEnemy(90), MakeJerkEnemy(120), MakeJerkEnemy(150), MakeJerkEnemy(180), MakeJerkEnemy(210), MakeJerkEnemy(240), MakeJerkEnemy(270)
+            }));
+            //AddStaticWall(wave20_0, 15, 10, 7, 12);
+            AddStaticWall(wave20_0, 15, 10, 8, 13);
+
+            AddEssBeats(wave20_0, 15, 16, 16);
+            AddEssBeats(wave20_0, 45, 16, 16);
+            AddEssBeats(wave20_0, 75, 16, 16);
+            AddEssBeats(wave20_0, 105, 16, 16);
+            AddEssBeats(wave20_0, 135, 16, 16);
+            AddEssBeats(wave20_0, 165, 16, 16);
+            AddEssBeats(wave20_0, 195, 16, 16);
+            AddEssBeats(wave20_0, 225, 16, 16);
+            AddEssBeats(wave20_0, 255, 16, 16);
+            AddEssBeats(wave20_0, 285, 16, 16);
+
+            TriggerChallenge(0, wave20_0);
+
+            #endregion
 
         }
 

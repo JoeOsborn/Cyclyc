@@ -341,6 +341,11 @@ namespace Cyclyc.ShipGirl
 //            Console.WriteLine("skimmed");
             ship.Skim(enemyCount);
         }
+        protected override void CalculateGrade()
+        {
+            base.CalculateGrade();
+            ship.Superize(Grade >= 2);
+        }
         public override void Update(GameTime gameTime)
         {
             if (Game.SongIsEnding)

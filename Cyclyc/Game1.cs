@@ -89,6 +89,9 @@ namespace Cyclyc
             jetGame.LeftPipe = leftPipe;
             jetGame.RightPipe = rightPipe;
 
+            shipGame.PlayerIndex = PlayerIndex.One;
+            jetGame.PlayerIndex = PlayerIndex.Two;
+
             splashTimer = 0;
         }
         public double SongEnd

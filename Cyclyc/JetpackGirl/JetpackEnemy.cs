@@ -22,6 +22,8 @@ namespace Cyclyc.JetpackGirl
         protected Random rgen;
         protected bool hitFromLeft;
 
+        public ForceFeedbackManager ForceFeedback;
+
         public CycSprite Target
         {
             get;
@@ -73,14 +75,17 @@ namespace Cyclyc.JetpackGirl
             if (Mass > 1.2)
             {
                 Game.PlayIfNotPlaying(lgHit);
+                ForceFeedback.AddVibration(0.8f, 0.8f, 0.5f);
             }
             else if (Mass > 0.8)
             {
                 Game.PlayIfNotPlaying(mdHit);
+                ForceFeedback.AddVibration(0.6f, 0.6f, 0.5f);
             }
             else
             {
                 Game.PlayIfNotPlaying(smHit);
+                ForceFeedback.AddVibration(0.3f, 0.3f, 0.5f);
             }
         }
 

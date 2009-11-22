@@ -62,14 +62,13 @@ namespace Cyclyc.Framework
             set { grade = value; }
         }
 
+        public ForceFeedbackManager ff;
+
         protected List<CycBackground> backgrounds;
         public List<CycBackground> Backgrounds { get { return backgrounds; } }
         List<Challenge>[] challenges;
         List<Challenge> leftChallenges;
         List<Challenge> rightChallenges;
-
-        double[] GradeWeights { get; set; }
-        double GradeModifier { get; set; }
 
         public SongTrack[] Songs { get; set; }
 
@@ -78,16 +77,17 @@ namespace Cyclyc.Framework
         public int NextMeasureLeftDifficulty { get; set; }
         public int NextMeasureRightDifficulty { get; set; }
 
-        Curve g1Expectations, g2Expectations;
+        public int Grade1Expectation { get; set; }
+        public int Grade2Expectation { get; set; }
 
         protected string SongName { get; set; }
 
-        int lastMeasure;
+        public PlayerIndex PlayerIndex { get; set; }
+
+        protected int lastMeasure;
         public CycGame(Game1 g)
         {
             lastMeasure = -1;
-            GradeWeights = new double[] { 1.0, 1.0, 1.0,     0.6 };
-            GradeModifier = 2.0;
             rgen = new Random();
             game = g;
             backgrounds = new List<CycBackground>();
@@ -161,9 +161,7 @@ namespace Cyclyc.Framework
 
         public virtual void LoadContent()
         {
-            g1Expectations = Game.Content.Load<Curve>(SongName + "-g1");
-            g2Expectations = Game.Content.Load<Curve>(SongName + "-g2");
-
+            ff = new ForceFeedbackManager(PlayerIndex);
             Songs = new SongTrack[3];
             Songs[0] = new SongTrack(Game, SongName + "-0", true);
             Songs[1] = new SongTrack(Game, SongName + "-1", false);
@@ -233,6 +231,7 @@ namespace Cyclyc.Framework
                 c.Process(gradeLevel, Grade, true);
             }
         }
+        public int Combo { get; set; }
         public int KillCount
         {
             get
@@ -262,19 +261,17 @@ namespace Cyclyc.Framework
         protected virtual void CalculateGrade()
         {
             //later, should grade be a function of difficulty as well?
-            int killed = Score;
-            float gradeOneExpectation = g1Expectations.Evaluate((float)Game.CurrentMeasure);
-            float gradeTwoExpectation = g2Expectations.Evaluate((float)Game.CurrentMeasure);
-            int grade = 0;
-            if (killed >= gradeOneExpectation)
+            int killed = Combo;
+            grade = 0;
+            if (killed >= Grade1Expectation)
             {
                 grade++;
             }
-            if (killed >= gradeTwoExpectation)
+            if (killed >= Grade2Expectation)
             {
                 grade++;
             }
-            Console.WriteLine("killed " + killed + ", expected " + gradeOneExpectation + " : " + gradeTwoExpectation + "; new grade: " + grade);
+            Console.WriteLine("killed " + killed + ", expected " + Grade1Expectation + " : " + Grade2Expectation + "; new grade: " + grade);
         }
 
         public virtual void Update(GameTime gameTime)
@@ -286,6 +283,10 @@ namespace Cyclyc.Framework
                 if (((int)(Game.CurrentMeasure) % 4 == 0) && (NextMeasureLeftDifficulty > 0 || NextMeasureRightDifficulty > 0))
                 {
                     TriggerOtherPlayerChallenge();
+                }
+                if (!Game.SongIsOver)
+                {
+                    ff.AddVibration(0.2f, 0.2f, 0.3f);
                 }
             }
             for (int i = 0; i < 3; i++)
@@ -320,6 +321,7 @@ namespace Cyclyc.Framework
             {
                 sprite.Update(gameTime);
             }
+            ff.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
         }
         protected virtual void SetupFilters()
         {

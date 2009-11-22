@@ -77,7 +77,7 @@ namespace Cyclyc.Framework
 
         public void LoadContent()
         {
-            texture = Game.Content.Load<Texture2D>("wrench");
+            texture = Game.Content.Load<Texture2D>("lightBall");
         }
 
         public void ShuffleOut(int destX, int destY)

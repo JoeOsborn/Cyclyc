@@ -28,6 +28,10 @@ namespace Cyclyc.JetpackGirl
         public JetGame(Game1 game)
             : base(game)
         {
+            Grade1Expectation = 10;
+            Grade2Expectation = 20;
+
+
             SongName = "jet";
             enemyPools = new JetpackEnemyPool[] { 
                 new RobotEnemyPool(this), 
@@ -292,6 +296,11 @@ namespace Cyclyc.JetpackGirl
             jg.StartPosition = StartPosition;
             jg.Position = StartPosition;
             base.LoadContent();
+            jg.ForceFeedback = ff;
+            foreach (JetpackEnemyPool ep in enemyPools)
+            {
+                ep.ForceFeedback = ff;
+            }
         }
 
         protected Vector2 StartPosition
@@ -312,6 +321,7 @@ namespace Cyclyc.JetpackGirl
 
         public void KillPlayer()
         {
+            Combo = 0;
             jg.Die();
             Console.WriteLine("jet killed player");
         }
@@ -367,6 +377,7 @@ namespace Cyclyc.JetpackGirl
                 {
                     if (en.Alive && ((JetpackEnemy)en).KnockedOffScreen)
                     {
+                        Combo += en.Difficulty;
                         NextGame.DeliverEnemy(en.Position.X < 0 ? true : false, en.Difficulty);
                         en.Die();
                     }

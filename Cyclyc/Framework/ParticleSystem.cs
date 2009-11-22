@@ -1,6 +1,6 @@
 #region File Description
 //-----------------------------------------------------------------------------
-// SmokePlumeParticleSystem.cs
+// ParticleSystem.cs
 //
 // Microsoft XNA Community Game Platform
 // Copyright (C) Microsoft Corporation. All rights reserved.

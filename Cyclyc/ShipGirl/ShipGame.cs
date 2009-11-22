@@ -251,6 +251,7 @@ namespace Cyclyc.ShipGirl
         {
 
             #region Demo Level
+            /*
             Challenge wave0_0 = new Challenge(this, Game, 4);
             wave0_0.AddBeat(new ChallengeBeat(0, new EnemyMaker[] {
                 MakeJerkEnemy(40), MakeJerkEnemy(100), MakeJerkEnemy(250)
@@ -295,7 +296,7 @@ namespace Cyclyc.ShipGirl
             Challenge wave9_0 = new Challenge(this, Game, 34);
             AddStaticWall(wave9_0, 20, 9, 6); ;
             TriggerChallenge(0, wave9_0);
-
+            */
             #endregion
 
 

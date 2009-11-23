@@ -233,7 +233,8 @@ namespace Cyclyc
 
             endingSong = SoundInstance("moogle");
             titleSong = SoundInstance("jet-2");
-            PlayIfNotPlaying(titleSong);
+            titleSong.Play();
+            titleSong.Volume = 0.3f;
             leftPipe.LoadContent();
             rightPipe.LoadContent();
             base.LoadContent();
